@@ -17,6 +17,7 @@ import { random } from "./utils";
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { Request, Response } from "express";
+import cors from "cors";
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ if (!JWT_PASS) {
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 
 app.post("/api/v1/signup", async (req: Request, res: Response) => {
     //try adding zod validation here! and hashing password! Duplicate Entries!
@@ -92,13 +93,11 @@ app.post("/api/v1/signin", async (req: Request, res: Response): Promise <any>=> 
         //! now we do tend to genetate the jwt token!
         const token = jwt.sign(
             {id: existingUser._id},
-            JWT_PASS,
-            { expiresIn: '1h'}
+            JWT_PASS
         );
 
         //! now a confirmation message that the user has signed in!
         res.status(200).json({
-            message: "Sign-in Succesful!",
             token
         });
 } catch (error) {
@@ -239,6 +238,6 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {{
     // we are doing 3 sequencial calls to the backend, but we can use refrences instead and hence it will be a lot easier that way!
 }})
 
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log("Listening on port 3000!")
 })

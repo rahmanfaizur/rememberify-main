@@ -6,10 +6,14 @@ import { ShareIcon } from '../icons/ShareIcon'
 import { Card } from '../components/ui/Card'
 import { CreateContentModal } from '../components/ui/CreateContentModal'
 import { SideBar } from '../components/ui/Sidebar'
+import { useContent } from '../hooks/useContent'
 
 export function DashBoard() {
 
   const [modalOpen, setModalOpen] = useState(false);
+
+  const contents = useContent();
+
 
   return (
     <div>
@@ -28,10 +32,14 @@ export function DashBoard() {
       startIcon={<PlusIcon size='lg'/>} variant='primary' text='Add Content' size='sm' ></Button>
     </div>
     <div className='flex space-x-4'>
-      <Card link='https://x.com/elonmusk/status/1863752579504628189' type='twitter' title='Elon Thing!'></Card>
-      <Card link='https://www.youtube.com/watch?v=400Ki4hG6kw' type='youtube' title='Twice   Thing!'></Card>
+      {contents.map(({type, link, title}) => <Card
+      link={link}
+      type={type}
+      title={title}>
+      </Card>
+      )}
     </div>
-      </div>
+    </div>
     </div>
   )
 }

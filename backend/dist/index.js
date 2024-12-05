@@ -22,6 +22,7 @@ const middleware_1 = require("./middleware");
 const utils_1 = require("./utils");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const zod_1 = require("zod");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const JWT_PASS = process.env.JWT_PASS;
 if (!JWT_PASS) {
@@ -29,6 +30,7 @@ if (!JWT_PASS) {
 }
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //try adding zod validation here! and hashing password! Duplicate Entries!
     //zod schema
@@ -84,10 +86,9 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
             });
         }
         //! now we do tend to genetate the jwt token!
-        const token = jsonwebtoken_1.default.sign({ id: existingUser._id }, JWT_PASS, { expiresIn: '1h' });
+        const token = jsonwebtoken_1.default.sign({ id: existingUser._id }, JWT_PASS);
         //! now a confirmation message that the user has signed in!
         res.status(200).json({
-            message: "Sign-in Succesful!",
             token
         });
     }
@@ -206,6 +207,6 @@ app.get("/api/v1/brain/:shareLink", (req, res) => __awaiter(void 0, void 0, void
         // we are doing 3 sequencial calls to the backend, but we can use refrences instead and hence it will be a lot easier that way!
     }
 }));
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log("Listening on port 3000!");
 });
