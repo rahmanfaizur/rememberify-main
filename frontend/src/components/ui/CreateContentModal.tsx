@@ -30,6 +30,7 @@ export function CreateContentModal({ open, onClose}) { //controlled component!
                 "Authorization": localStorage.getItem("token")
             }
         });
+        onClose();
     }
 
     return (
