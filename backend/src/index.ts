@@ -236,8 +236,10 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {{
     })
 
     // we are doing 3 sequencial calls to the backend, but we can use refrences instead and hence it will be a lot easier that way!
-}})
+}});
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
     console.log("Listening on port 3000!")
 })
