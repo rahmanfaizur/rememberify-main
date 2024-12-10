@@ -22,6 +22,7 @@ export function DashBoard() {
 
   return (
     <div>
+      {/* <button onClick={onDeleteCompy} className='text-blue-700'>click me!</button> */}
       <SideBar/>
       <div className='p-4 ml-72 min-h-screen bg-slate-200 border-2'>
       <CreateContentModal open={modalOpen} onClose={() => {

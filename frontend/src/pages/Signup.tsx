@@ -20,6 +20,9 @@ export function Signup() {
         navigate("/signin");
         alert("You Have Signed Up!");
     }
+    function alreadyUser() {
+        navigate('/signin');
+    }
 
 
     return <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
@@ -28,6 +31,12 @@ export function Signup() {
             <Input reference={passwordRef} placeholder="password"/>
             <div className="flex justify-center p-4">
             <Button variant="primary" text="Signup" size="md" fullWidth={true} loading={false} onClick={Signup}/>
+            </div>
+            <div className="flex justify-center" >
+            Already a user?
+            </div>
+            <div className="flex justify-center">
+            <button className="text-blue-400" onClick={alreadyUser}>Sign In!</button>
             </div>
         </div>
     </div>
