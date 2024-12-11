@@ -20,7 +20,6 @@ export function CreateContentModal({ open, onClose}) { //controlled component!
     async function addContent() {
         const title = titleRef.current?.value;
         const link = linkRef.current?.value;
-        console.log(localStorage.getItem("token"));
         await axios.post(`${BACKEND_URL}/api/v1/content`, {
             link: link,
             title: title,

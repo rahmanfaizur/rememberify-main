@@ -131,15 +131,28 @@ app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(
     });
 }));
 app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    {
-        const contentId = req.body.contentId;
-        yield db_1.ContentModel.deleteMany({
-            contentId,
-            //@ts-ignore
-            userId: req.userId
+    const { link, title, type } = req.body;
+    try {
+        const result = yield db_1.ContentModel.deleteOne({
+            link,
+            title,
+            type
         });
-        res.json({
-            message: "Deleted!"
+        if (result.deletedCount > 0) {
+            res.json({
+                message: "Deleted successfully!"
+            });
+        }
+        else {
+            res.status(404).json({
+                message: "Content not found."
+            });
+        }
+    }
+    catch (error) {
+        console.error("Error deleting content:", error);
+        res.status(500).json({
+            message: "An error occurred while deleting the content."
         });
     }
 }));

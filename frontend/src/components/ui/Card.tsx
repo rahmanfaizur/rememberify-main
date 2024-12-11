@@ -13,33 +13,54 @@ import { ShareIcon } from "../../icons/ShareIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 
-async function onDeleteCompy(cdIn: any) {
-    try {
-      // Fetch the content to retrieve the ID
-      const res1 = await axios.get(`${BACKEND_URL}/api/v1/content`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+// async function onDeleteCompy(cdIn: any) {
+    // try {
+    //   // Fetch the content to retrieve the ID
+    //   const res1 = await axios.get(`${BACKEND_URL}/api/v1/content`, {
+    //     headers: {
+    //       Authorization: localStorage.getItem("token"),
+    //     },
+    //   });
   
-      const idPass = res1.data.content[cdIn]._id;
+    //   const idPass = res1.data.content[cdIn]._id;
+    //   console.log(idPass);
   
-      // Perform the delete operation
-      const deleteResponse = await axios.delete(`${BACKEND_URL}/api/v1/content`, {
-        data: { Id: idPass }, // Pass the ID as JSON in the 'data' field
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
-  
-      console.log("Delete successful:", deleteResponse.data);
-    } catch (error) {
-      console.error("Error in deletion process:", error);
-    }
-  }
+    //   // Perform the delete operation
+    //   await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+    //     data: { Id: idPass }, // Pass the ID as JSON in the 'data' field
+    //     headers: {
+    //       Authorization: localStorage.getItem("token"),
+    //     },
+    //   });
+    //   console.log("Delete successful", res1.data.content[cdIn].title);
+      
+    // } catch (error) {
+    //   console.error("Error in deletion process:", error);
+    // }
+  // }
   
 
 export function Card({title, link, type} : CardProps) {
+
+  const handleDelete = () => {
+    axios.delete(`${BACKEND_URL}/api/v1/content`, {
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      },
+      data: {
+        title,
+        link,
+        type
+      }
+    })
+    .then(response => {
+      console.log(response.data.message); // Optional: handle success
+    })
+    .catch(error => {
+      console.error("Error deleting content:", error); // Optional: handle error
+    });
+  };  
+
     return <div className="p-8 bg-white rounded-md border-gray-200 border max-w-72 min-48 min-w-72 gap-4">
         <div className="flex justify-between items-center">
             <div className="flex items-center font-semibold">
@@ -56,7 +77,7 @@ export function Card({title, link, type} : CardProps) {
                     </a>
                 </div>
                 <div className="text-gray-500">
-                <button onClick={() => onDeleteCompy(0)}>
+                <button onClick={() => handleDelete()}>
                     <DeleteIcon size="md" />
                 </button>
                 </div>

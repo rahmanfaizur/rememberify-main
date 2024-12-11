@@ -135,8 +135,9 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
 
 app.get("/api/v1/content", userMiddleware, async (req, res) => {
     ///@ts-ignore
-    const userId = req.userId;
+    const userId = req.userId
     const content = await ContentModel.find({
+
         userId: userId  //! foreign key!
     }).populate("userId", "username")
     res.json({
@@ -144,18 +145,33 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
     });
 })
 
-app.delete("/api/v1/content", userMiddleware, async (req, res) => {{
-    const contentId = req.body.contentId;
-    await ContentModel.deleteOne({
-        contentId,
-        //@ts-ignore
-        userId: req.userId
-    })
+app.delete("/api/v1/content", userMiddleware, async (req, res) => {
+    const { link, title, type } = req.body;
 
-    res.json({
-        message: "Deleted!"
-    })
-}});
+    try {
+        const result = await ContentModel.deleteOne({
+            link,
+            title,
+            type
+        });
+
+        if (result.deletedCount > 0) {
+            res.json({
+                message: "Deleted successfully!"
+            });
+        } else {
+            res.status(404).json({
+                message: "Content not found."
+            });
+        }
+    } catch (error) {
+        console.error("Error deleting content:", error);
+        res.status(500).json({
+            message: "An error occurred while deleting the content."
+        });
+    }
+});
+
 
 interface CustomRequest extends Request {
     userId: string;
