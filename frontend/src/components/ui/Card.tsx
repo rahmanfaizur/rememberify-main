@@ -3,7 +3,7 @@ interface CardProps {
     title: string,
     tags: string[],
     link: string,
-    type: "twitter" | "youtube"
+    type: "twitter" | "youtube" | "spotify"
 }
 
 import axios from "axios";
@@ -12,6 +12,7 @@ import { DeleteIcon } from "../../icons/DeleteIcon";
 import { ShareIcon } from "../../icons/ShareIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
+import { SpotifyIcon } from "../../icons/SpotifyIcon";
 
 // async function onDeleteCompy(cdIn: any) {
     // try {
@@ -61,12 +62,21 @@ export function Card({title, link, type} : CardProps) {
     });
   };  
 
+  function convertToEmbedLink(link) {
+    const parts = link.split("open.spotify.com/");
+    if (parts.length > 1) {
+        return `${parts[0]}open.spotify.com/embed/${parts[1]}`;
+    }
+    return link; // Return the original link if it doesn't match the expected format
+}
+
     return <div className="p-8 bg-white rounded-md border-gray-200 border max-w-72 min-48 min-w-72 gap-4">
         <div className="flex justify-between items-center">
             <div className="flex items-center font-semibold">
                 <div className="text-gray-500 pr-2">
                 {type === "twitter" && <TwitterIcon size="md"/>}
                 {type === "youtube" && <YoutubeIcon size="md"/>}
+                {type === "spotify" && <SpotifyIcon size="lg"/>}
                 </div>
                 {title}
             </div>
@@ -86,6 +96,7 @@ export function Card({title, link, type} : CardProps) {
         <div className="pt-4">
         {type === "youtube" && <iframe className="w-full" src={link.replace('watch', 'embed').replace("?v=", "/")} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
         }
+        {type === "spotify" && <iframe className="border-radius:12px" src={convertToEmbedLink(link)} width="100%" height="152" frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>}
         {type === "twitter" && <blockquote className="twitter-tweet">
             <a href={link.replace('x.com', 'twitter.com')}></a> 
         </blockquote>}

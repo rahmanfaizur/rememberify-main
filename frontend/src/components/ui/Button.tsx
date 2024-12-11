@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-type Variants = "primary" | "secondary"
+type Variants = "primary" | "secondary" | "greeny" | "reddish";
 interface ButtonProps {
     variant: Variants;
     size: "sm" | "md" | "lg";
@@ -15,7 +15,10 @@ interface ButtonProps {
 
 const variantStyles = {
     "primary": "bg-purple-600 text-white",
-    "secondary": "bg-purple-300 text-purple-500"
+    "secondary": "bg-purple-300 text-purple-500",
+    "greeny": "bg-green-500 text-white",
+    "reddish": "bg-red-500 text-white",
+    "blacky": "bg-black text-white"
 }
 
 const sizeStyles = {

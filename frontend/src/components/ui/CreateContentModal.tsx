@@ -7,7 +7,8 @@ import { Input } from "./Input";
 
 enum contentType {
     Youtube = "youtube",
-    Twitter = "twitter"
+    Twitter = "twitter",
+    Spotify = "spotify"
 }
 
 export function CreateContentModal({ open, onClose}) { //controlled component!
@@ -60,14 +61,19 @@ export function CreateContentModal({ open, onClose}) { //controlled component!
                             </div>
                             <h1 className="flex justify-center">Type</h1>
                                 <div className="flex gap-1 p-4 justify-center">
-                                    <Button text="Youtube" variant={type === contentType.Youtube ? "primary" : "secondary"} size="md" onClick={
+                                    <Button text="Youtube" variant={type === contentType.Youtube ? "reddish" : "secondary"} size="md" onClick={
                                         () => {
                                             setType(contentType.Youtube)
                                         }
                                     }></Button>
-                                    <Button text="Twitter" variant={type === contentType.Twitter ? "primary" : "secondary"} size="md" onClick={
+                                    <Button text="Twitter" variant={type === contentType.Twitter ? "blacky" : "secondary"} size="md" onClick={
                                         () => {
                                             setType(contentType.Twitter)
+                                        }
+                                    }></Button>
+                                    <Button text="Spotify" variant={type === contentType.Spotify ? "greeny" : "secondary"} size="md" onClick={
+                                        () => {
+                                            setType(contentType.Spotify)
                                         }
                                     }></Button>
                                 </div>
