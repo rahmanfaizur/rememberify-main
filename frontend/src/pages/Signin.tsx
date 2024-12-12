@@ -33,8 +33,18 @@ export function Signin() {
 
     return <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
         <div className="bg-white rounded-xl border min-w-48 p-8">
+        <div className="flex flex-col items-center  pb-3">
+                <h1 className="font-bold text-2xl">Welcome to Rememberify!</h1>
+                <div>Login to access your second brain!</div>
+            </div>
+            <div className="flex flex-col justify-start pt-3">
+                <div className="pl-2">Username</div>
             <Input reference={usernameRef} placeholder="username"/>
-            <Input reference={passwordRef} placeholder="password"/>
+            </div>
+            <div className="flex flex-col pt-3">
+                <div className="pl-2 pt-1">Password</div>
+                <Input reference={passwordRef} placeholder="password"/>
+            </div>
             <div className="flex justify-center p-4">
             <Button variant="primary" text="Signin" size="md" fullWidth={true} loading={false} onClick={Signin}/>
             </div>

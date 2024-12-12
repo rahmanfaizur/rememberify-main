@@ -9,8 +9,15 @@ import { SideBar } from '../components/ui/Sidebar'
 import { useContent } from '../hooks/useContent'
 import { BACKEND_URL } from '../config'
 import axios from 'axios'
+import { LogoutIcon } from '../icons/LogoutIcon'
+import { useNavigate } from 'react-router-dom'
 
 export function DashBoard() {
+  const navigate = useNavigate();
+  function LogoutItem() {
+    localStorage.removeItem('token');
+    navigate('/signup')
+  }
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -30,6 +37,9 @@ export function DashBoard() {
       }}/>
     {/* hey! */}
     {/* <button className='bg-blue-700'>heyo!</button> */}
+    <div className='pr-4 flex justify-end pb-2'>
+    <Button text='Logout' variant='reddish' size='md' startIcon={<LogoutIcon size='lg'/> } onClick={LogoutItem}></Button>
+    </div>
     <div className='flex justify-end gap-4'>
       <Button startIcon={<ShareIcon size='lg'/>} variant='secondary' text='Share Brain' size='md'
       onClick={async () => {

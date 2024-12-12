@@ -1,4 +1,5 @@
 import { BrainIcon } from "../../icons/BrainIcon";
+import { SpotifyIcon } from "../../icons/SpotifyIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { SideBarItem } from "./SidebarItem";
@@ -13,8 +14,9 @@ export function SideBar() {
                 Rememberify
             </div>
             <div>
-                <SideBarItem text="Twitter" icon={<TwitterIcon/>}/>
-                <SideBarItem text="Youtube" icon={<YoutubeIcon/>}/>
+                <SideBarItem text="Twitter" icon={<TwitterIcon size="md"/>}/>
+                <SideBarItem text="Youtube" icon={<YoutubeIcon size="md"/>}/>
+                <SideBarItem text="Spotify" icon={<SpotifyIcon size="lg"/>}/>
             </div>
         </div>
     )
