@@ -4,6 +4,7 @@ import { Input } from "../components/ui/Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Navbar } from "../components/ui/Navbar";
 
 
 export function Signin() {
@@ -31,7 +32,9 @@ export function Signin() {
     }
 
 
-    return <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
+    return <div>
+        <Navbar></Navbar>
+    <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
         <div className="bg-white rounded-xl border min-w-48 p-8">
         <div className="flex flex-col items-center  pb-3">
                 <h1 className="font-bold text-2xl">Welcome to Rememberify!</h1>
@@ -55,5 +58,6 @@ export function Signin() {
                 <button className="text-blue-400" onClick={newUser}>Sign Up</button>
             </div>
         </div>
+    </div>
     </div>
 }
