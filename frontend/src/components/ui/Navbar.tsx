@@ -10,8 +10,8 @@ export function Navbar() {
                 </div>
                 <div className="flex-grow">Rememberify</div>
                 <div className="ml-auto flex gap-2">
-                    <Button text="Signup" />
-                    <Button text="Signin" />
+                    <Button variant="primary" size="md" text="Signup" />
+                    <Button variant="primary" size="md" text="Login" />
                 </div>
             </div>
         </div>
