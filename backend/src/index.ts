@@ -45,6 +45,17 @@ app.post("/api/v1/signup", async (req: Request, res: Response) => {
     try {
         const { username, password } = schema.parse(req.body);
         const hashedPassword: string = await bcrypt.hash(password, 10);
+        const existingUser = await UserModel.findOne({
+            username
+        });
+
+        if (existingUser) {
+            // If username exists, throw an error with a specific message
+            res.status(400).json({
+                message: "Username already exists",
+            });
+            return;
+        }
         await UserModel.create({
             username,
             password: hashedPassword
@@ -55,7 +66,6 @@ app.post("/api/v1/signup", async (req: Request, res: Response) => {
         });
     }
     catch(err) {
-    
     if (err instanceof z.ZodError) {
         res.status(400).json({
             message: "Validation Error", errors: err.errors

@@ -11,6 +11,7 @@ import { BACKEND_URL } from '../config'
 import axios from 'axios'
 import { LogoutIcon } from '../icons/LogoutIcon'
 import { useNavigate } from 'react-router-dom'
+import { Navbar } from '../components/ui/Navbar'
 
 export function DashBoard() {
   const navigate = useNavigate();
@@ -29,14 +30,11 @@ export function DashBoard() {
 
   return (
     <div>
-      {/* <button onClick={onDeleteCompy} className='text-blue-700'>click me!</button> */}
       <SideBar/>
       <div className='p-4 ml-72 min-h-screen bg-slate-200 border-2'>
       <CreateContentModal open={modalOpen} onClose={() => {
         setModalOpen(false);
       }}/>
-    {/* hey! */}
-    {/* <button className='bg-blue-700'>heyo!</button> */}
     <div className='pr-4 flex justify-end pb-2'>
     <Button text='Logout' variant='reddish' size='md' startIcon={<LogoutIcon size='lg'/> } onClick={LogoutItem}></Button>
     </div>

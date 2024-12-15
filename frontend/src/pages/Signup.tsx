@@ -12,8 +12,13 @@ export function Signup() {
     const passwordRef = useRef<any>();
     const navigate = useNavigate();
 
+    function alreadyUser() {
+        navigate('/signin');
+    }
+
     async function Signup() {
-        const username = usernameRef.current?.value;
+        try {
+            const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
         await axios.post(`${BACKEND_URL}/api/v1/signup`, {
                 username,
@@ -21,12 +26,10 @@ export function Signup() {
         });
         navigate("/signin");
         alert("You Have Signed Up!");
+    } catch (error: any) {
+        console.log(error);
     }
-    function alreadyUser() {
-        navigate('/signin');
-    }
-
-
+}
     return <div className="">
         <Navbar></Navbar>
         <div className="flex justify-center items-center h-screen w-screen bg-gray-200">

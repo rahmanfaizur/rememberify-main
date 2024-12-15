@@ -44,6 +44,16 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         const { username, password } = schema.parse(req.body);
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const existingUser = yield db_1.UserModel.findOne({
+            username
+        });
+        if (existingUser) {
+            // If username exists, throw an error with a specific message
+            res.status(400).json({
+                message: "Username already exists",
+            });
+            return;
+        }
         yield db_1.UserModel.create({
             username,
             password: hashedPassword

@@ -6,12 +6,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/ui/Navbar";
 
-
 export function Signin() {
 
         const usernameRef = useRef<any>(); //generics! what should go here and eventually get stored in the ref! like we can input <HTMLInputElement> as well here! tho for simplicity we use <any> type here!
         const passwordRef = useRef<any>();
         const navigate = useNavigate();
+        function newUser() {
+            navigate('/signup');
+        }
     
         async function Signin() {
             const username = usernameRef.current?.value;
@@ -27,10 +29,6 @@ export function Signin() {
             // redirect the user to the dashboard!
             alert("You Have Logged In!");
         }
-    function newUser() {
-        navigate('/signup');
-    }
-
 
     return <div>
         <Navbar></Navbar>
@@ -61,3 +59,5 @@ export function Signin() {
     </div>
     </div>
 }
+
+// export { newUser }
