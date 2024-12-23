@@ -180,10 +180,12 @@ app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awa
                 yield db_1.LinkModel.deleteOne({ userId: req.userId });
             }
             res.json({ message: "Removed Link!" });
+            return;
         }
         // If an existing link exists and share is true, update the response
         if (existingLink) {
             res.json({ message: `/share/${existingLink.hash}` });
+            return;
         }
         // Otherwise, create a new link
         yield db_1.LinkModel.create({
@@ -191,6 +193,7 @@ app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awa
             hash,
         });
         res.json({ message: `/share/${hash}` });
+        return;
     }
     catch (error) {
         console.error("Error in sharing link:", error);
@@ -203,6 +206,8 @@ app.get("/api/v1/brain/:shareLink", (req, res) => __awaiter(void 0, void 0, void
         const link = yield db_1.LinkModel.findOne({
             hash: hash
         });
+        const hostUserId = link === null || link === void 0 ? void 0 : link.userId.toString();
+        // console.log(hostUserId);
         // We use aggregations here!
         if (!link) {
             res.status(411).json({
@@ -212,10 +217,10 @@ app.get("/api/v1/brain/:shareLink", (req, res) => __awaiter(void 0, void 0, void
         }
         //userId got!
         const content = yield db_1.ContentModel.find({
-            userId: link.userId
+            userId: hostUserId
         });
         const user = yield db_1.UserModel.findOne({
-            userId: link.userId
+            _id: hostUserId
         });
         if (!user) {
             res.status(411).json({

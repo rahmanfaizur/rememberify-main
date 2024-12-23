@@ -3,6 +3,7 @@ import { Signin } from "./pages/Signin";
 import { Signup } from "./pages/Signup";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Test } from "./pages/Test";
+import ShareParams from "./pages/ShareParams";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<Signin/>}></Route>
         <Route path="/dashboard" element={<DashBoard/>}></Route>
-        <Route path="/test" element={<Test/>}></Route>
+        {/* <Route path="/test" element={<Test/>}></Route> */}
+        <Route path="/share/:shareLink" element={<ShareParams/>}></Route>
       </Routes>
     </BrowserRouter>
   )

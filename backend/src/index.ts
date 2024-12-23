@@ -206,11 +206,13 @@ app.post(
                     await LinkModel.deleteOne({ userId: req.userId });
                 }
                 res.json({ message: "Removed Link!" });
+                return;
             }
 
             // If an existing link exists and share is true, update the response
             if (existingLink) {
                 res.json({ message: `/share/${existingLink.hash}` });
+                return;
             }
 
             // Otherwise, create a new link
@@ -218,8 +220,9 @@ app.post(
                 userId: req.userId,
                 hash,
             });
-
             res.json({ message: `/share/${hash}` });
+            return;
+            
         } catch (error) {
             console.error("Error in sharing link:", error);
             res.status(500).json({ message: "Internal Server Error" });
@@ -233,6 +236,9 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {{
     const link = await LinkModel.findOne({
         hash: hash
     });
+    const hostUserId = link?.userId.toString(); 
+    // console.log(hostUserId);
+
     // We use aggregations here!
     if (!link) {
         res.status(411).json({
@@ -243,11 +249,11 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {{
 
     //userId got!
     const content = await ContentModel.find({
-        userId: link.userId
+        userId: hostUserId
     })
 
     const user = await UserModel.findOne({
-        userId: link.userId
+        _id: hostUserId
     })
 
     if (!user) {
@@ -260,7 +266,6 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {{
         username: user.username,
         content: content
     })
-
     // we are doing 3 sequencial calls to the backend, but we can use refrences instead and hence it will be a lot easier that way!
 }});
 

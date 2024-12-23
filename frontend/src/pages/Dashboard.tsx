@@ -12,6 +12,7 @@ import axios from 'axios'
 import { LogoutIcon } from '../icons/LogoutIcon'
 import { useNavigate } from 'react-router-dom'
 import { Navbar } from '../components/ui/Navbar'
+import { generateSharableLink } from '../components/ui/shareUtils'
 
 export function DashBoard() {
   const navigate = useNavigate();
@@ -41,16 +42,7 @@ export function DashBoard() {
     <div className='flex justify-end gap-4'>
       <Button startIcon={<ShareIcon size='lg'/>} variant='secondary' text='Share Brain' size='md'
       onClick={async () => {
-        const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, {
-          share: true
-        }, {
-          headers: {
-            "Authorization": localStorage.getItem("token")
-          }
-        });
-        // console.log("111111111111111111111");
-        // console.log(response);
-        const shareUrl = `http://localhost:5173/share/${response.data.message}`;
+        const { shareUrl } = await generateSharableLink();
         alert(shareUrl);
       }} ></Button>
       <Button onClick={() => {
@@ -62,7 +54,9 @@ export function DashBoard() {
       {contents.map(({type, link, title}) => <Card
       link={link}
       type={type}
-      title={title}>
+      title={title}
+      showDelete={true}
+      >
       </Card>
       )}
     </div>

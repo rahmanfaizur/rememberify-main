@@ -4,6 +4,8 @@ interface CardProps {
     tags: string[],
     link: string,
     type: "twitter" | "youtube" | "spotify"
+    showDelete: boolean;
+    setShowDelete: (value: boolean) => void;
 }
 
 import axios from "axios";
@@ -13,6 +15,7 @@ import { ShareIcon } from "../../icons/ShareIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { SpotifyIcon } from "../../icons/SpotifyIcon";
+import { useState } from "react";
 
 // async function onDeleteCompy(cdIn: any) {
     // try {
@@ -39,10 +42,8 @@ import { SpotifyIcon } from "../../icons/SpotifyIcon";
     //   console.error("Error in deletion process:", error);
     // }
   // }
-  
-
-export function Card({title, link, type} : CardProps) {
-
+  // const [showDelete, setShowDelete] = useState(true);
+export function Card({title, link, type, showDelete, setShowDelete} : CardProps) {
   const handleDelete = () => {
     axios.delete(`${BACKEND_URL}/api/v1/content`, {
       headers: {
@@ -62,7 +63,7 @@ export function Card({title, link, type} : CardProps) {
     });
   };  
 
-  function convertToEmbedLink(link) {
+  function convertToEmbedLink(link: string) {
     const parts = link.split("open.spotify.com/");
     if (parts.length > 1) {
         return `${parts[0]}open.spotify.com/embed/${parts[1]}`;
@@ -86,11 +87,11 @@ export function Card({title, link, type} : CardProps) {
                     <ShareIcon size="md"/>
                     </a>
                 </div>
-                <div className="text-gray-500">
+                {showDelete && (<div className="text-gray-500">
                 <button onClick={() => handleDelete()}>
                     <DeleteIcon size="md" />
                 </button>
-                </div>
+                </div>)}
             </div>
         </div>
         <div className="pt-4">

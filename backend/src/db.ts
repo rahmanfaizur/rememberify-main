@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { model, Schema } from "mongoose";
 import dotenv from 'dotenv';
+import { string } from "zod";
 
 dotenv.config();
 
@@ -35,7 +36,11 @@ export const ContentModel = model("Content", ContentSchema);
 const LinkSchema = new Schema({
     hash: String,
     userId: {type: mongoose.Types.ObjectId, ref: 'User', required: true,
-    unique: true}
+    unique: true},
+    permissions: {
+        type: [String], // Array of strings
+        required: true, // Add any necessary constraints
+    }
 })
 
 export const LinkModel = model("Links", LinkSchema);

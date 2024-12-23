@@ -42,6 +42,10 @@ exports.ContentModel = (0, mongoose_2.model)("Content", ContentSchema);
 const LinkSchema = new mongoose_2.Schema({
     hash: String,
     userId: { type: mongoose_1.default.Types.ObjectId, ref: 'User', required: true,
-        unique: true }
+        unique: true },
+    permissions: {
+        type: [String], // Array of strings
+        required: true, // Add any necessary constraints
+    }
 });
 exports.LinkModel = (0, mongoose_2.model)("Links", LinkSchema);
