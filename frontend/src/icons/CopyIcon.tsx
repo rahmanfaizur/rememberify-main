@@ -3,8 +3,8 @@ import { IconProps, iconSizeVariants } from "."
 export const CopyIcon = (props: IconProps) => {
     return (
         <div>
-            <svg fill="#000000" className={iconSizeVariants[props.size]} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-            	 viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+            <svg fill="#000000" className={iconSizeVariants[props.size]} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
+            	 viewBox="0 0 64 64" enable-background="new 0 0 64 64">
             <g id="Text-files">
             	<path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228
             		C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999

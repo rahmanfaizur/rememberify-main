@@ -3,8 +3,8 @@ import { IconProps, iconSizeVariants } from "."
 export const LogoutIcon = (props : IconProps) => {
     return (
         <div className="text-white">
-            <svg fill="#000000" className={iconSizeVariants[props.size]} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-            	 viewBox="0 0 384.971 384.971" xml:space="preserve">
+            <svg fill="#000000" className={iconSizeVariants[props.size]} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+            	 viewBox="0 0 384.971 384.971" >
             <g>
             	<g id="Sign_Out">
             		<path d="M180.455,360.91H24.061V24.061h156.394c6.641,0,12.03-5.39,12.03-12.03s-5.39-12.03-12.03-12.03H12.03
