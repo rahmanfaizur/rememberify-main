@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-type Variants = "primary" | "secondary" | "greeny" | "reddish";
+type Variants = "primary" | "secondary" | "greeny" | "reddish" | "blacky";
 interface ButtonProps {
     variant: Variants;
     size: "sm" | "md" | "lg";

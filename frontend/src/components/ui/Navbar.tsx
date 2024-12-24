@@ -22,8 +22,8 @@ export function Navbar() {
                 </div>
                 <div className="flex-grow">Rememberify</div>
                 <div className="ml-auto flex gap-2">
-                    <Button variant="primary" size="md" text="Signup" onClick={newUser} />
-                    <Button variant="primary" size="md" text="Login" onClick={existingUser} />
+                    <Button padding="one" variant="primary" size="md" text="Signup" onClick={newUser} />
+                    <Button padding="one" variant="primary" size="md" text="Login" onClick={existingUser} />
                 </div>
             </div>
         </div>

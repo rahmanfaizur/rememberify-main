@@ -11,7 +11,7 @@ enum contentType {
     Spotify = "spotify"
 }
 
-export function CreateContentModal({ open, onClose}) { //controlled component!
+export function CreateContentModal({ open, onClose} : any) { //controlled component!
     // const [modalOpen, setModalOpen] = useState(false);
 
     const titleRef = useRef<any>();
@@ -61,23 +61,23 @@ export function CreateContentModal({ open, onClose}) { //controlled component!
                             </div>
                             <h1 className="flex justify-center">Type</h1>
                                 <div className="flex gap-1 p-4 justify-center">
-                                    <Button text="Youtube" variant={type === contentType.Youtube ? "reddish" : "secondary"} size="md" onClick={
+                                    <Button padding="one" text="Youtube" variant={type === contentType.Youtube ? "reddish" : "secondary"} size="md" onClick={
                                         () => {
                                             setType(contentType.Youtube)
                                         }
                                     }></Button>
-                                    <Button text="Twitter" variant={type === contentType.Twitter ? "blacky" : "secondary"} size="md" onClick={
+                                    <Button padding="one" text="Twitter" variant={type === contentType.Twitter ? "blacky" : "secondary"} size="md" onClick={
                                         () => {
                                             setType(contentType.Twitter)
                                         }
                                     }></Button>
-                                    <Button text="Spotify" variant={type === contentType.Spotify ? "greeny" : "secondary"} size="md" onClick={
+                                    <Button padding="one" text="Spotify" variant={type === contentType.Spotify ? "greeny" : "secondary"} size="md" onClick={
                                         () => {
                                             setType(contentType.Spotify)
                                         }
                                     }></Button>
                                 </div>
-                            <div className="flex justify-center"><Button onClick={addContent} variant="primary" text="Submit" size="md"/></div>
+                            <div className="flex justify-center"><Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md"/></div>
                         </span>
                     </div>
                 </div>

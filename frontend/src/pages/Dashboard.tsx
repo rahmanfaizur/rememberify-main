@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-// import './App.css'
 import { Button } from '../components/ui/Button'
 import { PlusIcon } from '../icons/PlusIcon'
 import { ShareIcon } from '../icons/ShareIcon'
@@ -7,12 +6,8 @@ import { Card } from '../components/ui/Card'
 import { CreateContentModal } from '../components/ui/CreateContentModal'
 import { SideBar } from '../components/ui/Sidebar'
 import { useContent } from '../hooks/useContent'
-import { BACKEND_URL } from '../config'
-import axios from 'axios'
 import { LogoutIcon } from '../icons/LogoutIcon'
 import { useNavigate } from 'react-router-dom'
-import { Navbar } from '../components/ui/Navbar'
-import { generateSharableLink } from '../components/ui/shareUtils'
 import { ShareBrainBox } from '../components/ui/ShareBrianBox'
 
 export function DashBoard() {
@@ -41,7 +36,7 @@ export function DashBoard() {
 
 //Share Brain Modal!
 
-const [modal, setModal] = useState(false);
+// const [modal, setModal] = useState(false);
 
   // const toggleModal = () => {
   //   setModal(!modal);
@@ -56,10 +51,10 @@ const [modal, setModal] = useState(false);
         setModalOpen(false);
       }}/>
     <div className='pr-4 flex justify-end pb-2'>
-    <Button text='Logout' variant='reddish' size='md' startIcon={<LogoutIcon size='lg'/> } onClick={LogoutItem}></Button>
+    <Button padding="one" text='Logout' variant='reddish' size='md' startIcon={<LogoutIcon size='lg'/> } onClick={LogoutItem}></Button>
     </div>
     <div className='flex justify-end gap-4'>
-          <Button 
+          <Button padding="one"
         startIcon={<ShareIcon size="lg" />} 
         variant="secondary" 
         text="Share Brain" 
@@ -70,7 +65,7 @@ const [modal, setModal] = useState(false);
         isModalOpen={isModalOpen} 
         closeModal={closeModal} 
       />
-      <Button onClick={() => {
+      <Button padding="one" onClick={() => {
         setModalOpen(true)
       }}
       startIcon={<PlusIcon size='lg'/>} variant='primary' text='Add Content' size='sm' ></Button>

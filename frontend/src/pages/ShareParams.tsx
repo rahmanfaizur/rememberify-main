@@ -67,4 +67,3 @@ const ShareParams = () => {
 };
 
 export default ShareParams;
-

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { generateSharableLink } from "./shareUtils";
 
-export const AlertBox = (props: any) => {
+export const AlertBox = () => {
     const [shareUrl, setShareUrl] = useState<string>("");
 
     useEffect(() => {

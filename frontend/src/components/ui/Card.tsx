@@ -1,11 +1,11 @@
 
 interface CardProps {
     title: string,
-    tags: string[],
+    tags?: any,
     link: string,
     type: "twitter" | "youtube" | "spotify"
     showDelete: boolean;
-    setShowDelete: (value: boolean) => void;
+    setShowDelete?: (value: boolean) => void;
 }
 
 import axios from "axios";
@@ -15,7 +15,6 @@ import { ShareIcon } from "../../icons/ShareIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { SpotifyIcon } from "../../icons/SpotifyIcon";
-import { useState } from "react";
 
 // async function onDeleteCompy(cdIn: any) {
     // try {
@@ -43,7 +42,7 @@ import { useState } from "react";
     // }
   // }
   // const [showDelete, setShowDelete] = useState(true);
-export function Card({title, link, type, showDelete, setShowDelete} : CardProps) {
+export function Card({title, link, type, showDelete} : CardProps) {
   const handleDelete = () => {
     axios.delete(`${BACKEND_URL}/api/v1/content`, {
       headers: {

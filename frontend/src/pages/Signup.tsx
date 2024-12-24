@@ -4,7 +4,6 @@ import { Input } from "../components/ui/Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { BrainIcon } from "../icons/BrainIcon";
 import { Navbar } from "../components/ui/Navbar";
 
 export function Signup() {
@@ -47,7 +46,7 @@ export function Signup() {
                 <Input reference={passwordRef} placeholder="password"/>
             </div>
             <div className="flex justify-center p-4">
-            <Button variant="primary" text="Signup" size="md" fullWidth={true} loading={false} onClick={Signup}/>
+            <Button padding="one" variant="primary" text="Signup" size="md" fullWidth={true} loading={false} onClick={Signup}/>
             </div>
             <div className="flex justify-center" >
             Already a user?
