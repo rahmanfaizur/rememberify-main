@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACKEND_URL } from "../../config";
+import { BACKEND_URL, FRONTEND_URL } from "../../config";
 
 export async function generateSharableLink() {
     try {
@@ -14,7 +14,7 @@ export async function generateSharableLink() {
         );
 
         const res = response.data.message; // Extract res
-        const shareUrl = `http://localhost:5173${response.data.message}`;
+        const shareUrl = `${FRONTEND_URL}${response.data.message}`;
         return { res, shareUrl }; // Return both res and shareUrl
     } catch (error) {
         console.error("Error generating sharable Url");

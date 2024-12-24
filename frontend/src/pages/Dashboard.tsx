@@ -13,6 +13,7 @@ import { LogoutIcon } from '../icons/LogoutIcon'
 import { useNavigate } from 'react-router-dom'
 import { Navbar } from '../components/ui/Navbar'
 import { generateSharableLink } from '../components/ui/shareUtils'
+import { ShareBrainBox } from '../components/ui/ShareBrianBox'
 
 export function DashBoard() {
   const navigate = useNavigate();
@@ -21,6 +22,15 @@ export function DashBoard() {
     navigate('/signup')
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
+  
   const [modalOpen, setModalOpen] = useState(false);
 
   const { contents, refresh } = useContent();
@@ -28,6 +38,15 @@ export function DashBoard() {
   useEffect(() => {
     refresh();
   }, [modalOpen]);
+
+//Share Brain Modal!
+
+const [modal, setModal] = useState(false);
+
+  // const toggleModal = () => {
+  //   setModal(!modal);
+  // }
+
 
   return (
     <div>
@@ -40,11 +59,17 @@ export function DashBoard() {
     <Button text='Logout' variant='reddish' size='md' startIcon={<LogoutIcon size='lg'/> } onClick={LogoutItem}></Button>
     </div>
     <div className='flex justify-end gap-4'>
-      <Button startIcon={<ShareIcon size='lg'/>} variant='secondary' text='Share Brain' size='md'
-      onClick={async () => {
-        const { shareUrl } = await generateSharableLink();
-        alert(shareUrl);
-      }} ></Button>
+          <Button 
+        startIcon={<ShareIcon size="lg" />} 
+        variant="secondary" 
+        text="Share Brain" 
+        size="md"
+        onClick={openModal} 
+      />
+      <ShareBrainBox 
+        isModalOpen={isModalOpen} 
+        closeModal={closeModal} 
+      />
       <Button onClick={() => {
         setModalOpen(true)
       }}

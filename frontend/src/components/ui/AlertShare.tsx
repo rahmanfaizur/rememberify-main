@@ -1,10 +1,21 @@
-import { generateSharableLink } from "./shareUtils"
+import React, { useState, useEffect } from "react";
+import { generateSharableLink } from "./shareUtils";
 
-export async function AlertBox() {
-    const { shareUrl } =  await generateSharableLink();
+export const AlertBox = (props: any) => {
+    const [shareUrl, setShareUrl] = useState<string>("");
+
+    useEffect(() => {
+        const fetchShareUrl = async () => {
+            const { shareUrl } = await generateSharableLink();
+            setShareUrl(shareUrl);
+        };
+
+        fetchShareUrl();
+    }, []); // Empty dependency array ensures this runs once when the component mounts
+
     return (
         <div>
-            ${shareUrl}
+            <p>Sharable Link: {shareUrl}</p>
         </div>
-    )
-}
+    );
+};

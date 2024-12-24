@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
+import { BACKEND_URL } from '../config';
 
 const ShareParams = () => {
   const { shareLink } = useParams(); // Extract the dynamic part of the URL
@@ -10,8 +11,8 @@ const ShareParams = () => {
 
   const fetchData = async () => {
     try {
-      console.log(`Fetching data from: http://localhost:3000/api/v1/brain/${shareLink}`);
-      const response = await fetch(`http://localhost:3000/api/v1/brain/${shareLink}`);
+      // console.log(`Fetching data from: ${BACKEND_URL}/api/v1/brain/${shareLink}`);
+      const response = await fetch(`${BACKEND_URL}/api/v1/brain/${shareLink}`);
       console.log("Response status:", response.status);
 
       if (!response.ok) {
@@ -66,3 +67,4 @@ const ShareParams = () => {
 };
 
 export default ShareParams;
+
