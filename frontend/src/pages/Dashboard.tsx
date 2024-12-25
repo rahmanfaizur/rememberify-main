@@ -8,6 +8,8 @@ import { SideBar } from '../components/ui/Sidebar'
 import { useContent } from '../hooks/useContent'
 import { ShareBrainBox } from '../components/ui/ShareBrianBox'
 import { Navbar } from '../components/ui/Navbar'
+import { useNavigate } from 'react-router-dom'
+import { LogoutIcon } from '../icons/LogoutIcon'
 
 //Share Brain Modal!
 
@@ -19,6 +21,7 @@ import { Navbar } from '../components/ui/Navbar'
 
 
   export function DashBoard() {
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => {
       setIsModalOpen(true);
@@ -35,6 +38,11 @@ import { Navbar } from '../components/ui/Navbar'
     useEffect(() => {
       refresh();
     }, [modalOpen]);
+
+    function LogoutItem() {
+      localStorage.removeItem('token');
+      navigate('/signup');
+  }
   
     return (
       <div className="flex">
@@ -45,7 +53,7 @@ import { Navbar } from '../components/ui/Navbar'
   
         <div className="flex-grow">
           {/* Navbar: Hidden on small screens */}
-          <div className="hidden lg:block">
+          <div className="hidden md:block">
             <Navbar />
           </div>
           
@@ -76,7 +84,17 @@ import { Navbar } from '../components/ui/Navbar'
                 text="Add Content"
                 size="sm"
               ></Button>
-            </div>
+              <div className="block md:hidden">
+                <Button
+                  padding="one"
+                  text="Logout"
+                  variant="reddish"
+                  size="md"
+                  startIcon={<LogoutIcon size="lg" />}
+                  onClick={LogoutItem}
+                />
+              </div>          
+              </div>
             <div className="flex flex-wrap gap-4 justify-start pt-3">
               {contents.map(({ type, link, title }) => (
                 <Card
