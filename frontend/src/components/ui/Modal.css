@@ -45,3 +45,14 @@ body.active-modal {
     right: 10px;
     padding: 5px 7px;
 }
+
+/* Sidebar Styles */
+.sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto; /* Optional: For scrollable content within the sidebar */
+    background-color: #f8fafc; /* Adjust color as needed */
+    border-right: 1px solid #e5e7eb; /* Optional: Border for separation */
+  }
+  

@@ -50,8 +50,8 @@ const ShareParams = () => {
       <div>
         <h2>User: {data.username}</h2>
         <div className="space-y-4">
-          <div className="flex space-x-4 flex-wrap">
-            {data.content.map(({ title, link, type }: any) => (
+        <div className="flex flex-wrap gap-4 justify-start pt-3 pl-2">
+        {data.content.map(({ title, link, type }: any) => (
               <Card
                 key={link} // Ensure unique keys
                 link={link}
