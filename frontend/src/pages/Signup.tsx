@@ -5,6 +5,7 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/ui/Navbar";
+import PasswordInput from "../components/ui/PasswordInput";
 
 export function Signup() {
     const usernameRef = useRef<any>(); //generics! what should go here and eventually get stored in the ref! like we can input <HTMLInputElement> as well here! tho for simplicity we use <any> type here!
@@ -40,10 +41,11 @@ export function Signup() {
             <div className="flex flex-col justify-start pt-3">
                 <div className="pl-2">Username</div>
             <Input reference={usernameRef} placeholder="username"/>
+            {/* <div className="text-red-500 text-sm pl-3">wrong</div> */}
             </div>
             <div className="flex flex-col pt-3">
                 <div className="pl-2 pt-1">Password</div>
-                <Input reference={passwordRef} placeholder="password"/>
+                <PasswordInput reference={passwordRef} placeholder="password" />
             </div>
             <div className="flex justify-center p-4">
             <Button padding="one" variant="primary" text="Signup" size="md" fullWidth={true} loading={false} onClick={Signup}/>

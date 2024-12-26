@@ -5,6 +5,7 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/ui/Navbar";
+import PasswordInput from "../components/ui/PasswordInput";
 
 export function Signin() {
 
@@ -44,7 +45,7 @@ export function Signin() {
             </div>
             <div className="flex flex-col pt-3">
                 <div className="pl-2 pt-1">Password</div>
-                <Input reference={passwordRef} placeholder="password"/>
+                <PasswordInput reference={passwordRef} placeholder="password" />
             </div>
             <div className="flex justify-center p-4">
             <Button padding="one" variant="primary" text="Signin" size="md" fullWidth={true} loading={false} onClick={Signin}/>
