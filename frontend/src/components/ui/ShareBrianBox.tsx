@@ -63,8 +63,8 @@ export const ShareBrainBox = ({ isModalOpen, closeModal } : ShareBrainBoxProps) 
       const navTo = extractPath(shareUrl);
 
       const gotoPage = () => {
-        // window.open(`/${navTo}`, '_blank');
-        navigate(`/${navTo}`);
+        window.open(`/${navTo}`, '_blank');
+        // navigate(`/${navTo}`);
     }
     
 
