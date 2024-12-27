@@ -3,7 +3,7 @@ import './Modal.css';
 import { generateSharableLink } from './shareUtils';
 import { CopyIcon } from '../../icons/CopyIcon';
 import { CrossIcon } from '../../icons/CrossIcon';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 interface ShareBrainBoxProps {
     isModalOpen: boolean;
