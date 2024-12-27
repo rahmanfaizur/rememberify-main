@@ -48,7 +48,8 @@ export function Signin() {
                 <PasswordInput reference={passwordRef} placeholder="password" />
             </div>
             <div className="flex justify-center p-4">
-            <Button padding="one" variant="primary" text="Signin" size="md" fullWidth={true} loading={false} onClick={Signin}/>
+            <Button padding="one" variant="primary" text="Signin" size="md" fullWidth={true} loading={false} onClick={Signin}
+            />
             </div>
                 <div className="flex justify-center">
                     Don't have an account yet?

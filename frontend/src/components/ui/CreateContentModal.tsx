@@ -77,7 +77,8 @@ export function CreateContentModal({ open, onClose} : any) { //controlled compon
                                         }
                                     }></Button>
                                 </div>
-                            <div className="flex justify-center"><Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md"/></div>
+                            <div className="flex justify-center"><Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md"
+                            /></div>
                         </span>
                     </div>
                 </div>
