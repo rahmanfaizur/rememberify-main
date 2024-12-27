@@ -3,6 +3,7 @@ import './Modal.css';
 import { generateSharableLink } from './shareUtils';
 import { CopyIcon } from '../../icons/CopyIcon';
 import { CrossIcon } from '../../icons/CrossIcon';
+import { useNavigate } from 'react-router-dom';
 
 interface ShareBrainBoxProps {
     isModalOpen: boolean;
@@ -16,7 +17,7 @@ export const ShareBrainBox = ({ isModalOpen, closeModal } : ShareBrainBoxProps) 
     //     setModal(!modal);
     // };
     
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [shareUrl, setShareUrl] = useState<string>("");
 
@@ -62,7 +63,8 @@ export const ShareBrainBox = ({ isModalOpen, closeModal } : ShareBrainBoxProps) 
       const navTo = extractPath(shareUrl);
 
       const gotoPage = () => {
-        window.open(`/${navTo}`, '_blank');
+        // window.open(`/${navTo}`, '_blank');
+        navigate(`/${navTo}`);
     }
     
 
