@@ -17,7 +17,7 @@ export const ShareBrainBox = ({ isModalOpen, closeModal } : ShareBrainBoxProps) 
     //     setModal(!modal);
     // };
     
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [shareUrl, setShareUrl] = useState<string>("");
 
