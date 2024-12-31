@@ -34,7 +34,7 @@ export function DashBoard() {
     navigate("/signup");
   };
 
-  const fetchData = (type) => {
+  const fetchData = (type :any) => {
     setActiveType(type); // Set the active type to filter contents
   };
 
@@ -43,7 +43,8 @@ export function DashBoard() {
   }, [activeType, isModalOpen, isShareModalOpen]);
 
   const filteredContents = activeType
-    ? contents.filter((content) => content.type === activeType)
+  //@ts-ignore
+    ? contents.filter((content) => content?.type === activeType)
     : contents;
 
   return (
