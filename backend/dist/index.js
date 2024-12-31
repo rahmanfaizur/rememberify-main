@@ -116,7 +116,6 @@ app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter
         type: zod_1.z.string(),
         title: zod_1.z.string().min(1, "Title cannot be empty!")
     });
-    0;
     const { link, type, title } = CourseSchema.parse(req.body);
     yield db_1.ContentModel.create({
         type,
@@ -233,6 +232,29 @@ app.get("/api/v1/brain/:shareLink", (req, res) => __awaiter(void 0, void 0, void
             content: content
         });
         // we are doing 3 sequencial calls to the backend, but we can use refrences instead and hence it will be a lot easier that way!
+    }
+}));
+app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { type } = req.query;
+        if (!type || typeof type !== "string") {
+            res.status(400).json({ message: "Type is required and must be a string!" });
+            return; // Ensure no further code is executed after sending a response
+        }
+        ///@ts-ignore
+        const userId = req.userId;
+        const content = yield db_1.ContentModel.find({
+            userId,
+            type
+        }).populate("userId", "username");
+        res.json({
+            message: "Content fetched successfully!",
+            content
+        });
+    }
+    catch (error) {
+        // Pass the error to the next middleware
+        console.log("Lol!");
     }
 }));
 const port = process.env.PORT || 3000;

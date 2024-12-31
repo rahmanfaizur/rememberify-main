@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { BrainIcon } from "../../icons/BrainIcon";
 import { Button } from "./Button";
-import { NavIcon } from "../../icons/NavIcon";
 import { LogoutIcon } from "../../icons/LogoutIcon";
 
 export function Navbar() {
@@ -25,17 +24,17 @@ export function Navbar() {
     const isDashboardPage = location.pathname === "/dashboard";
 
     return (
-        <div className="p-4 bg-blue-200">
-            <div className="flex items-center text-xl md:text-2xl">
-                {/* Only render NavIcon if not on auth pages */}
-                {!isAuthPage && <NavIcon size="lg" />}
-                <div className="pr-1 text-purple-600 pl-2">
+        <div className="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg">
+            <div className="flex items-center text-xl md:text-2xl text-white font-semibold">
+                {/* Brain Icon */}
+                <div className="pr-1 text-yellow-200">
                     <BrainIcon size="lg" />
                 </div>
                 <div className="flex-grow">Rememberify</div>
                 <div className="ml-auto flex gap-2">
                     {/* Render Logout button if not on auth pages */}
                     {!isAuthPage && (
+                        <button className="transition-all duration-300 transform hover:scale-105">
                         <Button
                             padding="one"
                             text="Logout"
@@ -44,16 +43,33 @@ export function Navbar() {
                             startIcon={<LogoutIcon size="lg" />}
                             onClick={LogoutItem}
                         />
+                        </button>
                     )}
                     {/* Only render Signup and Login buttons if not on dashboard or auth pages */}
                     {!isAuthPage && !isDashboardPage && (
                         <>
-                            <Button padding="one" variant="primary" size="md" text="Signup" onClick={newUser} />
-                            <Button padding="one" variant="primary" size="md" text="Login" onClick={existingUser} />
+                            <button className="transition-all duration-300 transform hover:scale-105">
+                            <Button 
+                                padding="one" 
+                                variant="primary" 
+                                size="md" 
+                                text="Signup" 
+                                onClick={newUser} 
+                            />
+                            </button>
+                            <button className="transition-all duration-300 transform hover:scale-105">
+                            <Button 
+                                padding="one" 
+                                variant="primary" 
+                                size="md" 
+                                text="Login" 
+                                onClick={existingUser} 
+                            />
+                            </button>
                         </>
                     )}
                 </div>
             </div>
         </div>
     );
-}    
+}

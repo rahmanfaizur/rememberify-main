@@ -127,7 +127,7 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
         type: z.string(),
         title: z.string().min(1, "Title cannot be empty!")
     })
-    0
+
     const { link, type, title } = CourseSchema.parse(req.body);
 
     await ContentModel.create({
@@ -147,7 +147,6 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
     ///@ts-ignore
     const userId = req.userId
     const content = await ContentModel.find({
-
         userId: userId  //! foreign key!
     }).populate("userId", "username")
     res.json({
@@ -268,6 +267,33 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {{
     })
     // we are doing 3 sequencial calls to the backend, but we can use refrences instead and hence it will be a lot easier that way!
 }});
+
+app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) => {
+    try {
+        const { type } = req.query;
+
+        if (!type || typeof type !== "string") {
+            res.status(400).json({ message: "Type is required and must be a string!" });
+            return; // Ensure no further code is executed after sending a response
+        }
+
+        ///@ts-ignore
+        const userId = req.userId;
+
+        const content = await ContentModel.find({
+            userId,
+            type
+        }).populate("userId", "username");
+
+        res.json({
+            message: "Content fetched successfully!",
+            content
+        });
+    } catch (error) {
+        // Pass the error to the next middleware
+        console.log("Lol!");
+    }
+});
 
 const port = process.env.PORT || 3000;
 
