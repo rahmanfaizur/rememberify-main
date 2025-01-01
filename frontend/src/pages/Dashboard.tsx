@@ -13,6 +13,7 @@ import { SpotifyIcon } from "../icons/SpotifyIcon";
 import { ShareBrainBox } from "../components/ui/ShareBrianBox";
 import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
+import { BACKEND_URL } from "../config";
 
 // Define the Content interface
 interface Content {
@@ -49,7 +50,7 @@ export function DashBoard() {
         return;
       }
 
-      const url = type === "all" ? "http://localhost:3000/api/v1/content" : `http://localhost:3000/api/v1/refresh?type=${type}`;
+      const url = type === "all" ? `${BACKEND_URL}/api/v1/content` : `${BACKEND_URL}/api/v1/refresh?type=${type}`;
       const response = await fetch(url, {
         headers: {
           Authorization: token,
