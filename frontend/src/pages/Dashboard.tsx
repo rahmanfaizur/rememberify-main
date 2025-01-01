@@ -5,23 +5,29 @@ import { ShareIcon } from "../icons/ShareIcon";
 import { Card } from "../components/ui/Card";
 import { CreateContentModal } from "../components/ui/CreateContentModal";
 import Sidebar, { SidebarItem } from "../components/ui/Sidebar";
-import { useContent } from "../hooks/useContent";
-import { ShareBrainBox } from "../components/ui/ShareBrianBox";
-import { Navbar } from "../components/ui/Navbar";
 import { useNavigate } from "react-router-dom";
 import { LogoutIcon } from "../icons/LogoutIcon";
-// import { Home, Settings, User, Youtube, Twitter } from "lucide-react";
 import { TwitterIcon } from "../icons/TwitterIcon";
 import { YoutubeIcon } from "../icons/YoutubeIcon";
 import { SpotifyIcon } from "../icons/SpotifyIcon";
+import { ShareBrainBox } from "../components/ui/ShareBrianBox";
+import { Navbar } from "../components/ui/Navbar";
+import { AllIcon } from "../icons/AllIcon";
+
+// Define the Content interface
+interface Content {
+  type: any;
+  link: string;
+  title: string;
+}
 
 export function DashBoard() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // For Add Content Modal
   const [isShareModalOpen, setIsShareModalOpen] = useState(false); // For Share Brain Modal
   const [sidebarExpanded, setSidebarExpanded] = useState(true); // Sidebar state
-  const [activeType, setActiveType] = useState(""); // For filtering content by type
-  const { contents, refresh } = useContent();
+  const [activeType, setActiveType] = useState("all"); // Default to 'all' to show all content initially
+  const [contents, setContents] = useState<Content[]>([]); // Store fetched contents
 
   const openAddContentModal = () => setIsModalOpen(true);
   const closeAddContentModal = () => setIsModalOpen(false);
@@ -34,31 +40,59 @@ export function DashBoard() {
     navigate("/signup");
   };
 
-  const fetchData = (type :any) => {
-    setActiveType(type); // Set the active type to filter contents
+  const fetchData = async (type: string) => {
+    console.log(`Fetching content for type: ${type}`);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found in localStorage!");
+        return;
+      }
+
+      const url = type === "all" ? "http://localhost:3000/api/v1/content" : `http://localhost:3000/api/v1/refresh?type=${type}`;
+      const response = await fetch(url, {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Failed to fetch content. Response data:", errorData);
+        throw new Error(`Failed to fetch content: ${errorData.message}`);
+      }
+
+      const data = await response.json();
+      console.log("Fetched data:", data);
+      setContents(data.content); // Set the fetched content
+    } catch (error: any) {
+      console.error("Error fetching content:", error.message);
+      if (error.message.includes("invalid token")) {
+        localStorage.removeItem("token");
+        navigate("/signup");
+      }
+    }
   };
 
   useEffect(() => {
-    refresh();
-  }, [activeType, isModalOpen, isShareModalOpen]);
-
-  const filteredContents = activeType
-  //@ts-ignore
-    ? contents.filter((content) => content?.type === activeType)
-    : contents;
+    fetchData(activeType); // Fetch content based on active type
+  }, [activeType]);
 
   return (
     <div className="flex">
       {/* Sidebar Component */}
       <Sidebar onToggle={setSidebarExpanded}>
-        <button onClick={() => fetchData("Twitter")}>
-          <SidebarItem icon={<TwitterIcon size="md" />} text="Twitter" active={activeType === "Twitter"} />
+        <button onClick={() => setActiveType("all")}>
+          <SidebarItem icon={<AllIcon size="md" />} text="All" active={activeType === "all"} />
         </button>
-        <button onClick={() => fetchData("Youtube")}>
-          <SidebarItem icon={<YoutubeIcon size="md" />} text="Youtube" active={activeType === "Youtube"} />
+        <button onClick={() => setActiveType("twitter")}>
+          <SidebarItem icon={<TwitterIcon size="md" />} text="Twitter" active={activeType === "twitter"} />
         </button>
-        <button onClick={() => fetchData("Spotify")}>
-          <SidebarItem icon={<SpotifyIcon size="md" />} text="Spotify" active={activeType === "Spotify"} />
+        <button onClick={() => setActiveType("youtube")}>
+          <SidebarItem icon={<YoutubeIcon size="md" />} text="Youtube" active={activeType === "youtube"} />
+        </button>
+        <button onClick={() => setActiveType("spotify")}>
+          <SidebarItem icon={<SpotifyIcon size="md" />} text="Spotify" active={activeType === "spotify"} />
         </button>
       </Sidebar>
 
@@ -111,14 +145,8 @@ export function DashBoard() {
 
           {/* Responsive Grid Layout for Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-6">
-            {filteredContents.map(({ type, link, title }) => (
-              <Card
-                key={link}
-                link={link}
-                type={type}
-                title={title}
-                showDelete
-              />
+            {contents.map(({ type, link, title }) => (
+              <Card key={link} link={link} type={type} title={title} showDelete />
             ))}
           </div>
         </div>

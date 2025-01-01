@@ -286,7 +286,6 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
         }).populate("userId", "username");
 
         res.json({
-            message: "Content fetched successfully!",
             content
         });
     } catch (error) {

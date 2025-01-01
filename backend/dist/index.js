@@ -248,7 +248,6 @@ app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(
             type
         }).populate("userId", "username");
         res.json({
-            message: "Content fetched successfully!",
             content
         });
     }
