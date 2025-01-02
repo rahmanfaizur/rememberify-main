@@ -34,7 +34,7 @@ export function Navbar() {
                 <div className="ml-auto flex gap-2">
                     {/* Render Logout button if not on auth pages */}
                     {!isAuthPage && (
-                        <button className="transition-all duration-300 transform hover:scale-105">
+                        <button className="transition-all duration-300 transform">
                         <Button
                             padding="one"
                             text="Logout"

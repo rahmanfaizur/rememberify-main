@@ -55,7 +55,7 @@ export function Signin() {
                     Don't have an account yet?
                 </div>
             <div className="flex justify-center">
-                <button className="text-blue-400" onClick={newUser}>Sign Up</button>
+                <button className="text-blue-400 hover:underline" onClick={newUser}>Sign Up</button>
             </div>
         </div>
     </div>

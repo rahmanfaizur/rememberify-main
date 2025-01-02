@@ -55,7 +55,7 @@ export function Signup() {
             Already a user?
             </div>
             <div className="flex justify-center">
-            <button className="text-blue-400" onClick={alreadyUser}>Sign In!</button>
+            <button className="text-blue-400 hover:underline" onClick={alreadyUser}>Sign In!</button>
             </div>
         </div>
     </div>
