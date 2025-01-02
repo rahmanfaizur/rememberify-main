@@ -1,5 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
+import favIcon from "../../icons/favIcon.png"
 
 interface SidebarContextType {
   expanded: boolean;
@@ -28,11 +29,17 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
     <aside className={`fixed z-50 h-screen ${expanded ? "w-72" : "w-20"} transition-all`}>
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src="https://img.logoipsum.com/243.svg"
-            className={`overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}
-            alt="Logo"
-          />
+          <div className="flex">
+          <div
+            className={`flex items-center overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}
+          >
+            <h1
+              className={`pt-5 pl-3 font-black transition-all ${expanded ? "opacity-100" : "opacity-0"}`}
+            >
+              Rememberify
+            </h1>
+          </div>
+          </div>
           <button
             onClick={toggleSidebar}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
@@ -57,8 +64,8 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
             }`}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">Faizur</h4>
-              <span className="text-xs text-gray-600">Faizur@gmail.com</span>
+              <h4 className="font-semibold">User</h4>
+              <span className="text-xs text-gray-600">User@gmail.com</span>
             </div>
             <MoreVertical size={20} />
           </div>
