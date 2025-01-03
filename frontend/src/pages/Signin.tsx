@@ -35,6 +35,7 @@ export function Signin() {
                 // Log specific error response
                 console.log("Error response:", error.response.data);
                 setErrorMessage(error.response.data.message);
+                console.log(errorMessage);
             } else if (error.request) {
                 // Log error request (if the request was made but no response received)
                 console.log("Error request:", error.request);
