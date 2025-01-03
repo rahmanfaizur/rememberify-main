@@ -1,6 +1,5 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
-import favIcon from "../../icons/favIcon.png"
 
 interface SidebarContextType {
   expanded: boolean;
