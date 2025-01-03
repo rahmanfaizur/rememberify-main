@@ -11,7 +11,8 @@ export function Signin() {
     const usernameRef = useRef<any>();
     const passwordRef = useRef<any>();
     const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState("");
+    const [userError, setUserError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     function newUser() {
         navigate('/signup');
@@ -32,15 +33,14 @@ export function Signin() {
             alert("You Have Logged In!");
         } catch (error: any) {
             if (error.response) {
-                // Log specific error response
-                console.log("Error response:", error.response.data);
-                setErrorMessage(error.response.data.message);
-                console.log(errorMessage);
+                if (error.response.data.type === "username") {
+                    setUserError(error.response.data.message);
+                } else if (error.response.data.type === "password") {
+                    setPasswordError(error.response.data.message);
+                }
             } else if (error.request) {
-                // Log error request (if the request was made but no response received)
                 console.log("Error request:", error.request);
             } else {
-                // Log any other errors (e.g., network issues)
                 console.log("Error message:", error.message);
             }
         }
@@ -48,7 +48,7 @@ export function Signin() {
 
     return (
         <div>
-            <Navbar></Navbar>
+            <Navbar />
             <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
                 <div className="bg-white rounded-xl border min-w-48 p-8">
                     <div className="flex flex-col items-center pb-3">
@@ -56,21 +56,44 @@ export function Signin() {
                         <div>Login to access your second brain!</div>
                     </div>
                     <div className="flex flex-col justify-start pt-3">
-                        <div className="pl-2">Username</div>
+                        <label htmlFor="username" className="pl-2">Username</label>
                         <Input reference={usernameRef} placeholder="username" />
+                        {userError && (
+                            <span className="text-red-500 text-sm pl-2 mt-1">
+                                {userError}
+                            </span>
+                        )}
                     </div>
                     <div className="flex flex-col pt-3">
-                        <div className="pl-2 pt-1">Password</div>
+                        <label htmlFor="password" className="pl-2">Password</label>
                         <PasswordInput reference={passwordRef} placeholder="password" />
+                        {passwordError && (
+                            <span className="text-red-500 text-sm pl-2 mt-1">
+                                {passwordError}
+                            </span>
+                        )}
                     </div>
                     <div className="flex justify-center p-4">
-                        <Button padding="one" variant="primary" text="Signin" size="md" fullWidth={true} loading={false} onClick={Signin} />
+                        <Button
+                            padding="one"
+                            variant="primary"
+                            text="Signin"
+                            size="md"
+                            fullWidth={true}
+                            loading={false}
+                            onClick={Signin}
+                        />
                     </div>
                     <div className="flex justify-center">
                         Don't have an account yet?
                     </div>
                     <div className="flex justify-center">
-                        <button className="text-blue-400 hover:underline" onClick={newUser}>Sign Up</button>
+                        <button
+                            className="text-blue-400 hover:underline"
+                            onClick={newUser}
+                        >
+                            Sign Up
+                        </button>
                     </div>
                 </div>
             </div>

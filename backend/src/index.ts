@@ -89,6 +89,7 @@ app.post("/api/v1/signin", async (req: Request, res: Response): Promise <any>=> 
         });
         if(!existingUser) {
             return res.status(403).json({
+                type: "username",
                 message: "Username doesn't exist"
             });
         }
@@ -96,6 +97,7 @@ app.post("/api/v1/signin", async (req: Request, res: Response): Promise <any>=> 
         const isPasswordValid = await bcrypt.compare(password, existingUser.password as string);
         if (!isPasswordValid) {
             return res.status(403).json({
+                type: "password",
                 message: "Invalid password"
             });
         }

@@ -85,6 +85,7 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
         if (!existingUser) {
             return res.status(403).json({
+                type: "username",
                 message: "Username doesn't exist"
             });
         }
@@ -92,6 +93,7 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         const isPasswordValid = yield bcrypt_1.default.compare(password, existingUser.password);
         if (!isPasswordValid) {
             return res.status(403).json({
+                type: "password",
                 message: "Invalid password"
             });
         }
