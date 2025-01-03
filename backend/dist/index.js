@@ -85,14 +85,14 @@ app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
         if (!existingUser) {
             return res.status(403).json({
-                message: "Incorrect Credentials, User not found!"
+                message: "Username doesn't exist"
             });
         }
         //! here we check that the password is correct or not using the bcrypt compare!
         const isPasswordValid = yield bcrypt_1.default.compare(password, existingUser.password);
         if (!isPasswordValid) {
             return res.status(403).json({
-                message: "Incorrect Credentials! Invalid password!"
+                message: "Invalid password"
             });
         }
         //! now we do tend to genetate the jwt token!

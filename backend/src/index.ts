@@ -89,14 +89,14 @@ app.post("/api/v1/signin", async (req: Request, res: Response): Promise <any>=> 
         });
         if(!existingUser) {
             return res.status(403).json({
-                message: "Incorrect Credentials, User not found!"
+                message: "Username doesn't exist"
             });
         }
         //! here we check that the password is correct or not using the bcrypt compare!
         const isPasswordValid = await bcrypt.compare(password, existingUser.password as string);
         if (!isPasswordValid) {
             return res.status(403).json({
-                message: "Incorrect Credentials! Invalid password!"
+                message: "Invalid password"
             });
         }
 
@@ -293,6 +293,7 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
         console.log("Lol!");
     }
 });
+
 
 const port = process.env.PORT || 3000;
 
