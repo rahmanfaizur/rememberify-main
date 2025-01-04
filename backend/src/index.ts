@@ -30,7 +30,12 @@ if (!JWT_PASS) {
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+// Allow all origins
+// app.use(cors());
+// Allow specific origin(s)
+app.use(cors({
+  origin: 'https://rememberify-main.vercel.app'
+}));
 
 app.post("/api/v1/signup", async (req: Request, res: Response) => {
     //try adding zod validation here! and hashing password! Duplicate Entries!
