@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { Input } from "./Input";
+import Dropdown from "./Dropdown";
 
 enum contentType {
     Youtube = "youtube",
@@ -17,6 +18,12 @@ export function CreateContentModal({ open, onClose} : any) { //controlled compon
     const titleRef = useRef<any>();
     const linkRef = useRef<any>();
     const [type, setType] = useState(contentType.Youtube) //default as youtube
+    const [input, setInput] = useState("");
+
+    const handleInputChange = (e: any) => {
+        setInput(e.target.value)
+        // console.log(e.target.value)
+    }
 
     async function addContent() {
         const title = titleRef.current?.value;
@@ -32,6 +39,7 @@ export function CreateContentModal({ open, onClose} : any) { //controlled compon
         });
         onClose();
     }
+
 
     return (
         <div>
@@ -60,24 +68,12 @@ export function CreateContentModal({ open, onClose} : any) { //controlled compon
                              <Input reference={linkRef} placeholder={"link"}/>
                             </div>
                             <h1 className="flex justify-center">Type</h1>
-                                <div className="flex gap-1 p-4 justify-center">
-                                    <Button padding="one" text="Youtube" variant={type === contentType.Youtube ? "reddish" : "secondary"} size="md" onClick={
-                                        () => {
-                                            setType(contentType.Youtube)
-                                        }
-                                    }></Button>
-                                    <Button padding="one" text="Twitter" variant={type === contentType.Twitter ? "blacky" : "secondary"} size="md" onClick={
-                                        () => {
-                                            setType(contentType.Twitter)
-                                        }
-                                    }></Button>
-                                    <Button padding="one" text="Spotify" variant={type === contentType.Spotify ? "greeny" : "secondary"} size="md" onClick={
-                                        () => {
-                                            setType(contentType.Spotify)
-                                        }
-                                    }></Button>
-                                </div>
-                            <div className="flex justify-center"><Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md"
+                             <Dropdown></Dropdown>   
+                            <div className="flex justify-center" onChange={handleInputChange} onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    addContent();
+                                }
+                            }}><Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md"
                             /></div>
                         </span>
                     </div>

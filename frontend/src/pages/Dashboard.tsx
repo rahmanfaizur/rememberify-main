@@ -13,7 +13,8 @@ import { SpotifyIcon } from "../icons/SpotifyIcon";
 import { ShareBrainBox } from "../components/ui/ShareBrianBox";
 import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
-import { BACKEND_URL } from "../config";
+import { fetchData } from "../utils/fetchData"; // Import the fetchData function
+// import { BACKEND_URL } from "../config";
 
 // Define the Content interface
 interface Content {
@@ -41,42 +42,8 @@ export function DashBoard() {
     navigate("/signup");
   };
 
-  const fetchData = async (type: string) => {
-    console.log(`Fetching content for type: ${type}`);
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found in localStorage!");
-        return;
-      }
-
-      const url = type === "all" ? `${BACKEND_URL}/api/v1/content` : `${BACKEND_URL}/api/v1/refresh?type=${type}`;
-      const response = await fetch(url, {
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Failed to fetch content. Response data:", errorData);
-        throw new Error(`Failed to fetch content: ${errorData.message}`);
-      }
-
-      const data = await response.json();
-      console.log("Fetched data:", data);
-      setContents(data.content); // Set the fetched content
-    } catch (error: any) {
-      console.error("Error fetching content:", error.message);
-      if (error.message.includes("invalid token")) {
-        localStorage.removeItem("token");
-        navigate("/signup");
-      }
-    }
-  };
-
   useEffect(() => {
-    fetchData(activeType); // Fetch content based on active type
+    fetchData(activeType, setContents, navigate); // Use the imported fetchData function
   }, [activeType]);
 
   return (
@@ -145,8 +112,7 @@ export function DashBoard() {
           </div>
 
           {/* Responsive Grid Layout for Cards */}
-                    {/* Responsive Grid Layout for Cards */}
-                    <div
+          <div
             className={`grid gap-4 pt-6 ${
               sidebarExpanded
                 ? "grid-cols-1 sm-custom:grid-cols-1 md-custom:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
