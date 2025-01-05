@@ -14,7 +14,6 @@ import { ShareBrainBox } from "../components/ui/ShareBrianBox";
 import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
-// import { BACKEND_URL } from "../config";
 
 // Define the Content interface
 interface Content {
@@ -46,6 +45,10 @@ export function DashBoard() {
     fetchData(activeType, setContents, navigate); // Use the imported fetchData function
   }, [activeType]);
 
+  const refreshContent = () => {
+    fetchData(activeType, setContents, navigate); // Refresh the contents
+  };
+
   return (
     <div className="flex">
       {/* Sidebar Component */}
@@ -76,7 +79,7 @@ export function DashBoard() {
 
         <div className="p-4 min-h-screen bg-slate-200 border-2">
           {/* Create Content Modal */}
-          <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} />
+          <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} refreshContent={refreshContent} />
 
           {/* Share Brain Modal */}
           <ShareBrainBox isModalOpen={isShareModalOpen} closeModal={closeShareModal} />

@@ -12,18 +12,15 @@ enum contentType {
     Spotify = "spotify"
 }
 
-export function CreateContentModal({ open, onClose} : any) { //controlled component!
-    // const [modalOpen, setModalOpen] = useState(false);
-
+export function CreateContentModal({ open, onClose, refreshContent }: any) { // Add refreshContent prop
     const titleRef = useRef<any>();
     const linkRef = useRef<any>();
-    const [type, setType] = useState(contentType.Youtube) //default as youtube
+    const [type, setType] = useState(contentType.Youtube); // Default as youtube
     const [input, setInput] = useState("");
 
     const handleInputChange = (e: any) => {
-        setInput(e.target.value)
-        // console.log(e.target.value)
-    }
+        setInput(e.target.value);
+    };
 
     async function addContent() {
         const title = titleRef.current?.value;
@@ -37,24 +34,15 @@ export function CreateContentModal({ open, onClose} : any) { //controlled compon
                 "Authorization": localStorage.getItem("token")
             }
         });
-        onClose();
+        refreshContent(); // Trigger content refresh
+        onClose(); // Close the modal
     }
-
 
     return (
         <div>
-            {/* <CrossIcon onClick={() => {
-                //since its defined outside￼
-￼
- we send a signal to the parent component!
-                // we need a popup ui above!
-
-            }}/> */}
             {open && 
             <div>
-                <div className="w-screen h-screen bg-slate-200 fixed top-0 left-0 opacity-60 flex justify-center">
-                    
-                </div>
+                <div className="w-screen h-screen bg-slate-200 fixed top-0 left-0 opacity-60 flex justify-center"></div>
                 <div className="w-screen h-screen fixed top-0 left-0 flex justify-center">
                     <div className="flex flex-col justify-center">
                         <span className="bg-white opacity-100 p-4 rounded">
@@ -64,17 +52,18 @@ export function CreateContentModal({ open, onClose} : any) { //controlled compon
                                 </div>
                             </div>
                             <div>
-                             <Input reference={titleRef} placeholder={"title"}/>
-                             <Input reference={linkRef} placeholder={"link"}/>
+                                <Input reference={titleRef} placeholder={"title"}/>
+                                <Input reference={linkRef} placeholder={"link"}/>
                             </div>
                             <h1 className="flex justify-center">Type</h1>
-                             <Dropdown></Dropdown>   
+                             <Dropdown />
                             <div className="flex justify-center" onChange={handleInputChange} onKeyDown={(e) => {
                                 if (e.key === "Enter") {
                                     addContent();
                                 }
-                            }}><Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md"
-                            /></div>
+                            }}>
+                                <Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md" />
+                            </div>  
                         </span>
                     </div>
                 </div>
