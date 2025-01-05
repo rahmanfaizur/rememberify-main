@@ -41,7 +41,7 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
           </div>
           <button
             onClick={toggleSidebar}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 sm:block hidden"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>

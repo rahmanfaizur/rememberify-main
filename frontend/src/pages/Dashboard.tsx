@@ -145,11 +145,19 @@ export function DashBoard() {
           </div>
 
           {/* Responsive Grid Layout for Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-6">
+                    {/* Responsive Grid Layout for Cards */}
+                    <div
+            className={`grid gap-4 pt-6 ${
+              sidebarExpanded
+                ? "grid-cols-1 sm-custom:grid-cols-1 md-custom:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+                : "grid-cols-1 sm-custom:grid-cols-2 md-custom:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            } justify-items-center`}
+          >
             {contents.map(({ type, link, title }) => (
               <Card key={link} link={link} type={type} title={title} showDelete />
             ))}
           </div>
+
         </div>
       </div>
     </div>

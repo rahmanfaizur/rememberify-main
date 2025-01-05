@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'sm-custom': '712px', // Custom breakpoint for 712px
+        'md-custom': '905px', // Custom breakpoint for 712px
+      },
       colors: {
         gray: {
           50: "rgba(255, 255, 255, 0.5)",

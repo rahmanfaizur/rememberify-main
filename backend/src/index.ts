@@ -31,11 +31,15 @@ const app = express();
 
 app.use(express.json());
 // Allow all origins
-// app.use(cors());
+app.use(cors());
 // Allow specific origin(s)
-app.use(cors({
-  origin: 'https://rememberify-main.vercel.app'
-}));
+// app.use(cors({
+//   origin: 'https://rememberify-main.vercel.app'
+// }));
+
+// app.use(cors({
+//     origin: "http://localhost:3000"
+// }))
 
 app.post("/api/v1/signup", async (req: Request, res: Response) => {
     //try adding zod validation here! and hashing password! Duplicate Entries!
