@@ -31,7 +31,7 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
       })
       .then((response) => {
         console.log(response.data.message); // Optional: handle success
-        refreshCards(); // Trigger card refresh after deletion
+        refreshCards?.(); // Trigger card refresh after deletion
       })
       .catch((error) => {
         console.error("Error deleting content:", error); // Optional: handle error
