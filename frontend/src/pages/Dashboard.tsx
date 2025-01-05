@@ -14,6 +14,7 @@ import { ShareBrainBox } from "../components/ui/ShareBrianBox";
 import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
+// import { BACKEND_URL } from "../config";
 
 // Define the Content interface
 interface Content {
@@ -41,13 +42,13 @@ export function DashBoard() {
     navigate("/signup");
   };
 
+  const refreshCards = () => {
+    fetchData(activeType, setContents, navigate); // Re-fetch content after delete
+  };
+
   useEffect(() => {
     fetchData(activeType, setContents, navigate); // Use the imported fetchData function
   }, [activeType]);
-
-  const refreshContent = () => {
-    fetchData(activeType, setContents, navigate); // Refresh the contents
-  };
 
   return (
     <div className="flex">
@@ -79,7 +80,7 @@ export function DashBoard() {
 
         <div className="p-4 min-h-screen bg-slate-200 border-2">
           {/* Create Content Modal */}
-          <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} refreshContent={refreshContent} />
+          <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} refreshCards={refreshCards} />
 
           {/* Share Brain Modal */}
           <ShareBrainBox isModalOpen={isShareModalOpen} closeModal={closeShareModal} />
@@ -123,10 +124,9 @@ export function DashBoard() {
             } justify-items-center`}
           >
             {contents.map(({ type, link, title }) => (
-              <Card key={link} link={link} type={type} title={title} showDelete />
+              <Card key={link} link={link} type={type} title={title} showDelete refreshCards={refreshCards} />
             ))}
           </div>
-
         </div>
       </div>
     </div>
