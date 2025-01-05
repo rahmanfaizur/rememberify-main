@@ -15,12 +15,13 @@ enum contentType {
 export function CreateContentModal({ open, onClose, refreshContent }: any) { // Add refreshContent prop
     const titleRef = useRef<any>();
     const linkRef = useRef<any>();
+    //@ts-ignore
     const [type, setType] = useState(contentType.Youtube); // Default as youtube
-    const [input, setInput] = useState("");
+    // const [input, setInput] = useState("");
 
-    const handleInputChange = (e: any) => {
-        setInput(e.target.value);
-    };
+    // const handleInputChange = (e: any) => {
+    //     setInput(e.target.value);
+    // };
 
     async function addContent() {
         const title = titleRef.current?.value;
@@ -57,11 +58,7 @@ export function CreateContentModal({ open, onClose, refreshContent }: any) { // 
                             </div>
                             <h1 className="flex justify-center">Type</h1>
                              <Dropdown />
-                            <div className="flex justify-center" onChange={handleInputChange} onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    addContent();
-                                }
-                            }}>
+                            <div className="flex justify-center" >
                                 <Button padding="one" onClick={addContent} variant="primary" text="Submit" size="md" />
                             </div>  
                         </span>
