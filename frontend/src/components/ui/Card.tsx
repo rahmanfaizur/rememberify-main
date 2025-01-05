@@ -13,7 +13,7 @@ interface CardProps {
   link: string;
   type: "twitter" | "youtube" | "spotify";
   showDelete: boolean;
-  refreshCards: () => void; // Function to trigger card refresh
+  refreshCards?: () => void; // Function to trigger card refresh
 }
 
 export function Card({ title, link, type, showDelete, refreshCards }: CardProps) {
