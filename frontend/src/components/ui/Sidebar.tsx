@@ -1,5 +1,5 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
-import { useContext, createContext, useState, ReactNode } from "react";
+import { useContext, createContext, useState, ReactNode, useEffect } from "react";
 
 interface SidebarContextType {
   expanded: boolean;
@@ -14,6 +14,7 @@ interface SidebarProps {
 
 export default function Sidebar({ children, onToggle }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
+  const [isSmScreen, setIsSmScreen] = useState(false); // Track small screen status
 
   // Handle toggle
   const toggleSidebar = () => {
@@ -24,20 +25,39 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
     });
   };
 
+  // Detect screen size and update expanded state accordingly
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmScreen(window.innerWidth < 640); // Check for 'sm' breakpoint (tailwind)
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize); // Update on resize
+    return () => window.removeEventListener("resize", handleResize); // Cleanup listener
+  }, []);
+
+  // If on small screens (sm), set sidebar to collapsed state
+  useEffect(() => {
+    if (isSmScreen && expanded) {
+      setExpanded(false); // Collapse sidebar if it's a small screen
+      onToggle(false); // Notify parent that it's collapsed
+    }
+  }, [isSmScreen]);
+
   return (
     <aside className={`fixed z-50 h-screen ${expanded ? "w-72" : "w-20"} transition-all`}>
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <div className="flex">
-          <div
-            className={`flex items-center overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}
-          >
-            <h1
-              className={`pt-5 pl-3 font-black transition-all ${expanded ? "opacity-100" : "opacity-0"}`}
+            <div
+              className={`flex items-center overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}
             >
-              Rememberify
-            </h1>
-          </div>
+              <h1
+                className={`pt-5 pl-3 font-black transition-all ${expanded ? "opacity-100" : "opacity-0"}`}
+              >
+                Rememberify
+              </h1>
+            </div>
           </div>
           <button
             onClick={toggleSidebar}
