@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/ui/Navbar";
 import PasswordInput from "../components/ui/PasswordInput";
+import { toast, ToastContainer } from "react-toastify";
 
 export function Signin() {
     const usernameRef = useRef<any>();
@@ -14,10 +15,17 @@ export function Signin() {
     const [userError, setUserError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
+    // Redirects the user to the signup page
     function newUser() {
         navigate('/signup');
     }
 
+    // Displays a success toast for login
+    function toastLogin() {
+        toast.success("You Have Logged In!");
+    }
+
+    // Handles the Signin process
     async function Signin() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
@@ -25,23 +33,36 @@ export function Signin() {
         try {
             const response = await axios.post(`${BACKEND_URL}/api/v1/signin`, {
                 username,
-                password
+                password,
             });
+            toastLogin();
             const jwt = response.data.token;
             localStorage.setItem("token", jwt);
-            navigate("/dashboard");
-            alert("You Have Logged In!");
+
+            // Redirect to dashboard every 3 seconds using setInterval
+            const intervalId = setInterval(() => {
+                navigate("/dashboard");
+                console.log("Navigating to dashboard...");
+            }, 3000);
+
+            // Stop the interval when the component unmounts or as needed
+            setTimeout(() => clearInterval(intervalId), 3000); // Clear after one navigation
+
         } catch (error: any) {
             if (error.response) {
                 if (error.response.data.type === "username") {
                     setUserError(error.response.data.message);
+                    toast.error(error.response.data.message); // Display error toast for username
                 } else if (error.response.data.type === "password") {
                     setPasswordError(error.response.data.message);
+                    toast.error(error.response.data.message); // Display error toast for password
                 }
             } else if (error.request) {
-                console.log("Error request:", error.request);
+                // console.log("Error request:", error.request);
+                toast.error("Network error. Please try again.");
             } else {
-                console.log("Error message:", error.message);
+                // console.log("Error message:", error.message);
+                toast.error("Something went wrong. Please try again.");
             }
         }
     }
@@ -83,6 +104,7 @@ export function Signin() {
                             loading={false}
                             onClick={Signin}
                         />
+                        <ToastContainer />
                     </div>
                     <div className="flex justify-center">
                         Don't have an account yet?

@@ -5,6 +5,7 @@ import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { Input } from "./Input";
 import Dropdown from "./Dropdown";
+import { toast, ToastContainer } from "react-toastify";
 
 enum contentType {
   Youtube = "youtube",
@@ -22,6 +23,10 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
   const handleInputChange = (e: any) => {
     setInput(e.target.value);
   };
+
+  function toastContent() {
+    toast("Content Added Successfully!")
+  }
 
   async function addContent() {
     const title = titleRef.current?.value;
@@ -74,6 +79,7 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
                     }
                   }}
                 >
+                  <div onClick={toastContent}>
                   <Button
                     padding="one"
                     onClick={addContent}
@@ -81,6 +87,8 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
                     text="Submit"
                     size="md"
                   />
+                  <ToastContainer/>
+                  </div>
                 </div>
               </span>
             </div>

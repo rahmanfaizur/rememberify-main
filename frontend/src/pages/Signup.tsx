@@ -22,7 +22,8 @@ export function Signup() {
     }
 
     function toastSignup() {
-        toast("You Have Signed Up!");
+        // console.log('111111111111111111')
+        toast.success("You Have Signed Up!");
     }
 
     async function Signup() {
@@ -44,14 +45,21 @@ export function Signup() {
             // API Call to backend for user Signup!
             await axios.post(`${BACKEND_URL}/api/v1/signup`, { username, password });
             
-            toastSignup();
-            console.log("signed up!");
+            // console.log("signed up!");
             // alert("You Have Signed Up!");
-            navigate("/signin");
+            toastSignup();
+            const intervalId = setInterval(() => {
+                navigate("/signin");
+                console.log("Navigating to Signin page...");
+            }, 2000);
+
+            // Stop the interval when the component unmounts or as needed
+            setTimeout(() => clearInterval(intervalId), 2000);
         } catch (error: any) {
             if (error.response) {
                 setErrorMessage(error.response.data.message || "An error occurred.");
                 console.error("Error Response:", error.response.data);
+                toast.error(error.response.data.message);
             }
         }
     }
@@ -77,7 +85,6 @@ export function Signup() {
                         <PasswordInput reference={passwordRef} placeholder="password" />
                     </div>
                     <div className="flex justify-center p-4">
-                    <ToastContainer/>
                         <Button
                             padding="one"
                             variant="primary"
@@ -87,6 +94,7 @@ export function Signup() {
                             loading={false}
                             onClick={Signup}
                         />
+                        <ToastContainer></ToastContainer>
                     </div>
                     <div className="flex justify-center">Already a user?</div>
                     <div className="flex justify-center">

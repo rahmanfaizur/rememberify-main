@@ -11,7 +11,7 @@ interface Content {
 }
 
 export const fetchData = async (type: string, setContents: React.Dispatch<React.SetStateAction<Content[]>>, navigate: ReturnType<typeof useNavigate>) => {
-  console.log(`Fetching content for type: ${type}`);
+  // console.log(`Fetching content for type: ${type}`);
   try {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -33,7 +33,7 @@ export const fetchData = async (type: string, setContents: React.Dispatch<React.
     }
 
     const data = await response.json();
-    console.log("Fetched data:", data);
+    // console.log("Fetched data:", data);
     setContents(data.content); // Set the fetched content
   } catch (error: any) {
     console.error("Error fetching content:", error.message);

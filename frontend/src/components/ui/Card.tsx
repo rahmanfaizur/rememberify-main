@@ -5,6 +5,7 @@ import { ShareIcon } from "../../icons/ShareIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { SpotifyIcon } from "../../icons/SpotifyIcon";
+import { toast, ToastContainer } from "react-toastify";
 
 // Define the CardProps interface
 interface CardProps {
@@ -46,6 +47,11 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
     return link; // Return the original link if it doesn't match the expected format
   }
 
+  function toastDelete() {
+    toast("Content Deleted Successfully!")
+  }
+
+
   return (
     <div className="p-8 bg-white rounded-md border-gray-200 border max-w-72 min-48 min-w-72 gap-4">
       <div className="flex justify-between items-center">
@@ -64,10 +70,23 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
             </a>
           </div>
           {showDelete && (
-            <div className="text-gray-500">
+            <div className="text-gray-500" onClick={toastDelete}>
               <button onClick={handleDelete}>
                 <DeleteIcon size="md" />
               </button>
+              <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              // transition={Bounce}
+              />
             </div>
           )}
         </div>

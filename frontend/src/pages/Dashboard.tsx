@@ -14,6 +14,7 @@ import { ShareBrainBox } from "../components/ui/ShareBrianBox";
 import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
+import { toast, ToastContainer } from "react-toastify";
 // import { BACKEND_URL } from "../config";
 
 // Define the Content interface
@@ -42,6 +43,7 @@ export function DashBoard() {
     navigate("/signup");
   };
 
+
   const refreshCards = () => {
     fetchData(activeType, setContents, navigate); // Re-fetch content after delete
   };
@@ -49,6 +51,10 @@ export function DashBoard() {
   useEffect(() => {
     fetchData(activeType, setContents, navigate); // Use the imported fetchData function
   }, [activeType]);
+
+  function toastShare() {
+    toast("Brain Shared Successfully!")
+  }
 
   return (
     <div className="flex">
@@ -86,7 +92,7 @@ export function DashBoard() {
           <ShareBrainBox isModalOpen={isShareModalOpen} closeModal={closeShareModal} />
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-4" onClick={toastShare}>
             <Button
               padding="one"
               startIcon={<ShareIcon size="lg" />}
@@ -95,6 +101,7 @@ export function DashBoard() {
               size="md"
               onClick={openShareModal}
             />
+            <ToastContainer></ToastContainer>
             <Button
               padding="one"
               startIcon={<PlusIcon size="lg" />}
