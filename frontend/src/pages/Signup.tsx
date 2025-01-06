@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/ui/Navbar";
 import PasswordInput from "../components/ui/PasswordInput";
+import { ToastContainer, toast } from 'react-toastify';
 
 export function Signup() {
     // Refs to access the DOM elements of username and password input fields
@@ -18,6 +19,10 @@ export function Signup() {
 
     function alreadyUser() {
         navigate("/signin");
+    }
+
+    function toastSignup() {
+        toast("You Have Signed Up!");
     }
 
     async function Signup() {
@@ -38,8 +43,10 @@ export function Signup() {
 
             // API Call to backend for user Signup!
             await axios.post(`${BACKEND_URL}/api/v1/signup`, { username, password });
-
-            alert("You Have Signed Up!");
+            
+            toastSignup();
+            console.log("signed up!");
+            // alert("You Have Signed Up!");
             navigate("/signin");
         } catch (error: any) {
             if (error.response) {
@@ -70,6 +77,7 @@ export function Signup() {
                         <PasswordInput reference={passwordRef} placeholder="password" />
                     </div>
                     <div className="flex justify-center p-4">
+                    <ToastContainer/>
                         <Button
                             padding="one"
                             variant="primary"

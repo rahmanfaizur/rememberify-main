@@ -1,10 +1,11 @@
-import Form from "../components/ui/Form";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Test() {
+  const notify = () => toast("Wow so easy!");
   return (
     <div className="p-4">
-      Added From Ipad!
-      <Form></Form>
+      <button onClick={notify}>Notify!</button>
+      <ToastContainer/>
     </div>
   );
 }
