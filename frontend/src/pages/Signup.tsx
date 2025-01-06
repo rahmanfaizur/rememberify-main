@@ -8,9 +8,12 @@ import { Navbar } from "../components/ui/Navbar";
 import PasswordInput from "../components/ui/PasswordInput";
 
 export function Signup() {
+    // Refs to access the DOM elements of username and password input fields
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    //states that store the error messages!
     const [errorMessage, setErrorMessage] = useState("");
+    // useNavigate hook for navigation between pages 
     const navigate = useNavigate();
 
     function alreadyUser() {
@@ -19,20 +22,21 @@ export function Signup() {
 
     async function Signup() {
         try {
+            //extracting values from input fields and trimming the whitespace!
             const username = usernameRef.current?.value?.trim(); // Trim whitespace
             const password = passwordRef.current?.value;
 
             // Validate username
             if (!username || username.length < 1) {
                 setErrorMessage("Username cannot be empty or too short.");
-                return;
+                return; // Stop execution if validation fails
             }
 
             // console.log(errorMessage)
             // Clear previous error message
             setErrorMessage("");
 
-            // API Call
+            // API Call to backend for user Signup!
             await axios.post(`${BACKEND_URL}/api/v1/signup`, { username, password });
 
             alert("You Have Signed Up!");
@@ -41,10 +45,6 @@ export function Signup() {
             if (error.response) {
                 setErrorMessage(error.response.data.message || "An error occurred.");
                 console.error("Error Response:", error.response.data);
-            } else if (error.request) {
-                console.error("Error Request:", error.request);
-            } else {
-                console.error("Error Message:", error.message);
             }
         }
     }
