@@ -15,8 +15,7 @@ enum contentType {
 export function CreateContentModal({ open, onClose, refreshCards }: any) {
   const titleRef = useRef<any>();
   const linkRef = useRef<any>();
-  //@ts-ignore
-  const [type, setType] = useState(contentType.Youtube); //default as youtube
+  const [type, setType] = useState<contentType>(contentType.Youtube); // default as youtube
   //@ts-ignore
   const [input, setInput] = useState("");
 
@@ -65,7 +64,7 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
                   <Input reference={linkRef} placeholder={"link"} />
                 </div>
                 <h1 className="flex justify-center">Type</h1>
-                <Dropdown />
+                <Dropdown selectedType={type} setSelectedType={setType} />
                 <div
                   className="flex justify-center"
                   onChange={handleInputChange}
