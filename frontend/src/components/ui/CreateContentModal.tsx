@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { CrossIcon } from "../../icons/CrossIcon";
 import { Button } from "./Button";
 import { BACKEND_URL } from "../../config";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { Input } from "./Input";
 import Dropdown from "./Dropdown";
 import { toast, ToastContainer } from "react-toastify";
+import './Modal.css';
 
 enum contentType {
   Youtube = "youtube",
@@ -16,23 +17,49 @@ enum contentType {
 export function CreateContentModal({ open, onClose, refreshCards }: any) {
   const titleRef = useRef<any>();
   const linkRef = useRef<any>();
-  const [type, setType] = useState<contentType>(contentType.Youtube); // default as youtube
+  const [type, setType] = useState<contentType>(contentType.Youtube); // Default to YouTube
   //@ts-ignore
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(""); // Input state for additional features
 
+  // Prevent body scroll when the modal is open
+  useEffect(() => {
+    if (open) {
+      document.body.classList.add('active-modal'); // Add a CSS class to disable body scrolling
+    } else {
+      document.body.classList.remove('active-modal'); // Remove the class when modal is closed
+    }
+
+    // Cleanup function to ensure no leftover scroll lock
+    return () => {
+      document.body.classList.remove('active-modal');
+    };
+  }, [open]);
+
+  // Handle input changes
   const handleInputChange = (e: any) => {
     setInput(e.target.value);
   };
 
-  function toastContent() {
-    toast("Content Added Successfully!")
-  }
+  // Show a success toast message
+  // function toastContent() {
+  //   toast.success("Content Added Successfully!");
+  // }
 
+  // Add content to the backend and refresh the UI
   async function addContent() {
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
-    await axios
-      .post(
+
+    // Error handling for empty fields
+    if (!title || !link) {
+      toast.error("Title or Link cannot be empty!");
+      return;
+    } else {
+      toast.success("Content Added Successfully!")
+    }
+
+    try {
+      await axios.post(
         `${BACKEND_URL}/api/v1/content`,
         {
           link: link,
@@ -44,53 +71,60 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
             Authorization: localStorage.getItem("token"),
           },
         }
-      )
-      .then(() => {
-        onClose();
-        refreshCards(); // Trigger card refresh after adding content
-      });
+      );
+
+      // toastContent(); // Show success toast
+      onClose(); // Close the modal after adding content
+      refreshCards(); // Trigger card refresh
+    } catch (error) {
+      toast.error("An error occurred while adding content. Please try again!");
+    }
   }
 
   return (
     <div>
       {open && (
-        <div>
-          <div className="w-screen h-screen bg-slate-200 fixed top-0 left-0 opacity-60 flex justify-center"></div>
-          <div className="w-screen h-screen fixed top-0 left-0 flex justify-center">
-            <div className="flex flex-col justify-center">
-              <span className="bg-white opacity-100 p-4 rounded">
-                <div className="flex justify-end">
-                  <div onClick={onClose} className="cursor-pointer">
-                    <CrossIcon size="md" />
-                  </div>
-                </div>
-                <div>
-                  <Input reference={titleRef} placeholder={"title"} />
-                  <Input reference={linkRef} placeholder={"link"} />
-                </div>
-                <h1 className="flex justify-center">Type</h1>
-                <Dropdown selectedType={type} setSelectedType={setType} />
-                <div
-                  className="flex justify-center"
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      addContent();
-                    }
-                  }}
-                >
-                  <div onClick={toastContent}>
-                  <Button
-                    padding="one"
-                    onClick={addContent}
-                    variant="primary"
-                    text="Submit"
-                    size="md"
-                  />
-                  <ToastContainer/>
-                  </div>
-                </div>
-              </span>
+        <div className="modal">
+          {/* Overlay for the modal */}
+          <div className="overlay" onClick={onClose}></div>
+
+          {/* Modal content */}
+          <div className="modal-content">
+            {/* Close button */}
+            <div className="flex justify-end">
+              <div onClick={onClose} className="cursor-pointer">
+                <CrossIcon size="md" />
+              </div>
+            </div>
+            <h1 className="flex justify-center text-white font-bold">Add Content</h1>
+            {/* Input fields */}
+            <div>
+              <Input reference={titleRef} placeholder={"Title"} />
+              <Input reference={linkRef} placeholder={"Link"} />
+            </div>
+
+            {/* Dropdown for selecting content type */}
+            <h1 className="flex justify-center text-white">Type</h1>
+            <Dropdown selectedType={type} setSelectedType={setType} />
+
+            {/* Submit button */}
+            <div
+              className="flex justify-center pt-1"
+              onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  addContent();
+                }
+              }}
+            >
+              <Button
+                padding="one"
+                onClick={addContent}
+                variant="primary"
+                text="Submit"
+                size="md"
+              />
+              <ToastContainer />
             </div>
           </div>
         </div>

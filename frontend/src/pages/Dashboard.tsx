@@ -14,6 +14,7 @@ import { ShareBrainBox } from "../components/ui/ShareBrianBox";
 import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
+import { toast, ToastContainer } from "react-toastify";
 // import { toast, ToastContainer } from "react-toastify";
 // import { BACKEND_URL } from "../config";
 
@@ -51,6 +52,10 @@ export function DashBoard() {
   useEffect(() => {
     fetchData(activeType, setContents, navigate); // Use the imported fetchData function
   }, [activeType]);
+
+  function toastShare() {
+    toast("Brain Shared Successfully!")
+  }
 
 
   return (
@@ -90,6 +95,7 @@ export function DashBoard() {
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-4">
+            <div onClick={toastShare}>
             <Button
               padding="one"
               startIcon={<ShareIcon size="lg" />}
@@ -98,6 +104,8 @@ export function DashBoard() {
               size="md"
               onClick={openShareModal}
             />
+            <ToastContainer></ToastContainer>
+            </div>
             <Button
               padding="one"
               startIcon={<PlusIcon size="lg" />}
