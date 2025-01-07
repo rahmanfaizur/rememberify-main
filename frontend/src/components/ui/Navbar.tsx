@@ -19,7 +19,7 @@ export function Navbar() {
     const isDashboardPage = location.pathname === "/dashboard";
 
     return (
-        <div className="p-4 bg-black text-white shadow-lg border-b-2 border-white">
+        <div className="p-4 bg-black text-white shadow-lg border-b-1 border-white">
             <div className="flex items-center justify-between text-xl md:text-2xl font-semibold">
                 {/* Logo Section */}
                 <div className="flex items-center gap-2">

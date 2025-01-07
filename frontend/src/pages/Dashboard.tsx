@@ -81,7 +81,7 @@ export function DashBoard() {
           <Navbar />
         </div>
 
-        <div className="p-4 min-h-screen bg-black border-2">
+        <div className="p-4 min-h-screen bg-black border-y-2">
           {/* Create Content Modal */}
           <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} refreshCards={refreshCards} />
 

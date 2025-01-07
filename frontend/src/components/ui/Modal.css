@@ -28,7 +28,7 @@ body.active-modal {
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #ffffff; /* Brighter background for a clean look */
+    background: #1d1d1d; /* Brighter background for a clean look */
     padding: 20px 30px;
     border-radius: 8px; /* Slightly rounded corners for a modern look */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */

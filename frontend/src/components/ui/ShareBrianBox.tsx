@@ -74,17 +74,17 @@ export const ShareBrainBox = ({ isModalOpen, closeModal } : ShareBrainBoxProps) 
                 <div className="modal">
                     <div onClick={closeModal} className="overlay"></div>
                     <div className="modal-content">
-                        <h2 className="text-">Brain Shared Successfully!</h2>
+                        <h2 className="text-white">Brain Shared Successfully!</h2>
                         <div className="grid grid-cols-[1fr_auto_auto] items-center gap-4 pt-8">
                             {/* Shareable URL positioned on the left */}
                             <div
-                              className="border-2 bg-blue-100 hover:bg-blue-300 hover:text-white hover:cursor-pointer p-2 rounded"
+                              className="border-2 bg-gray-500 hover:bg-green-600 hover:text-white hover:cursor-pointer p-2 rounded"
                               onClick={gotoPage}
                             >
                               {shareUrl}
                             </div>
                             {/* Copy button positioned on the right */}
-                            <button onClick={handleCopy} className="p-2 border rounded hover:bg-green-300">
+                            <button onClick={handleCopy} className="p-2 border rounded bg-gray-500">
                                 <CopyIcon size="md" />
                             </button>
 
