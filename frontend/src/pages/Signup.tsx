@@ -67,22 +67,22 @@ export function Signup() {
     return (
         <div className="">
             <Navbar />
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className="bg-white rounded-xl border min-w-48 p-8">
+            <div className="flex justify-center items-center h-screen w-screen bg-black text-white">
+                <div className="bg-black rounded-xl border min-w-48 p-8 border-white">
                     <div className="flex flex-col items-center pb-3">
                         <h1 className="font-bold text-2xl">Welcome to Rememberify!</h1>
                         <div>Login to access your second brain!</div>
                     </div>
                     <div className="flex flex-col justify-start pt-3">
                         <div className="pl-2">Username</div>
-                        <Input reference={usernameRef} placeholder="username" />
+                        <div className="text-black"><Input reference={usernameRef} placeholder="username" errorMessage={errorMessage}/></div>
                         {errorMessage && (
                             <div className="text-red-500 text-sm pl-2">{errorMessage}</div>
                         )}
                     </div>
                     <div className="flex flex-col pt-3">
                         <div className="pl-2 pt-1">Password</div>
-                        <PasswordInput reference={passwordRef} placeholder="password" />
+                        <div className="text-black"><PasswordInput reference={passwordRef} placeholder="password" /></div>
                     </div>
                     <div className="flex justify-center p-4">
                         <Button

@@ -19,15 +19,17 @@ export function Navbar() {
     const isDashboardPage = location.pathname === "/dashboard";
 
     return (
-        <div className="p-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 shadow-lg rounded-lg">
-            <div className="flex items-center justify-between text-xl md:text-2xl text-white font-semibold">
-                {/* Brain Icon */}
-                <div className="pr-2 text-yellow-200 hover:text-yellow-300 transition-all duration-300">
-                    <BrainIcon size="lg" />
+        <div className="p-4 bg-black text-white shadow-lg border-b-2 border-white">
+            <div className="flex items-center justify-between text-xl md:text-2xl font-semibold">
+                {/* Logo Section */}
+                <div className="flex items-center gap-2">
+                    <div className="text-blue-400 hover:text-blue-500 transition-all duration-300">
+                        <BrainIcon size="lg" />
+                    </div>
+                    <span className="text-lg md:text-2xl font-bold">Rememberify</span>
                 </div>
-                
-                <div className="flex-grow text-center md:text-left">Rememberify</div>
 
+                {/* Navigation Actions */}
                 <div className="ml-auto flex gap-4 items-center">
                     {/* Render Logout button if not on auth pages */}
                     {!isAuthPage && (
@@ -43,7 +45,7 @@ export function Navbar() {
                         </button>
                     )}
 
-                    {/* Only render Signup and Login buttons if not on dashboard or auth pages */}
+                    {/* Signup and Login buttons */}
                     {!isAuthPage && !isDashboardPage && (
                         <>
                             <button className="transition-all duration-300 transform hover:scale-105">

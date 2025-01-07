@@ -70,15 +70,15 @@ export function Signin() {
     return (
         <div>
             <Navbar />
-            <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
-                <div className="bg-white rounded-xl border min-w-48 p-8">
+            <div className="h-screen w-screen bg-black text-white flex justify-center items-center">
+                <div className="bg-black rounded-xl border min-w-48 p-8">
                     <div className="flex flex-col items-center pb-3">
                         <h1 className="font-bold text-2xl">Welcome to Rememberify!</h1>
                         <div>Login to access your second brain!</div>
                     </div>
                     <div className="flex flex-col justify-start pt-3">
                         <label htmlFor="username" className="pl-2">Username</label>
-                        <Input reference={usernameRef} placeholder="username" />
+                        <div className="text-black"><Input reference={usernameRef} placeholder="username" errorMessage={userError} /></div>
                         {userError && (
                             <span className="text-red-500 text-sm pl-2 mt-1">
                                 {userError}
@@ -87,7 +87,7 @@ export function Signin() {
                     </div>
                     <div className="flex flex-col pt-3">
                         <label htmlFor="password" className="pl-2">Password</label>
-                        <PasswordInput reference={passwordRef} placeholder="password" />
+                        <div className="text-black"><PasswordInput reference={passwordRef} placeholder="password" errorMessage={passwordError} /></div>
                         {passwordError && (
                             <span className="text-red-500 text-sm pl-2 mt-1">
                                 {passwordError}

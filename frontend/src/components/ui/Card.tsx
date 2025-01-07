@@ -53,7 +53,7 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
 
 
   return (
-    <div className="p-8 bg-white rounded-md border-gray-200 border max-w-72 min-48 min-w-72 gap-4">
+    <div className="p-8 bg-gray-800 text-white rounded-md border-white border max-w-72 min-48 min-w-72 gap-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center font-semibold">
           <div className="text-gray-500 pr-2">
@@ -64,13 +64,13 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
           {title}
         </div>
         <div className="flex items-center">
-          <div className="pr-2 text-gray-500">
+          <div className="pr-2 text-white">
             <a href={link} target="_blank">
               <ShareIcon size="md" />
             </a>
           </div>
           {showDelete && (
-            <div className="text-gray-500" onClick={toastDelete}>
+            <div className="text-white" onClick={toastDelete}>
               <button onClick={handleDelete}>
                 <DeleteIcon size="md" />
               </button>

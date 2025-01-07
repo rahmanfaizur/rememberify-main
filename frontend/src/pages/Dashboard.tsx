@@ -54,7 +54,7 @@ export function DashBoard() {
 
 
   return (
-    <div className="flex">
+    <div className="flex bg-black ">
       {/* Sidebar Component */}
       <Sidebar onToggle={setSidebarExpanded}>
         <button onClick={() => setActiveType("all")}>
@@ -81,7 +81,7 @@ export function DashBoard() {
           <Navbar />
         </div>
 
-        <div className="p-4 min-h-screen bg-slate-200 border-2">
+        <div className="p-4 min-h-screen bg-black border-2">
           {/* Create Content Modal */}
           <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} refreshCards={refreshCards} />
 

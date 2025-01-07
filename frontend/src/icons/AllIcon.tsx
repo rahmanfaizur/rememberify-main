@@ -3,7 +3,7 @@ import { IconProps, iconSizeVariants } from ".";
 export const AllIcon = (props: IconProps) => {
     return (
         <div>
-            <svg className={iconSizeVariants[props.size]} version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" 
+            <svg className={iconSizeVariants[props.size] } version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" 
             	 viewBox="0 0 512 512" >
             <style type="text/css">
             </style>

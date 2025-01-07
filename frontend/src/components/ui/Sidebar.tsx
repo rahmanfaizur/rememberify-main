@@ -28,7 +28,7 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
   // Detect screen size and update expanded state accordingly
   useEffect(() => {
     const handleResize = () => {
-      setIsSmScreen(window.innerWidth < 640); // Check for 'sm' breakpoint (tailwind)
+      setIsSmScreen(window.innerWidth < 700); // Check for 'sm' breakpoint (tailwind)
     };
 
     handleResize(); // Set initial state
@@ -46,7 +46,7 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
 
   return (
     <aside className={`fixed z-50 h-screen ${expanded ? "w-72" : "w-20"} transition-all`}>
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+      <nav className="h-full flex flex-col text-white bg-gray-900 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <div className="flex">
             <div
@@ -61,7 +61,7 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
           </div>
           <button
             onClick={toggleSidebar}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 sm:block hidden"
+            className="p-1.5 mr-3 rounded-lg text-white  hover:bg-black sm:block hidden"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
@@ -112,10 +112,10 @@ export function SidebarItem({ icon, text, active = false, alert = false }: Sideb
 
   return (
     <li
-      className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group ${
+      className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group  ${
         active
-          ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-          : "hover:bg-indigo-50 text-gray-600"
+          ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-a-900"
+          : "hover:bg-indigo-50 text-gray-600 hover:text-black"
       }`}
     >
       {icon}
