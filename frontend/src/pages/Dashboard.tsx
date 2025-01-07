@@ -95,7 +95,7 @@ export function DashBoard() {
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-4">
-            <div onClick={toastShare}>
+            <span onClick={toastShare}>
             <Button
               padding="one"
               startIcon={<ShareIcon size="lg" />}
@@ -105,7 +105,7 @@ export function DashBoard() {
               onClick={openShareModal}
             />
             <ToastContainer></ToastContainer>
-            </div>
+            </span>
             <Button
               padding="one"
               startIcon={<PlusIcon size="lg" />}
