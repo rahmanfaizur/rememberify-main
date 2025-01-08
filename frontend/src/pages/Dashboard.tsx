@@ -101,7 +101,7 @@ export function DashBoard() {
               startIcon={<ShareIcon size="lg" />}
               variant="secondary"
               text="Share Brain"
-              size="md"
+              size="var"
               onClick={openShareModal}
             />
             <ToastContainer></ToastContainer>
@@ -111,15 +111,15 @@ export function DashBoard() {
               startIcon={<PlusIcon size="lg" />}
               variant="primary"
               text="Add Content"
-              size="sm"
+              size="var"
               onClick={openAddContentModal}
             />
-            <div className="block md:hidden">
+            <div className="md:hidden flex flex-col justify-center">
               <Button
                 padding="one"
                 text="Logout"
                 variant="reddish"
-                size="md"
+                size="var"
                 startIcon={<LogoutIcon size="lg" />}
                 onClick={LogoutItem}
               />

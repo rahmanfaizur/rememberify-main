@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 type Variants = "primary" | "secondary" | "greeny" | "reddish" | "blacky";
 interface ButtonProps {
     variant: Variants;
-    size: "sm" | "md" | "lg";
+    size: "sm" | "md" | "lg" | "var";
     text: string;
     padding: "one";
     startIcon?: ReactElement; // React element means a React component!
@@ -22,9 +22,10 @@ const variantStyles = {
 };
 
 const sizeStyles = {
-    "sm": "py-1 px-2 font-light",
+    "sm": "py-1 px-1 font-light",
     "md": "py-2 px-4 font-light",
-    "lg": "py-4 px-6"
+    "lg": "py-4 px-6",
+    "var": "py-2 px-1 sm:font-bold sm:py-3 sm:px-4 hover:text-black"
 };
 
 const defaultStyles = "rounded-md flex transition-all duration-300 ease-in-out"; // Added smooth transitions

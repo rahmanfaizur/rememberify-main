@@ -44,8 +44,8 @@ export function Signin() {
                 const firstLetter = username.charAt(0);
                 localStorage.setItem("username", username);
                 localStorage.setItem("usernameFirstLetter", firstLetter);
-                console.log(firstLetter);
-                console.log(username);
+                // console.log(firstLetter);
+                // console.log(username);
             }
 
             // Redirect to dashboard every 3 seconds using setInterval
