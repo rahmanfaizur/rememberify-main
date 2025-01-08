@@ -39,6 +39,15 @@ export function Signin() {
             const jwt = response.data.token;
             localStorage.setItem("token", jwt);
 
+            // Store the first letter of the username in localStorage
+            if (username) {
+                const firstLetter = username.charAt(0);
+                localStorage.setItem("username", username);
+                localStorage.setItem("usernameFirstLetter", firstLetter);
+                console.log(firstLetter);
+                console.log(username);
+            }
+
             // Redirect to dashboard every 3 seconds using setInterval
             const intervalId = setInterval(() => {
                 navigate("/dashboard");
