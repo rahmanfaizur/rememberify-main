@@ -68,7 +68,7 @@ export function Signup() {
         <div className="">
             <Navbar />
             <div className="flex justify-center items-center h-screen w-screen bg-black text-white">
-                <div className="bg-black rounded-xl border min-w-48 p-8 border-white">
+                <div className="bg-black rounded-xl min-w-48 p-8 border-white border-2">
                     <div className="flex flex-col items-center pb-3">
                         <h1 className="font-bold text-2xl">Welcome to Rememberify!</h1>
                         <div>Login to access your second brain!</div>
@@ -102,7 +102,7 @@ export function Signup() {
                             className="text-blue-400 hover:underline"
                             onClick={alreadyUser}
                         >
-                            Sign In!
+                            Sign In
                         </button>
                     </div>
                 </div>
