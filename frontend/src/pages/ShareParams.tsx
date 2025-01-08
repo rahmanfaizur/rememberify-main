@@ -47,7 +47,7 @@ const ShareParams = () => {
   // Check if 'data' is not null before rendering
   if (data) {
     return (
-      <div>
+      <div className='bg-black h-screen text-white'>
         <h2>User: {data.username}</h2>
         <div className="space-y-4">
         <div className="flex flex-wrap gap-4 justify-start pt-3 pl-2">
