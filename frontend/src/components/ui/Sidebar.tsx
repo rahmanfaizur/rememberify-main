@@ -73,7 +73,7 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
 
         <div className="border-t flex p-3">
           <img
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+            src={`https://ui-avatars.com/api/?name=${localStorage.getItem("usernameFirstLetter")}`}
             alt="User Avatar"
             className="w-10 h-10 rounded-md"
           />
@@ -83,9 +83,8 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
             }`}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">User</h4>
-              <span className="text-xs text-gray-600">User@gmail.com</span>
-            </div>
+              <h4 className="font-semibold">{localStorage.getItem("username")}</h4>
+              </div>
             <MoreVertical size={20} />
           </div>
         </div>
