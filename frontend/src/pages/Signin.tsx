@@ -25,12 +25,23 @@ export function Signin() {
         toast.success("You Have Logged In!");
     }
 
+    const [loading, setLoading] = useState(false);
+
+    const handleClick = () => {
+        setLoading(true); // Set loading to true
+        setTimeout(() => {
+            setLoading(false); // Reset loading after 2 seconds
+            // alert("Button Clicked!"); // Simulate some action
+        }, 2000); // Simulate a delay (e.g., API call)
+    }; 
+
     // Handles the Signin process
     async function Signin() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
         try {
+            handleClick();
             const response = await axios.post(`${BACKEND_URL}/api/v1/signin`, {
                 username,
                 password,
@@ -52,7 +63,7 @@ export function Signin() {
             const intervalId = setInterval(() => {
                 navigate("/dashboard");
                 console.log("Navigating to dashboard...");
-            }, 3000);
+            }, 2000);
 
             // Stop the interval when the component unmounts or as needed
             setTimeout(() => clearInterval(intervalId), 3000); // Clear after one navigation
@@ -110,7 +121,7 @@ export function Signin() {
                             text="Signin"
                             size="md"
                             fullWidth={true}
-                            loading={false}
+                            loading={loading}
                             onClick={Signin}
                         />
                         <ToastContainer />

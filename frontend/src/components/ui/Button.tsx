@@ -34,13 +34,40 @@ export const Button = (props: ButtonProps) => {
     return (
         <button
             onClick={props.onClick}
-            className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]} ${props.fullWidth ? "w-full flex justify-center items-center" : ""} ${props.loading ? "opacity-45" : ""}`}
+            className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]} ${props.fullWidth ? "w-full flex justify-center items-center" : ""} ${props.loading ? "opacity-50 cursor-not-allowed" : ""}`}
             disabled={props.loading}
         >
-            <div className="flex">
-                {props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null}
-                {props.text}
-                {props.endIcon}
+            <div className="flex items-center justify-center w-full">
+                {props.loading ? (
+                    <div className="flex items-center justify-center">
+                        <svg
+                            className="animate-spin h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            ></circle>
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C6.477 0 2 4.477 2 10h2zm2 5.291V16c0 1.657 1.343 3 3 3h1v-1.709A7.965 7.965 0 016 14.708z"
+                            ></path>
+                        </svg>
+                    </div>
+                ) : (
+                    <div className="flex items-center">
+                        {props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null}
+                        {props.text}
+                        {props.endIcon ? <div className="pl-2">{props.endIcon}</div> : null}
+                    </div>
+                )}
             </div>
         </button>
     );

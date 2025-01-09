@@ -26,8 +26,19 @@ export function Signup() {
         toast.success("You Have Signed Up!");
     }
 
+    const [loading, setLoading] = useState(false);
+
+    const handleClick = () => {
+        setLoading(true); // Set loading to true
+        setTimeout(() => {
+            setLoading(false); // Reset loading after 2 seconds
+            // alert("Button Clicked!"); // Simulate some action
+        }, 1500); // Simulate a delay (e.g., API call)
+    };  
+
     async function Signup() {
         try {
+            handleClick();
             //extracting values from input fields and trimming the whitespace!
             const username = usernameRef.current?.value?.trim(); // Trim whitespace
             const password = passwordRef.current?.value;
@@ -50,7 +61,7 @@ export function Signup() {
             toastSignup();
             const intervalId = setInterval(() => {
                 navigate("/signin");
-                console.log("Navigating to Signin page...");
+                // console.log("Navigating to Signin page...");
             }, 2000);
 
             // Stop the interval when the component unmounts or as needed
@@ -91,7 +102,7 @@ export function Signup() {
                             text="Signup"
                             size="md"
                             fullWidth={true}
-                            loading={false}
+                            loading={loading}
                             onClick={Signup}
                         />
                         <ToastContainer></ToastContainer>
