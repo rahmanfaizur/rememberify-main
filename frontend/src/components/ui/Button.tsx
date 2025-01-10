@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 
 type Variants = "primary" | "secondary" | "greeny" | "reddish" | "blacky";
 interface ButtonProps {
@@ -11,6 +11,7 @@ interface ButtonProps {
     onClick?: () => void;
     fullWidth?: boolean;
     loading?: boolean;
+    triggerOnEnter?: boolean; // Optional prop to enable Enter key trigger
 }
 
 const variantStyles = {
@@ -31,6 +32,25 @@ const sizeStyles = {
 const defaultStyles = "rounded-md flex transition-all duration-300 ease-in-out"; // Added smooth transitions
 
 export const Button = (props: ButtonProps) => {
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (props.triggerOnEnter && event.key === "Enter" && props.onClick && !props.loading) {
+                event.preventDefault();
+                props.onClick();
+            }
+        };
+
+        if (props.triggerOnEnter) {
+            window.addEventListener("keydown", handleKeyDown);
+        }
+
+        return () => {
+            if (props.triggerOnEnter) {
+                window.removeEventListener("keydown", handleKeyDown);
+            }
+        };
+    }, [props.triggerOnEnter, props.onClick, props.loading]);
+
     return (
         <button
             onClick={props.onClick}

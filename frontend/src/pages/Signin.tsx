@@ -123,6 +123,7 @@ export function Signin() {
                             fullWidth={true}
                             loading={loading}
                             onClick={Signin}
+                            triggerOnEnter={true}
                         />
                         <ToastContainer />
                     </div>

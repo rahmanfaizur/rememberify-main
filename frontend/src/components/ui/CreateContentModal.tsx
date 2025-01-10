@@ -40,6 +40,16 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
     setInput(e.target.value);
   };
 
+  const [loading, setLoading] = useState(false);
+
+    const handleClick = () => {
+        setLoading(true); // Set loading to true
+        setTimeout(() => {
+            setLoading(false); // Reset loading after 2 seconds
+            // alert("Button Clicked!"); // Simulate some action
+        }, 500); // Simulate a delay (e.g., API call)
+    };
+
   // Show a success toast message
   // function toastContent() {
   //   toast.success("Content Added Successfully!");
@@ -47,6 +57,7 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
 
   // Add content to the backend and refresh the UI
   async function addContent() {
+    handleClick();
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
 
@@ -123,6 +134,8 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
                 variant="primary"
                 text="Submit"
                 size="md"
+                triggerOnEnter={true}
+                loading={loading}
               />
               <ToastContainer />
             </div>

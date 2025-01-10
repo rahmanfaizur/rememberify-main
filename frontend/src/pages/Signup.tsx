@@ -26,13 +26,12 @@ export function Signup() {
         toast.success("You Have Signed Up!");
     }
 
-    const handleEnterPress = (event : any) => {
-        if (event.key === "Enter") {
-            // event.preventDefault();
-            console.log(event.key)
-            Signup();
-        }
-    }
+    // const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    //     if (event.key === "Enter") {
+    //       event.preventDefault(); // Prevent default behavior
+    //       Signup();
+    //     }
+    //   };
 
     const [loading, setLoading] = useState(false);
 
@@ -94,14 +93,14 @@ export function Signup() {
                     </div>
                     <div className="flex flex-col justify-start pt-3">
                         <div className="pl-2">Username</div>
-                        <div className="text-black" onKeyDown={handleEnterPress}><Input reference={usernameRef} placeholder="username" errorMessage={errorMessage}/></div>
+                        <div className="text-black"><Input reference={usernameRef} placeholder="username" errorMessage={errorMessage}/></div>
                         {errorMessage && (
                             <div className="text-red-500 text-sm pl-2">{errorMessage}</div>
                         )}
                     </div>
                     <div className="flex flex-col pt-3">
                         <div className="pl-2 pt-1">Password</div>
-                        <div className="text-black" onKeyDown={handleEnterPress}><PasswordInput reference={passwordRef} placeholder="password" /></div>
+                        <div className="text-black"><PasswordInput reference={passwordRef} placeholder="password" /></div>
                     </div>
                     <div className="flex justify-center p-4">
                         <Button
@@ -112,6 +111,7 @@ export function Signup() {
                             fullWidth={true}
                             loading={loading}
                             onClick={Signup}
+                            triggerOnEnter={true}
                         />
                         <ToastContainer></ToastContainer>
                     </div>

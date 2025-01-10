@@ -5,14 +5,13 @@ const Test = () => {
   const [password, setPassword] = useState("");
 
   const handleSignup = () => {
-    // Handle signup logic here
     console.log("Signup triggered:", { email, password });
     alert(`Signed up successfully!\nEmail: ${email}\nPassword: ${password}`);
   };
 
-  const handleKeyPress = (event : any) => {
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      event.preventDefault(); // Prevent form submission if inside a form tag
+      event.preventDefault(); // Prevent default behavior
       handleSignup();
     }
   };
