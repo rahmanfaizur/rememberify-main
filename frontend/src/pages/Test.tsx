@@ -1,6 +1,8 @@
 // import { useState } from "react";
 // import { Button } from "../components/ui/Button";
 
+import { LinkIcon } from "../icons/LinkIcon";
+
 export default function Test() {
   // const [loading, setLoading] = useState(false);
 
@@ -21,9 +23,10 @@ export default function Test() {
         text="Click Me"
         onClick={handleClick}
         loading={loading}
-        fullWidth={false} // Set to true if you want the button to stretch
+        fullWidth={false} // Set to <LinkIcon size="md"></LinkIcon>true if you want the button to stretch
         padding={"one"}          /> */}
         Open Endpoint!
+        <LinkIcon size="md"></LinkIcon>
       </div>
   );
 }

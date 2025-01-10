@@ -6,13 +6,14 @@ import { TwitterIcon } from "../../icons/TwitterIcon";
 import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { SpotifyIcon } from "../../icons/SpotifyIcon";
 import { toast, ToastContainer } from "react-toastify";
+import { LinkIcon } from "../../icons/LinkIcon";
 
 // Define the CardProps interface
 interface CardProps {
   title: string;
   tags?: any;
   link: string;
-  type: "twitter" | "youtube" | "spotify";
+  type: "twitter" | "youtube" | "spotify" | "anyLink";
   showDelete: boolean;
   refreshCards?: () => void; // Function to trigger card refresh
 }
@@ -60,6 +61,7 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
             {type === "twitter" && <TwitterIcon size="md" />}
             {type === "youtube" && <YoutubeIcon size="md" />}
             {type === "spotify" && <SpotifyIcon size="lg" />}
+            {type === "anyLink" && <LinkIcon size="md" />}
           </div>
           {title}
         </div>
@@ -117,6 +119,11 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>
         )}
+        {type === "anyLink" && (
+            <div className="flex justify-center items-center flex-col pt-10 font-extrabold">
+              Other Links!
+            </div>
+          )}
       </div>
     </div>
   );
