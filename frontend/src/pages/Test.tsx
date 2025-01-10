@@ -1,32 +1,63 @@
-// import { useState } from "react";
-// import { Button } from "../components/ui/Button";
+import { useState } from "react";
 
-import { LinkIcon } from "../icons/LinkIcon";
+const Test = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-export default function Test() {
-  // const [loading, setLoading] = useState(false);
+  const handleSignup = () => {
+    // Handle signup logic here
+    console.log("Signup triggered:", { email, password });
+    alert(`Signed up successfully!\nEmail: ${email}\nPassword: ${password}`);
+  };
 
-  // const handleClick = () => {
-  //     setLoading(true); // Set loading to true
-  //     setTimeout(() => {
-  //         setLoading(false); // Reset loading after 2 seconds
-  //         alert("Button Clicked!"); // Simulate some action
-  //     }, 2000); // Simulate a delay (e.g., API call)
-  // };
+  const handleKeyPress = (event : any) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent form submission if inside a form tag
+      handleSignup();
+    }
+  };
 
   return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-          {/* <h1 className="text-2xl font-bold mb-4">Test the Button Component</h1>
-          <Button
-        variant="primary"
-        size="md"
-        text="Click Me"
-        onClick={handleClick}
-        loading={loading}
-        fullWidth={false} // Set to <LinkIcon size="md"></LinkIcon>true if you want the button to stretch
-        padding={"one"}          /> */}
-        Open Endpoint!
-        <LinkIcon size="md"></LinkIcon>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 font-medium">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-gray-700 font-medium">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your password"
+          />
+        </div>
+        <button
+          onClick={handleSignup}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+        >
+          Sign Up
+        </button>
       </div>
+    </div>
   );
-}
+};
+
+export default Test;
