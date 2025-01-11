@@ -4,6 +4,7 @@ import { Signup } from "./pages/Signup";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Test from "./pages/Test";
 import ShareParams from "./pages/ShareParams";
+import { ErrorPage } from "./pages/ErrorPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<DashBoard/>}></Route>
         <Route path="/test" element={<Test/>}></Route>
         <Route path="/share/:shareLink" element={<ShareParams/>}></Route>
+        <Route path="*" element={<ErrorPage/>}></Route>
       </Routes>
     </BrowserRouter>
   )
