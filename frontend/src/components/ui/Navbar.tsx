@@ -1,22 +1,29 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../../icons/BrainIcon";
 import { Button } from "./Button";
 import { LogoutIcon } from "../../icons/LogoutIcon";
 
-export function Navbar() {
+// Define the props interface
+interface NavbarProps {
+    showSignup?: boolean;
+    showSignin?: boolean;
+    showLogout?: boolean;
+}
+
+export function Navbar({
+    showSignup,
+    showSignin,
+    showLogout,
+}: NavbarProps) {
     const navigate = useNavigate();
-    const location = useLocation();
 
     const newUser = () => navigate('/signup');
     const existingUser = () => navigate('/signin');
-    
+
     const LogoutItem = () => {
         localStorage.removeItem('token');
         navigate('/signup');
     };
-
-    const isAuthPage = location.pathname === "/signup" || location.pathname === "/signin";
-    const isDashboardPage = location.pathname === "/dashboard";
 
     return (
         <div className="p-4 bg-black text-white shadow-lg border-b-1 border-white">
@@ -31,8 +38,8 @@ export function Navbar() {
 
                 {/* Navigation Actions */}
                 <div className="ml-auto flex gap-4 items-center">
-                    {/* Render Logout button if not on auth pages */}
-                    {!isAuthPage && (
+                    {/* Render Logout button based on prop */}
+                    {showLogout && (
                         <button className="transition-all duration-300 transform hover:scale-105">
                             <Button
                                 padding="one"
@@ -45,29 +52,30 @@ export function Navbar() {
                         </button>
                     )}
 
-                    {/* Signup and Login buttons */}
-                    {!isAuthPage && !isDashboardPage && (
-                        <>
-                            <button className="transition-all duration-300 transform hover:scale-105">
-                                <Button 
-                                    padding="one" 
-                                    variant="primary" 
-                                    size="md" 
-                                    text="Signup" 
-                                    onClick={newUser} 
-                                />
-                            </button>
-                            
-                            <button className="transition-all duration-300 transform hover:scale-105">
-                                <Button 
-                                    padding="one" 
-                                    variant="primary" 
-                                    size="md" 
-                                    text="Login" 
-                                    onClick={existingUser} 
-                                />
-                            </button>
-                        </>
+                    {/* Render Signup button based on prop */}
+                    {showSignup && (
+                        <button className="transition-all duration-300 transform hover:scale-105">
+                            <Button
+                                padding="one"
+                                variant="primary"
+                                size="md"
+                                text="Signup"
+                                onClick={newUser}
+                            />
+                        </button>
+                    )}
+
+                    {/* Render Signin button based on prop */}
+                    {showSignin && (
+                        <button className="transition-all duration-300 transform hover:scale-105">
+                            <Button
+                                padding="one"
+                                variant="primary"
+                                size="md"
+                                text="Login"
+                                onClick={existingUser}
+                            />
+                        </button>
                     )}
                 </div>
             </div>

@@ -83,7 +83,7 @@ export function DashBoard() {
       >
         {/* Navbar */}
         <div className="hidden md:block pl-20">
-          <Navbar />
+          <Navbar showLogout={true} />
         </div>
 
         <div className="p-4 min-h-screen bg-black border-y-2">

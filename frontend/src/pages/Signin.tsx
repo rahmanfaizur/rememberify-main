@@ -40,6 +40,10 @@ export function Signin() {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
+        if (!username) {
+            setUserError("Username cannot be empty!");
+        }
+
         try {
             handleClick();
             const response = await axios.post(`${BACKEND_URL}/api/v1/signin`, {
@@ -89,7 +93,9 @@ export function Signin() {
 
     return (
         <div>
+            <div className="border-b-2">
             <Navbar />
+            </div>
             <div className="h-screen w-screen bg-black text-white flex justify-center items-center">
                 <div className="bg-black rounded-xl border-2 min-w-48 p-8">
                     <div className="flex flex-col items-center pb-3">
