@@ -1,5 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode, useEffect } from "react";
+import RememberifyLogo from "../../img/rememberify.png"
 
 interface SidebarContextType {
   expanded: boolean;
@@ -55,7 +56,8 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
               <h1
                 className={`pt-5 pl-3 font-black transition-all ${expanded ? "opacity-100" : "opacity-0"}`}
               >
-                Rememberify
+                {/* Rememberify */}
+                <img src={RememberifyLogo} alt="" />
               </h1>
             </div>
           </div>
