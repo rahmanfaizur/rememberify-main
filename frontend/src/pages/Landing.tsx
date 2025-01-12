@@ -26,50 +26,49 @@ export function Landing() {
                     </button>
                 </div>
             </header>
+            
+            <section className="py-16 px-8 bg-gray-700">
+                <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-300">
+                    Why Choose Rememberify?
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
+                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
+                            📂 Organized Storage
+                        </h3>
+                        <p className="text-gray-300">
+                            Keep all your favorite links neatly stored and categorized by platform for easy access.
+                        </p>
+                    </div>
 
-{/* Features Section */}
-<section className="py-16 px-8 bg-gray-700">
-    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-300">
-        Why Choose Rememberify?
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-            <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                📂 Organized Storage
-            </h3>
-            <p className="text-gray-300">
-                Keep all your favorite links neatly stored and categorized by platform for easy access.
-            </p>
-        </div>
+                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
+                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
+                            🔍 Quick Search (coming soon)
+                        </h3>
+                        <p className="text-gray-300">
+                            Find what you need in seconds with our powerful search functionality.
+                        </p>
+                    </div>
 
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-            <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                🔍 Quick Search (coming soon)
-            </h3>
-            <p className="text-gray-300">
-                Find what you need in seconds with our powerful search functionality.
-            </p>
-        </div>
+                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
+                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
+                            🎵 Cross-Platform Integration
+                        </h3>
+                        <p className="text-gray-300">
+                            Seamlessly manage content from YouTube, Twitter, and Spotify—all in one app.
+                        </p>
+                    </div>
 
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-            <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                🎵 Cross-Platform Integration
-            </h3>
-            <p className="text-gray-300">
-                Seamlessly manage content from YouTube, Twitter, and Spotify—all in one app.
-            </p>
-        </div>
-
-        <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-            <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                🎵 Play & View In-Site
-            </h3>
-            <p className="text-gray-300">
-                View concise tweets and play videos directly within the app for an uninterrupted experience.
-            </p>
-        </div>
-    </div>
-</section>
+                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
+                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
+                            🎵 Play & View In-Site
+                        </h3>
+                        <p className="text-gray-300">
+                            View concise tweets and play videos directly within the app for an uninterrupted experience.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <footer className="bg-gray-800 py-6 text-center">
                 <p className="text-gray-400 text-sm">
