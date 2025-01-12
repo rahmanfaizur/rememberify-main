@@ -4,7 +4,7 @@ export function ErrorPage() {
     return (
         <div className="bg-gray-900 text-white h-screen flex flex-col">
             <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
-                <div className="pl-20">
+                <div className="pl-5 md:pl-20">
                     <h1 className="font-bold text-4xl mb-4">Error 404!</h1>
                     <p className="mb-4">
                         Oops! It seems we can't find the page you're looking for. Here are some possible reasons:
