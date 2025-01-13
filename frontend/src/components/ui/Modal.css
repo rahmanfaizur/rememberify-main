@@ -22,6 +22,7 @@ body.active-modal {
 .overlay {
     background: rgba(49,49,49,0.8);
 }
+
 .modal-content {
     position: absolute;
     top: 50%;
@@ -38,7 +39,6 @@ body.active-modal {
     height: auto; /* Adapts height based on content */
 }
 
-
 .close-modal {
     position: absolute;
     top: 10px;
@@ -54,5 +54,24 @@ body.active-modal {
     overflow-y: auto; /* Optional: For scrollable content within the sidebar */
     background-color: #f8fafc; /* Adjust color as needed */
     border-right: 1px solid #e5e7eb; /* Optional: Border for separation */
-  }
-  
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%; /* Slightly smaller width on medium screens */
+        max-width: 350px; /* Adjust the max width */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%; /* Smaller width for very small screens */
+        max-width: 300px; /* Further reduce max width */
+        padding: 15px 20px; /* Reduce padding for compact design */
+    }
+
+    .btn-modal {
+        font-size: 16px; /* Smaller font size for buttons */
+    }
+}

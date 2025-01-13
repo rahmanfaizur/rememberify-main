@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../../icons/BrainIcon";
 import { Button } from "./Button";
 import { LogoutIcon } from "../../icons/LogoutIcon";
-
+import FavIcon from "../../img/rememberify.png"
 // Define the props interface
 interface NavbarProps {
   showSignup?: boolean;
@@ -30,12 +30,13 @@ export function Navbar({
       <div className="flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
-          <div className="text-blue-400 hover:text-blue-500 transition-all duration-300">
+          <img className="w-40 h-15" src={FavIcon} alt="" />
+          {/* <div className="text-blue-400 hover:text-blue-500 transition-all duration-300">
             <BrainIcon size="lg" />
           </div>
           <span className="text-2xl font-extrabold tracking-wide">
             Rememberify
-          </span>
+          </span> */}
         </div>
 
         {/* Navigation Actions */}
