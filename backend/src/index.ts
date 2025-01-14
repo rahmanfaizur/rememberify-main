@@ -10,7 +10,7 @@ declare global {
 }
 import express from "express";  //this one does give types to express 
 import jwt from "jsonwebtoken";
-import { ContentModel, LinkModel, UserModel } from "./db";
+import { ContentModel, LinkModel, TagModel, UserModel } from "./db";
 import dotenv from 'dotenv';
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
@@ -132,27 +132,44 @@ app.post("/api/v1/signin", async (req: Request, res: Response): Promise <any>=> 
 })
 
 app.post("/api/v1/content", userMiddleware, async (req, res) => {
-
     const CourseSchema = z.object({
         link: z.string(),
         type: z.string(),
-        title: z.string().min(1, "Title cannot be empty!")
-    })
-
-    const { link, type, title } = CourseSchema.parse(req.body);
-
-    await ContentModel.create({
-        type,
-        title,
-        link,
-        tags: [],
-        //@ts-ignore
-        userId: req.userId
+        title: z.string().min(1, "Title cannot be empty!"),
+        tags: z.array(z.string()).optional()
     });
-    res.json({
-        message: "Content Added!"
-    })
-})
+
+    try {
+        const { link, type, title, tags } = CourseSchema.parse(req.body);
+
+        // Convert tag strings to ObjectIds (or create new Tag documents)
+        const tagIds = [];
+        if (tags) {
+            for (const tagName of tags) {
+                const tag = await TagModel.findOneAndUpdate(
+                    { name: tagName },
+                    { name: tagName },
+                    { upsert: true, new: true }
+                );
+                tagIds.push(tag._id);
+            }
+        }
+
+        // Create the Content document
+        await ContentModel.create({
+            type,
+            title,
+            link,
+            tags: tagIds,
+            userId: req.userId // Make sure `req.userId` is correctly set by `userMiddleware`
+        });
+
+        res.json({ message: "Content Added!" });
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+});
+
 
 app.get("/api/v1/content", userMiddleware, async (req, res) => {
     ///@ts-ignore

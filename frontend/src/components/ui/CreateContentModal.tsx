@@ -17,6 +17,7 @@ enum contentType {
 export function CreateContentModal({ open, onClose, refreshCards }: any) {
   const titleRef = useRef<any>();
   const linkRef = useRef<any>();
+  const tagRef = useRef<any>();
   const [type, setType] = useState<contentType>(contentType.Youtube); // Default to YouTube
   //@ts-ignore
   const [input, setInput] = useState(""); // Input state for additional features
@@ -60,7 +61,7 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
     handleClick();
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
-
+    const tags = tagRef.current?.value?.split(',').map((t: any) => t.trim());
     // Error handling for empty fields
     if (!title || !link) {
       toast.error("Title or Link cannot be empty!");
@@ -76,6 +77,7 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
           link: link,
           title: title,
           type: type,
+          tags: tags
         },
         {
           headers: {
@@ -89,6 +91,7 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
       refreshCards(); // Trigger card refresh
     } catch (error) {
       toast.error("An error occurred while adding content. Please try again!");
+      console.error("caught error", error);
     }
   }
 
@@ -109,9 +112,10 @@ export function CreateContentModal({ open, onClose, refreshCards }: any) {
             </div>
             <h1 className="flex justify-center text-white font-bold">Add Content</h1>
             {/* Input fields */}
-            <div>
+            <div className="text-black">
               <Input reference={titleRef} placeholder={"Title"} />
               <Input reference={linkRef} placeholder={"Link"} />
+              <Input reference={tagRef} placeholder={"Enter tags seperated by commas"} />
             </div>
 
             {/* Dropdown for selecting content type */}

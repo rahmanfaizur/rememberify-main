@@ -33,6 +33,13 @@ const ContentSchema = new Schema({
 
 export const ContentModel = model("Content", ContentSchema);
 
+const TagSchema = new Schema({
+    name: { type: String, required: true, unique: true }
+});
+
+export const TagModel = model("Tag", TagSchema);
+
+
 const LinkSchema = new Schema({
     hash: String,
     userId: {type: mongoose.Types.ObjectId, ref: 'User', required: true,

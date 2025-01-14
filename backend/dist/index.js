@@ -124,20 +124,32 @@ app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter
     const CourseSchema = zod_1.z.object({
         link: zod_1.z.string(),
         type: zod_1.z.string(),
-        title: zod_1.z.string().min(1, "Title cannot be empty!")
+        title: zod_1.z.string().min(1, "Title cannot be empty!"),
+        tags: zod_1.z.array(zod_1.z.string()).optional()
     });
-    const { link, type, title } = CourseSchema.parse(req.body);
-    yield db_1.ContentModel.create({
-        type,
-        title,
-        link,
-        tags: [],
-        //@ts-ignore
-        userId: req.userId
-    });
-    res.json({
-        message: "Content Added!"
-    });
+    try {
+        const { link, type, title, tags } = CourseSchema.parse(req.body);
+        // Convert tag strings to ObjectIds (or create new Tag documents)
+        const tagIds = [];
+        if (tags) {
+            for (const tagName of tags) {
+                const tag = yield db_1.TagModel.findOneAndUpdate({ name: tagName }, { name: tagName }, { upsert: true, new: true });
+                tagIds.push(tag._id);
+            }
+        }
+        // Create the Content document
+        yield db_1.ContentModel.create({
+            type,
+            title,
+            link,
+            tags: tagIds,
+            userId: req.userId // Make sure `req.userId` is correctly set by `userMiddleware`
+        });
+        res.json({ message: "Content Added!" });
+    }
+    catch (error) {
+        res.status(400).json({ error: error });
+    }
 }));
 app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     ///@ts-ignore

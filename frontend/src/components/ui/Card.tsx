@@ -18,7 +18,7 @@ interface CardProps {
   refreshCards?: () => void; // Function to trigger card refresh
 }
 
-export function Card({ title, link, type, showDelete, refreshCards }: CardProps) {
+export function Card({ title, link, type, tags, showDelete, refreshCards }: CardProps) {
   const handleDelete = () => {
     axios
       .delete(`${BACKEND_URL}/api/v1/content`, {
@@ -29,6 +29,7 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
           title,
           link,
           type,
+          tags
         },
       })
       .then((response) => {
@@ -76,6 +77,7 @@ export function Card({ title, link, type, showDelete, refreshCards }: CardProps)
               <button onClick={handleDelete}>
                 <DeleteIcon size="md" />
               </button>
+              <div className="bg-pink-600">{tags}</div>
               <ToastContainer
               position="bottom-right"
               autoClose={5000}
