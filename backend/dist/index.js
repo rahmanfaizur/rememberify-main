@@ -154,12 +154,19 @@ app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter
 app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     ///@ts-ignore
     const userId = req.userId;
-    const content = yield db_1.ContentModel.find({
-        userId: userId //! foreign key!
-    }).populate("userId", "username");
-    res.json({
-        content
-    });
+    try {
+        const content = yield db_1.ContentModel.find({
+            userId: userId //! foreign key!
+        })
+            .populate("userId", "username") // Existing logic to populate user details
+            .populate("tags", "name"); // Added logic to populate tags with their name field
+        res.json({
+            content,
+        });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error fetching content", error });
+    }
 }));
 app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { link, title, type } = req.body;

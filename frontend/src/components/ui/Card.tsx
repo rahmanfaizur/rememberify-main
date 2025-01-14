@@ -77,7 +77,6 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
               <button onClick={handleDelete}>
                 <DeleteIcon size="md" />
               </button>
-              <div className="bg-pink-600">{tags}</div>
               <ToastContainer
               position="bottom-right"
               autoClose={5000}
@@ -127,6 +126,17 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
             </div>
           )}
       </div>
+          {/* Tags section */}
+          {tags && tags.length > 0 && (
+    <div className="pt-4">
+        {tags.map((tag: { _id: string; name: string }) => (
+            <span key={tag._id} className="text-blue-400 mr-2">
+                #{tag.name}
+            </span>
+        ))}
+    </div>
+  )}
+
     </div>
   );
 }

@@ -173,14 +173,22 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
 
 app.get("/api/v1/content", userMiddleware, async (req, res) => {
     ///@ts-ignore
-    const userId = req.userId
-    const content = await ContentModel.find({
-        userId: userId  //! foreign key!
-    }).populate("userId", "username")
-    res.json({
-        content
-    });
-})
+    const userId = req.userId;
+    try {
+        const content = await ContentModel.find({
+            userId: userId  //! foreign key!
+        })
+            .populate("userId", "username") // Existing logic to populate user details
+            .populate("tags", "name"); // Added logic to populate tags with their name field
+
+        res.json({
+            content,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching content", error });
+    }
+});
+
 
 app.delete("/api/v1/content", userMiddleware, async (req, res) => {
     const { link, title, type } = req.body;

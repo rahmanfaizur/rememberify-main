@@ -19,11 +19,18 @@ import { toast, ToastContainer } from "react-toastify";
 // import { BACKEND_URL } from "../config";
 
 // Define the Content interface
+interface Tag {
+  _id: string;
+  name: string;
+}
+
 interface Content {
   type: any;
   link: string;
   title: string;
+  tags?: Tag[]; // Tags are optional, as indicated by the question mark
 }
+
 
 export function DashBoard() {
   const navigate = useNavigate();
@@ -46,7 +53,7 @@ export function DashBoard() {
 
 
   const refreshCards = () => {
-    fetchData(activeType, setContents, navigate); // Re-fetch content after delete
+    fetchData(activeType, setContents , navigate); // Re-fetch content after delete
   };
 
   useEffect(() => {
@@ -134,9 +141,17 @@ export function DashBoard() {
                 : "grid-cols-1 sm-custom:grid-cols-2 md-custom:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             } justify-items-center`}
           >
-            {contents.map(({ type, link, title }) => (
-              <Card key={link} link={link} type={type} title={title} showDelete refreshCards={refreshCards} />
-            ))}
+            {contents.map(({ type, link, title, tags }) => (
+            <Card 
+              key={link} 
+              link={link} 
+              type={type} 
+              title={title} 
+              tags={tags} // Pass tags to the Card
+              showDelete 
+              refreshCards={refreshCards} 
+            />
+          ))}
           </div>
         </div>
       </div>
