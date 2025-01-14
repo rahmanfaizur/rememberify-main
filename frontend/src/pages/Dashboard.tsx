@@ -15,8 +15,6 @@ import { Navbar } from "../components/ui/Navbar";
 import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
 import { toast, ToastContainer } from "react-toastify";
-// import { toast, ToastContainer } from "react-toastify";
-// import { BACKEND_URL } from "../config";
 
 // Define the Content interface
 interface Tag {
@@ -30,7 +28,6 @@ interface Content {
   title: string;
   tags?: Tag[]; // Tags are optional, as indicated by the question mark
 }
-
 
 export function DashBoard() {
   const navigate = useNavigate();
@@ -51,9 +48,8 @@ export function DashBoard() {
     navigate("/signup");
   };
 
-
   const refreshCards = () => {
-    fetchData(activeType, setContents , navigate); // Re-fetch content after delete
+    fetchData(activeType, setContents, navigate); // Re-fetch content after delete
   };
 
   useEffect(() => {
@@ -61,9 +57,8 @@ export function DashBoard() {
   }, [activeType]);
 
   function toastShare() {
-    toast("Brain Shared Successfully!")
+    toast("Brain Shared Successfully!");
   }
-
 
   return (
     <div className="flex bg-black ">
@@ -103,15 +98,15 @@ export function DashBoard() {
           {/* Action Buttons */}
           <div className="flex justify-end gap-4">
             <span onClick={toastShare}>
-            <Button
-              padding="one"
-              startIcon={<ShareIcon size="lg" />}
-              variant="secondary"
-              text="Share Brain"
-              size="var"
-              onClick={openShareModal}
-            />
-            <ToastContainer></ToastContainer>
+              <Button
+                padding="one"
+                startIcon={<ShareIcon size="lg" />}
+                variant="secondary"
+                text="Share Brain"
+                size="var"
+                onClick={openShareModal}
+              />
+              <ToastContainer />
             </span>
             <Button
               padding="one"
@@ -142,16 +137,16 @@ export function DashBoard() {
             } justify-items-center`}
           >
             {contents.map(({ type, link, title, tags }) => (
-            <Card 
-              key={link} 
-              link={link} 
-              type={type} 
-              title={title} 
-              tags={tags} // Pass tags to the Card
-              showDelete 
-              refreshCards={refreshCards} 
-            />
-          ))}
+              <Card 
+                key={link} 
+                link={link} 
+                type={type} 
+                title={title} 
+                tags={tags} // Pass tags to the Card
+                showDelete 
+                refreshCards={refreshCards} 
+              />
+            ))}
           </div>
         </div>
       </div>
