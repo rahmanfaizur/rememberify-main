@@ -1,5 +1,6 @@
 // utils/fetchData.ts
 
+import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 
@@ -8,10 +9,14 @@ interface Content {
   type: any;
   link: string;
   title: string;
+  tags: []; // Updated to accommodate tags
 }
 
-export const fetchData = async (type: string, setContents: React.Dispatch<React.SetStateAction<Content[]>>, navigate: ReturnType<typeof useNavigate>) => {
-  // console.log(`Fetching content for type: ${type}`);
+export const fetchData = async (
+  type: string,
+  setContents: React.Dispatch<React.SetStateAction<Content[]>>,
+  navigate: ReturnType<typeof useNavigate>
+) => {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -19,25 +24,28 @@ export const fetchData = async (type: string, setContents: React.Dispatch<React.
       return;
     }
 
-    const url = type === "all" ? `${BACKEND_URL}/api/v1/content` : `${BACKEND_URL}/api/v1/refresh?type=${type}`;
-    const response = await fetch(url, {
+    const url =
+      type === "all"
+        ? `${BACKEND_URL}/api/v1/content`
+        : `${BACKEND_URL}/api/v1/refresh?type=${type}`;
+
+    // Replacing fetch with axios for API request
+    const response = await axios.get(url, {
       headers: {
         Authorization: token,
       },
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Failed to fetch content. Response data:", errorData);
-      throw new Error(`Failed to fetch content: ${errorData.message}`);
+    if (response.status !== 200) {
+      console.error("Failed to fetch content. Response data:", response.data);
+      throw new Error(`Failed to fetch content: ${response.data.message}`);
     }
 
-    const data = await response.json();
-    // console.log("Fetched data:", data);
+    const data = response.data;
     setContents(data.content); // Set the fetched content
   } catch (error: any) {
     console.error("Error fetching content:", error.message);
-    if (error.message.includes("invalid token")) {
+    if (error.response?.data?.message?.includes("invalid token")) {
       localStorage.removeItem("token");
       navigate("/signup");
     }
