@@ -44,7 +44,7 @@ export const fetchData = async (
 
     const data = response.data;
     setContents(data.content); // Set the fetched content
-    console.log(data.content);
+    // console.log(data.content);
   } catch (error: any) {
     console.error("Error fetching content:", error.message);
     if (error.response?.data?.message?.includes("invalid token")) {
