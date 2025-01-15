@@ -128,15 +128,17 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
       </div>
           {/* Tags section */}
           {tags && tags.length > 0 && (
-    <div className="pt-4">
-        {tags.map((tag: { _id: string; name: string }) => (
-            <span key={tag._id} className="text-blue-400 mr-2">
-                #{tag.name}
+        <div className="pt-4 flex flex-wrap justify-center gap-2">
+          {tags.map((tag: { _id: string; name: string }) => (
+            <span
+              key={tag._id}
+              className="bg-blue-600 text-white px-2 py-1 rounded-md text-sm"
+            >
+              #{tag.name}
             </span>
-        ))}
-    </div>
-  )}
-
+          ))}
+        </div>
+      )}          
     </div>
   );
 }
