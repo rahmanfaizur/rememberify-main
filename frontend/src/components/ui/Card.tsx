@@ -8,6 +8,7 @@ import { YoutubeIcon } from "../../icons/YoutubeIcon";
 import { SpotifyIcon } from "../../icons/SpotifyIcon";
 import { toast, ToastContainer } from "react-toastify";
 import { LinkIcon } from "../../icons/LinkIcon";
+import './Modal.css';
 
 interface CardProps {
   title: string;
@@ -138,26 +139,39 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
       )}
       {/* Delete confirmation popup */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-gray-800 text-white p-4 rounded-md shadow-md">
-            <p className="mb-4">Are you sure you want to delete this content?</p>
-            <div className="flex justify-end gap-2">
-              <button
-                className="bg-red-600 text-white px-4 py-2 rounded-md"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-              <button
-                className="bg-gray-400 text-white px-4 py-2 rounded-md"
-                onClick={() => setShowPopup(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div
+    className="modal overlay"
+    onClick={() => setShowPopup(false)} // Close modal on overlay click
+  >
+    <div
+      className="modal-content"
+      onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+    >
+      <button
+        className="close-modal"
+        onClick={() => setShowPopup(false)} // Close modal on close button click
+      >
+        ✕
+      </button>
+      <p className="mb-4">Are you sure you want to delete this content?</p>
+      <div className="flex justify-end gap-2">
+        <button
+          className="bg-red-600 text-white px-4 py-2 rounded-md"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+        <button
+          className="bg-gray-400 text-white px-4 py-2 rounded-md"
+          onClick={() => setShowPopup(false)}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
