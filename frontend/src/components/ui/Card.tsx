@@ -9,6 +9,7 @@ import { SpotifyIcon } from "../../icons/SpotifyIcon";
 import { toast, ToastContainer } from "react-toastify";
 import { LinkIcon } from "../../icons/LinkIcon";
 import './Modal.css';
+import { CrossIcon } from "../../icons/CrossIcon";
 
 interface CardProps {
   title: string;
@@ -151,9 +152,9 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
         className="close-modal"
         onClick={() => setShowPopup(false)} // Close modal on close button click
       >
-        ✕
+        <CrossIcon size="md" />
       </button>
-      <p className="mb-4">Are you sure you want to delete this content?</p>
+      <p className="mb-6 pt-2">Are you sure you want to delete this content?</p>
       <div className="flex justify-end gap-2">
         <button
           className="bg-red-600 text-white px-4 py-2 rounded-md"
