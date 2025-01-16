@@ -1,3 +1,4 @@
+import { useState } from "react"; // Import useState
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { DeleteIcon } from "../../icons/DeleteIcon";
@@ -8,17 +9,18 @@ import { SpotifyIcon } from "../../icons/SpotifyIcon";
 import { toast, ToastContainer } from "react-toastify";
 import { LinkIcon } from "../../icons/LinkIcon";
 
-// Define the CardProps interface
 interface CardProps {
   title: string;
   tags?: any;
   link: string;
   type: "twitter" | "youtube" | "spotify" | "anyLink";
   showDelete: boolean;
-  refreshCards?: () => void; // Function to trigger card refresh
+  refreshCards?: () => void;
 }
 
 export function Card({ title, link, type, tags, showDelete, refreshCards }: CardProps) {
+  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+
   const handleDelete = () => {
     axios
       .delete(`${BACKEND_URL}/api/v1/content`, {
@@ -29,16 +31,18 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
           title,
           link,
           type,
-          tags
+          tags,
         },
       })
       .then((response) => {
         console.log(response.data.message); // Optional: handle success
+        toast("Content Deleted Successfully!");
         refreshCards?.(); // Trigger card refresh after deletion
       })
       .catch((error) => {
         console.error("Error deleting content:", error); // Optional: handle error
       });
+    setShowPopup(false); // Close the popup
   };
 
   function convertToEmbedLink(link: string) {
@@ -46,13 +50,8 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
     if (parts.length > 1) {
       return `${parts[0]}open.spotify.com/embed/${parts[1]}`;
     }
-    return link; // Return the original link if it doesn't match the expected format
+    return link;
   }
-
-  function toastDelete() {
-    toast("Content Deleted Successfully!")
-  }
-
 
   return (
     <div className="p-8 bg-gray-800 text-white rounded-md border-white border max-w-72 min-48 min-w-72 gap-4">
@@ -73,22 +72,21 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
             </a>
           </div>
           {showDelete && (
-            <div className="text-white" onClick={toastDelete}>
-              <button onClick={handleDelete}>
+            <div className="text-white">
+              <button onClick={() => setShowPopup(true)}>
                 <DeleteIcon size="md" />
               </button>
               <ToastContainer
-              position="bottom-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick={false}
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              // transition={Bounce}
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
               />
             </div>
           )}
@@ -121,13 +119,12 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
           </blockquote>
         )}
         {type === "anyLink" && (
-            <div className="flex justify-center items-center flex-col pt-10 font-extrabold">
-              Other Links!
-            </div>
-          )}
+          <div className="flex justify-center items-center flex-col pt-10 font-extrabold">
+            Other Links!
+          </div>
+        )}
       </div>
-          {/* Tags section */}
-          {tags && tags.length > 0 && (
+      {tags && tags.length > 0 && (
         <div className="pt-4 flex flex-wrap justify-center gap-2">
           {tags.map((tag: { _id: string; name: string }) => (
             <span
@@ -138,7 +135,29 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
             </span>
           ))}
         </div>
-      )}          
+      )}
+      {/* Delete confirmation popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-gray-800 text-white p-4 rounded-md shadow-md">
+            <p className="mb-4">Are you sure you want to delete this content?</p>
+            <div className="flex justify-end gap-2">
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded-md"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                onClick={() => setShowPopup(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
