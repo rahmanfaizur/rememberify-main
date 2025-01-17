@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../components/ui/Button";
 import { PlusIcon } from "../icons/PlusIcon";
 import { ShareIcon } from "../icons/ShareIcon";
@@ -16,7 +16,7 @@ import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
 import { toast, ToastContainer } from "react-toastify";
 import { CircularProgress } from "@mui/material"; // Material-UI loader
-import { Input } from "../components/ui/Input";
+// import { Input } from "../components/ui/Input";
 
 // Define the Content interface
 interface Tag {
@@ -39,6 +39,18 @@ export function DashBoard() {
   const [activeType, setActiveType] = useState("all"); // Default to 'all' to show all content initially
   const [contents, setContents] = useState<Content[]>([]); // Store fetched contents
   const [isLoading, setIsLoading] = useState(false); // Loader state
+  const [searchQuery, setSearchQuery] = useState(""); //Tracks the search input!
+
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(""); // Debounced query state
+
+  // Debounce logic
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setDebouncedSearchQuery(searchQuery); // Update debounced value after 300ms
+      }, 300);
+    
+      return () => clearTimeout(timer); // Clear timer on cleanup
+    }, [searchQuery]);
 
   const openAddContentModal = () => setIsModalOpen(true);
   const closeAddContentModal = () => setIsModalOpen(false);
@@ -46,8 +58,19 @@ export function DashBoard() {
   const openShareModal = () => setIsShareModalOpen(true);
   const closeShareModal = () => setIsShareModalOpen(false);
 
-  const searchRef = useRef<HTMLInputElement>(null);
+  // const searchRef = useRef<HTMLInputElement>(null);
 
+  // const filteredContents = contents.filter(({ title }) => {
+  //   title.toLowerCase().includes(searchQuery.toLowerCase())
+  // })
+
+  const displayedContents =
+  debouncedSearchQuery.trim() === ""
+    ? contents
+    : contents.filter(({ title }) =>
+        title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+      );
+      // console.log(searchQuery);
   const LogoutItem = () => {
     localStorage.removeItem("token");
     navigate("/signup");
@@ -116,11 +139,16 @@ export function DashBoard() {
           {/* Action Buttons */}
           <div className="flex justify-end items-center gap-4">
             {/* Search Box */}
-            <div className="bg-white text-black px-4 py-2 rounded-md shadow-md flex items-center gap-2 w-1/3">
-              <div className="flex-grow">
-                <Input placeholder="Search...(to add)" reference={searchRef} />
-              </div>
+            <div className="bg-white text-black px-4 py-2 rounded-md shadow-md flex items-center gap-2 w-1/3 mb-6">
+          <div className="flex-grow">
+              <input
+                placeholder="Search..."
+                // reference={searchRef}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery
+              />
             </div>
+          </div>
                     
             {/* Share Button */}
             <span onClick={toastShare}>
@@ -160,32 +188,36 @@ export function DashBoard() {
   
           {/* Responsive Grid Layout for Cards */}
           {isLoading ? (
-            <div className="flex justify-center items-center h-full">
-              <CircularProgress /> {/* Show loader while fetching */}
-            </div>
-          ) : contents.length > 0 ? (
-            <div
-              className={`grid gap-4 pt-6 ${
-                sidebarExpanded
-                  ? "grid-cols-1 sm-custom:grid-cols-1 md-custom:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
-                  : "grid-cols-1 sm-custom:grid-cols-2 md-custom:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-              } justify-items-center`}
-            >
-              {contents.map(({ type, link, title, tags }) => (
-                <Card
-                  key={link}
-                  link={link}
-                  type={type}
-                  title={title}
-                  tags={tags} // Pass tags to the Card
-                  showDelete
-                  refreshCards={refreshCards}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-white text-center mt-8">No content available.</div>
-          )}
+      <div className="flex justify-center items-center h-full">
+        <CircularProgress /> {/* Show loader while fetching */}
+      </div>
+    ) : displayedContents.length > 0 ? (
+      <div
+        className={`grid gap-4 pt-6 ${
+          sidebarExpanded
+            ? "grid-cols-1 sm-custom:grid-cols-1 md-custom:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+            : "grid-cols-1 sm-custom:grid-cols-2 md-custom:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        } justify-items-center`}
+      >
+        {displayedContents.map(({ type, link, title, tags }) => (
+          <Card
+            key={link}
+            link={link}
+            type={type}
+            title={title}
+            tags={tags} // Pass tags to the Card
+            showDelete
+            refreshCards={refreshCards}
+          />
+        ))}
+      </div>
+    ) : (
+      <div className="text-white text-center mt-8">
+        {searchQuery
+          ? "No content matches your search."
+          : "No content available."}
+      </div>
+    )}
         </div>
       </div>
     </div>
