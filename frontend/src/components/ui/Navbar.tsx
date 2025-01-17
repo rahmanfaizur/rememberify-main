@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { LogoutIcon } from "../../icons/LogoutIcon";
 import FavIcon from "../../img/rememberify.png"
+import { toast } from "react-toastify";
 // Define the props interface
 interface NavbarProps {
   showSignup?: boolean;
@@ -22,8 +23,12 @@ export function Navbar({
 
   const LogoutItem = () => {
     localStorage.removeItem("token");
-    navigate("/signup");
+    toast.error("Logging Out!")
+    setTimeout(() => {
+      navigate("/signup");
+    }, 1500); // 1.5 seconds delay
   };
+
 
   return (
     <div className="p-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg">
