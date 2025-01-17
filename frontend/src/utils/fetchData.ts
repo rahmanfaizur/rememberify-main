@@ -3,6 +3,7 @@
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Define the Content interface
 interface Content {
@@ -48,8 +49,12 @@ export const fetchData = async (
   } catch (error: any) {
     console.error("Error fetching content:", error.message);
     if (error.response?.data?.message?.includes("invalid token")) {
-      localStorage.removeItem("token");
-      navigate("/signup");
+      toast.error("Session expired. Please login again.");
+      setTimeout(() => {
+        localStorage.removeItem("token");
+        navigate("/signup");
+      }, 2000); // Redirect after 2 seconds
     }
+    
   }
 };
