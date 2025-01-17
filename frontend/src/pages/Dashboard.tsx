@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../components/ui/Button";
 import { PlusIcon } from "../icons/PlusIcon";
 import { ShareIcon } from "../icons/ShareIcon";
@@ -16,6 +16,7 @@ import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
 import { toast, ToastContainer } from "react-toastify";
 import { CircularProgress } from "@mui/material"; // Material-UI loader
+import { Input } from "../components/ui/Input";
 
 // Define the Content interface
 interface Tag {
@@ -44,6 +45,8 @@ export function DashBoard() {
 
   const openShareModal = () => setIsShareModalOpen(true);
   const closeShareModal = () => setIsShareModalOpen(false);
+
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const LogoutItem = () => {
     localStorage.removeItem("token");
@@ -101,8 +104,25 @@ export function DashBoard() {
           {/* Share Brain Modal */}
           <ShareBrainBox isModalOpen={isShareModalOpen} closeModal={closeShareModal} />
   
+          {/* Search Box
+          <div className="bg-white text-black p-4 rounded-md shadow-md flex items-center gap-2">
+            <Input
+              placeholder="Search..."
+              reference={searchRef}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div> */}
+
           {/* Action Buttons */}
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end items-center gap-4">
+            {/* Search Box */}
+            <div className="bg-white text-black px-4 py-2 rounded-md shadow-md flex items-center gap-2 w-1/3">
+              <div className="flex-grow">
+                <Input placeholder="Search...(to add)" reference={searchRef} />
+              </div>
+            </div>
+                    
+            {/* Share Button */}
             <span onClick={toastShare}>
               <Button
                 padding="one"
@@ -112,8 +132,10 @@ export function DashBoard() {
                 size="var"
                 onClick={openShareModal}
               />
-              <ToastContainer></ToastContainer>
+              <ToastContainer />
             </span>
+                    
+            {/* Add Content Button */}
             <Button
               padding="one"
               startIcon={<PlusIcon size="lg" />}
@@ -122,6 +144,8 @@ export function DashBoard() {
               size="var"
               onClick={openAddContentModal}
             />
+          
+            {/* Logout Button (for smaller screens) */}
             <div className="md:hidden flex flex-col justify-center">
               <Button
                 padding="one"
