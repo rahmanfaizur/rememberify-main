@@ -30,12 +30,12 @@ export function ErrorPage() {
                     >
                         Go to Homepage
                     </a>
-                    <a
+                    {/* <a
                         href="/search"
                         className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
                     >
                         Search for Help
-                    </a>
+                    </a> */}
                 </div>
             </div>
         </div>

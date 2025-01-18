@@ -137,69 +137,75 @@ export function DashBoard() {
           </div> */}
 
           {/* Action Buttons */}
-          <div className="flex justify-end items-center gap-4">
-            {/* Search Box */}
-          <div className="relative w-25">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              type="search"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery
-              className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-          </div>      
-            {/* Share Button */}
-            <span onClick={toastShare}>
-              <Button
-                padding="one"
-                startIcon={<ShareIcon size="lg" />}
-                variant="secondary"
-                text="Share Brain"
-                size="var"
-                onClick={openShareModal}
-              />
-              <ToastContainer />
-            </span>
-                    
-            {/* Add Content Button */}
-            <Button
-              padding="one"
-              startIcon={<PlusIcon size="lg" />}
-              variant="primary"
-              text="Add Content"
-              size="var"
-              onClick={openAddContentModal}
-            />
-          
-            {/* Logout Button (for smaller screens) */}
-            <div className="md:hidden flex flex-col justify-center">
-              <Button
-                padding="one"
-                text="Logout"
-                variant="reddish"
-                size="var"
-                startIcon={<LogoutIcon size="lg" />}
-                onClick={LogoutItem}
-              />
-            </div>
-          </div>
+          <div className="flex flex-col sm:flex-row sm:justify-end sm:items-center sm:gap-4 space-y-4 sm:space-y-0">
+  {/* Search Box */}
+  <div className="relative w-full sm:w-auto sm:max-w-sm sm:ml-auto">
+    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+      <svg
+        className="w-4 h-4 text-gray-500 dark:text-gray-400"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        />
+      </svg>
+    </div>
+    <input
+      type="search"
+      placeholder="Search..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery
+      className="block w-full p-2.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    />
+  </div>
+
+  {/* Share and Add Content Buttons */}
+  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 space-y-4 sm:space-y-0 sm:ml-auto">
+    <div className="flex justify-end">
+    <span onClick={toastShare}>
+      <Button
+        padding="one"
+        startIcon={<ShareIcon size="lg" />}
+        variant="secondary"
+        text="Share Brain"
+        size="var"
+        onClick={openShareModal}
+      />
+      <ToastContainer />
+    </span>
+    </div>
+
+    <div className="flex justify-end">
+    <Button
+      padding="one"
+      startIcon={<PlusIcon size="lg" />}
+      variant="primary"
+      text="Add Content"
+      size="var"
+      onClick={openAddContentModal}
+    />
+    </div>
+  </div>
+
+  {/* Logout Button (for smaller screens) */}
+  <div className="flex md:hidden justify-end">
+    <Button
+      padding="one"
+      text="Logout"
+      variant="reddish"
+      size="var"
+      startIcon={<LogoutIcon size="lg" />}
+      onClick={LogoutItem}
+    />
+  </div>
+</div>
   
           {/* Responsive Grid Layout for Cards */}
           {isLoading ? (
