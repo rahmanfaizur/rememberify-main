@@ -87,7 +87,7 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
             <div className="leading-4">
               <h4 className="font-semibold">{localStorage.getItem("username")}</h4>
               </div>
-            <MoreVertical size={20} />
+            {/* <MoreVertical size={20} /> */}
           </div>
         </div>
       </nav>
