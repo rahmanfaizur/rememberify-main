@@ -32,47 +32,45 @@ export function Landing() {
                     Why Choose Rememberify?
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                            📂 Organized Storage
-                        </h3>
-                        <p className="text-gray-300">
-                            Keep all your favorite links neatly stored and categorized by platform for easy access.
-                        </p>
-                    </div>
-
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                            🔍 Quick Search (coming soon)
-                        </h3>
-                        <p className="text-gray-300">
-                            Find what you need in seconds with our powerful search functionality.
-                        </p>
-                    </div>
-
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                            🎵 Cross-Platform Integration
-                        </h3>
-                        <p className="text-gray-300">
-                            Seamlessly manage content from YouTube, Twitter, and Spotify—all in one app.
-                        </p>
-                    </div>
-
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all">
-                        <h3 className="text-xl font-semibold mb-4 text-blue-400">
-                            🎵 Play & View In-Site
-                        </h3>
-                        <p className="text-gray-300">
-                            View concise tweets and play videos directly within the app for an uninterrupted experience.
-                        </p>
-                    </div>
-                </div>
+            {[
+              {
+                title: "📂 Organized Storage",
+                description: "Keep all your favorite links neatly stored and categorized by platform for easy access.",
+              },
+              {
+                title: "🔍 Quick Search",
+                description: "Find what you need in seconds with our powerful search functionality.",
+              },
+              {
+                title: "🎵 Cross-Platform Integration",
+                description: "Seamlessly manage content from YouTube, Twitter, and Spotify—all in one app.",
+              },
+              {
+                title: "🎵 Play & View In-Site",
+                description: "View concise tweets and play videos directly within the app for an uninterrupted experience.",
+              },
+              {
+                title: "🤝 Share Brain",
+                description: "Share your saved content with friends in just a tap!",
+              },
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all"
+              >
+                <h3 className="text-xl font-semibold mb-4 text-blue-400">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-300">{feature.description}</p>
+              </div>
+            ))}
+            </div>
+        
             </section>
 
             <footer className="bg-gray-800 py-6 text-center">
                 <p className="text-gray-400 text-sm">
-                © 2024 Faizur Rahman. All rights reserved.
+                © 2024 Faizur Rahman.
                 </p>
             </footer>
         </div>
