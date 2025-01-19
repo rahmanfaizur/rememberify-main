@@ -319,7 +319,8 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
         const content = await ContentModel.find({
             userId,
             type
-        }).populate("userId", "username");
+        }).populate("userId", "username")
+        .populate("tags", "name"); // Added logic to populate tags with their name field
 
         res.json({
             content

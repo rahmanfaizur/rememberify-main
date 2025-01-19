@@ -275,7 +275,8 @@ app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(
         const content = yield db_1.ContentModel.find({
             userId,
             type
-        }).populate("userId", "username");
+        }).populate("userId", "username")
+            .populate("tags", "name"); // Added logic to populate tags with their name field
         res.json({
             content
         });
