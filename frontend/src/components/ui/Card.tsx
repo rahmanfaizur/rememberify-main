@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { LinkIcon } from "../../icons/LinkIcon";
 import './Modal.css';
 import { CrossIcon } from "../../icons/CrossIcon";
+import { TwitterTweetEmbed} from 'react-twitter-embed';
 
 interface CardProps {
   title: string;
@@ -54,6 +55,13 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
     }
     return link;
   }
+  // Define a function to extract the number after "status"
+function extractStatusNumber(url: string): string {
+  const match = url.match(/\/status\/(\d+)/);
+  return match ? match[1] : null; // Return the captured group if there's a match
+}
+const embedNo = extractStatusNumber(link);
+  // console.log(link);
 
   return (
     <div className="p-8 bg-gray-800 text-white rounded-md border-white border max-w-72 min-48 min-w-72 gap-4">
@@ -116,9 +124,13 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
           ></iframe>
         )}
         {type === "twitter" && (
-          <blockquote className="twitter-tweet">
-            <a href={link.replace("x.com", "twitter.com")}></a>
-          </blockquote>
+          
+          // <blockquote className="twitter-tweet">
+          //   <a href={link.replace("x.com", "twitter.com")}></a>
+          // </blockquote>
+          <TwitterTweetEmbed
+          tweetId={embedNo}
+          />
         )}
         {type === "anyLink" && (
           <div className="flex justify-center items-center flex-col pt-10 font-extrabold">
