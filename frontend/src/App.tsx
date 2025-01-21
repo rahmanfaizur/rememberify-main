@@ -2,7 +2,7 @@ import { DashBoard } from "./pages/Dashboard";
 import { Signin } from "./pages/Signin";
 import { Signup } from "./pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Test from "./pages/Test";
+// import Test from "./pages/Test";
 import ShareParams from "./pages/ShareParams";
 import { ErrorPage } from "./pages/ErrorPage";
 import { Landing } from "./pages/Landing";
