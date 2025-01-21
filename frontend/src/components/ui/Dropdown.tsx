@@ -41,6 +41,12 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
         return 'bg-black';
       case 'spotify':
         return 'bg-green-500';
+      case 'instagram':
+        return 'bg-pink-500';
+      case 'pinterest':
+        return 'bg-red-500';
+      case 'facebook':
+        return 'bg-blue-500';
       case 'otherLink':
         return 'bg-blue-500';
       default:
@@ -56,7 +62,7 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
         className={`text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ${getButtonColor()}`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selectedType === 'youtube' ? 'Youtube' : selectedType === 'twitter' ? 'Twitter' : selectedType === 'spotify' ? 'Spotify' : selectedType === 'anyLink' ? 'Other Links' : 'Select Type'}
+        {selectedType === 'youtube' ? 'Youtube' : selectedType === 'twitter' ? 'Twitter' : selectedType === 'spotify' ? 'Spotify' : selectedType === 'instagram' ? "Instagram" : selectedType === 'pinterest' ? "Pinterest" : selectedType === 'facebook' ? "Facebook" : selectedType === 'anyLink' ? 'Other Links' : 'Select Type'}
         <svg
           className="w-2.5 h-2.5 ms-3"
           aria-hidden="true"
@@ -106,7 +112,37 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
                 Spotify
               </button>
             </li>
+ 
 
+            <li>
+              <button
+                onClick={() => handleSelect('instagram')}
+                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'instagram' ? 'bg-pink-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+              >
+                Instagram
+              </button>
+            </li>
+ 
+
+            <li>
+              <button
+                onClick={() => handleSelect('pinterest')}
+                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'pinterest' ? 'bg-red-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+              >
+                Pinterest
+              </button>
+            </li>
+ 
+
+            <li>
+              <button
+                onClick={() => handleSelect('facebook')}
+                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'facebook' ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+              >
+                Facebook
+              </button>
+            </li>
+ 
             <li>
               <button
                 onClick={() => handleSelect('anyLink')}

@@ -11,12 +11,13 @@ import { LinkIcon } from "../../icons/LinkIcon";
 import './Modal.css';
 import { CrossIcon } from "../../icons/CrossIcon";
 import { TwitterTweetEmbed} from 'react-twitter-embed';
+import { FacebookEmbed, InstagramEmbed, PinterestEmbed } from 'react-social-media-embed';
 
 interface CardProps {
   title: string;
   tags?: any;
   link: string;
-  type: "twitter" | "youtube" | "spotify" | "anyLink";
+  type: "twitter" | "youtube" | "spotify" | "anyLink" | "facebook" | "instagram" | "pinterest";
   showDelete: boolean;
   refreshCards?: () => void;
 }
@@ -58,6 +59,7 @@ export function Card({ title, link, type, tags, showDelete, refreshCards }: Card
   // Define a function to extract the number after "status"
 function extractStatusNumber(url: string): string {
   const match = url.match(/\/status\/(\d+)/);
+  //@ts-ignore
   return match ? match[1] : null; // Return the captured group if there's a match
 }
 const embedNo = extractStatusNumber(link);
@@ -131,6 +133,18 @@ const embedNo = extractStatusNumber(link);
           <TwitterTweetEmbed
           tweetId={embedNo}
           />
+          // <div style={{ display: 'flex', justifyContent: 'center' }}>
+          //   <XEmbed url={link} width={325} />
+          // </div>
+        )}
+        {type === "facebook" && (
+          <FacebookEmbed url={link} ></FacebookEmbed>
+        )}
+        {type === "pinterest" && (
+          <PinterestEmbed url={link}></PinterestEmbed>
+        )}
+        {type === "instagram" && (
+          <InstagramEmbed url={link}></InstagramEmbed>
         )}
         {type === "anyLink" && (
           <div className="flex justify-center items-center flex-col pt-10 font-extrabold">
