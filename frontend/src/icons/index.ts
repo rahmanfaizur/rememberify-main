@@ -1,5 +1,5 @@
 export interface IconProps {
-    size: "sm" | "md" | "lg" | "xl" | "xxl" | "errorPage"
+    size: "sm" | "md" | "lg" | "xl" | "xxl" | "errorPage";
 }
 
 export const iconSizeVariants = {

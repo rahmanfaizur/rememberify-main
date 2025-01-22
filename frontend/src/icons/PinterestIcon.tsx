@@ -2,7 +2,7 @@ import { IconProps, iconSizeVariants } from "."
 
 export const PinterestIcon = (props: IconProps) => {
     return (
-        <div className="text-red-500">
+        <div>
             <svg  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" className={iconSizeVariants[props.size]}
             	 viewBox="0 0 511.998 511.998" >
             <path d="M405.017,52.467C369.774,18.634,321.001,0,267.684,0C186.24,0,136.148,33.385,108.468,61.39
