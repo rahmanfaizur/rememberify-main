@@ -16,6 +16,8 @@ import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
 import { toast, ToastContainer } from "react-toastify";
 import { CircularProgress } from "@mui/material"; // Material-UI loader
+import { Facebook, Instagram } from "lucide-react";
+import { PinterestIcon } from "../icons/PinterestIcon";
 // import { Input } from "../components/ui/Input";
 
 
@@ -112,6 +114,15 @@ export function DashBoard() {
         </button>
         <button onClick={() => setActiveType("spotify")}>
           <SidebarItem icon={<SpotifyIcon size="md" />} text="Spotify" active={activeType === "spotify"} />
+        </button>
+        <button onClick={() => setActiveType("instagram")}>
+          <SidebarItem icon={<Instagram></Instagram>} text="Instagram" active={activeType === "instagram"}></SidebarItem>
+        </button>
+        <button onClick={() => setActiveType("pinterest")}>
+          <SidebarItem icon={<PinterestIcon size="md"></PinterestIcon>} text="Pinterest" active={activeType === "pinterest"}></SidebarItem>
+        </button>
+        <button onClick={() => setActiveType("Facebook")}>
+          <SidebarItem icon={<Facebook></Facebook>} text="Facebook" active={activeType === "facebook"}></SidebarItem>
         </button>
       </Sidebar>
   

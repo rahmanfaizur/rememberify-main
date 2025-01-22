@@ -1,20 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 
 const Dropdown = ({ selectedType, setSelectedType }: any) => {
-  // State to track whether the dropdown is open or closed
   const [isOpen, setIsOpen] = useState(false);
-
-  // References to the dropdown menu and the button to detect clicks outside
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
-  // Function to handle selecting an option from the dropdown
   const handleSelect = (contentType: string) => {
-    setSelectedType(contentType);  // Pass the selected type back to the parent
-    setIsOpen(false);  // Close the dropdown once an option is selected
+    setSelectedType(contentType);
+    setIsOpen(false);
   };
 
-  // Effect to handle closing the dropdown when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (
@@ -29,7 +24,7 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    
+
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
@@ -62,7 +57,21 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
         className={`text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ${getButtonColor()}`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {selectedType === 'youtube' ? 'Youtube' : selectedType === 'twitter' ? 'Twitter' : selectedType === 'spotify' ? 'Spotify' : selectedType === 'instagram' ? "Instagram" : selectedType === 'pinterest' ? "Pinterest" : selectedType === 'facebook' ? "Facebook" : selectedType === 'anyLink' ? 'Other Links' : 'Select Type'}
+        {selectedType === 'youtube'
+          ? 'Youtube'
+          : selectedType === 'twitter'
+          ? 'Twitter'
+          : selectedType === 'spotify'
+          ? 'Spotify'
+          : selectedType === 'instagram'
+          ? 'Instagram'
+          : selectedType === 'pinterest'
+          ? 'Pinterest'
+          : selectedType === 'facebook'
+          ? 'Facebook'
+          : selectedType === 'anyLink'
+          ? 'Other Links'
+          : 'Select Type'}
         <svg
           className="w-2.5 h-2.5 ms-3"
           aria-hidden="true"
@@ -85,11 +94,17 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
           ref={dropdownRef}
           className="absolute left-1/2 transform -translate-x-1/2 z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 mt-2"
         >
-          <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200">
+          <ul
+            className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200 max-h-40 overflow-y-auto" // Added classes for scrolling
+          >
             <li>
               <button
                 onClick={() => handleSelect('youtube')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'youtube' ? 'bg-red-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'youtube'
+                    ? 'bg-red-500 text-white'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Youtube
               </button>
@@ -98,7 +113,11 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
             <li>
               <button
                 onClick={() => handleSelect('twitter')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'twitter' ? 'bg-black text-white' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'twitter'
+                    ? 'bg-black text-white'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Twitter
               </button>
@@ -107,46 +126,63 @@ const Dropdown = ({ selectedType, setSelectedType }: any) => {
             <li>
               <button
                 onClick={() => handleSelect('spotify')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'spotify' ? 'bg-green-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'spotify'
+                    ? 'bg-green-500 text-white'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Spotify
               </button>
             </li>
- 
 
             <li>
               <button
                 onClick={() => handleSelect('instagram')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'instagram' ? 'bg-pink-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'instagram'
+                    ? 'bg-pink-500 text-white'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Instagram
               </button>
             </li>
- 
 
             <li>
               <button
                 onClick={() => handleSelect('pinterest')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'pinterest' ? 'bg-red-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'pinterest'
+                    ? 'bg-red-500 text-white'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Pinterest
               </button>
             </li>
- 
 
             <li>
               <button
                 onClick={() => handleSelect('facebook')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'facebook' ? 'bg-blue-500 text-white' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'facebook'
+                    ? 'bg-blue-500 text-white'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Facebook
               </button>
             </li>
- 
+
             <li>
               <button
                 onClick={() => handleSelect('anyLink')}
-                className={`w-full text-left py-2 px-3 rounded-lg ${selectedType === 'anyLink' ? 'bg-blue-500 text-black' : 'text-gray-700 dark:text-gray-200'}`}
+                className={`w-full text-left py-2 px-3 rounded-lg ${
+                  selectedType === 'anyLink'
+                    ? 'bg-blue-500 text-black'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
               >
                 Other Links
               </button>
