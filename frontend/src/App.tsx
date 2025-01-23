@@ -17,7 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}></Route>
         <Route path="/signin" element={<Signin/>}></Route>
         <Route path="/dashboard" element={<DashBoard/>}></Route>
-        <Route path="/test" element={<Test/>}></Route>
+        {/* <Route path="/test" element={<Test/>}></Route> */}
         <Route path="/share/:shareLink" element={<ShareParams/>}></Route>
         <Route path="*" element={<ErrorPage/>}></Route>
       </Routes>
