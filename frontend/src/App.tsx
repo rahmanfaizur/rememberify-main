@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ShareParams from "./pages/ShareParams";
 import { ErrorPage } from "./pages/ErrorPage";
 import { Landing } from "./pages/Landing";
-import Test from "./pages/Test";
+// import Test from "./pages/Test";
 
 function App() {
   return (
