@@ -10,7 +10,7 @@ declare global {
 }
 import express from "express";  //this one does give types to express 
 import jwt from "jsonwebtoken";
-import { ContentModel, LinkModel, TagModel, UserModel } from "./db";
+import { ContentModel, ImageModel, LinkModel, TagModel, UserModel } from "./db";
 import dotenv from 'dotenv';
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
@@ -19,7 +19,10 @@ import { z } from 'zod';
 import { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from 'body-parser';
-import { urlHandler, imageUploader} from "./cloudinary";
+import { urlHandler, imageUploader, fileUploader} from "./cloudinary";
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/' }); // Temporary directory to store uploaded files
 
 dotenv.config();
 
@@ -334,7 +337,7 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
     }
 });
 
-app.post('/api/v1/image/getLink', async (req, res) => {
+app.get('/api/v1/image/getLink', async (req, res) => {
     try {
         const { fetchUrl } = req.body;
         // console.log(fetchUrl);
@@ -350,19 +353,106 @@ app.post('/api/v1/image/getLink', async (req, res) => {
     }
 });
 
-app.post('/api/v1/image/postLink', async (req, res) => {
-    try {
-        const { inputUrl } = req.body;
-        const result = await imageUploader(inputUrl);
-        res.status(200).json(result);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: 'Failed to upload Image!'
+app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
+        const ImageInputSchema = z.object({
+            inputUrl: z.string().url("Invalid URL format"),
+            tags: z.array(z.string()).optional() // Optional tags
         });
+
+        // Parse the request body
+        const { inputUrl, tags } = ImageInputSchema.parse(req.body);
+
+        // Upload the image to Cloudinary or any image hosting service
+        const uploadResult = await imageUploader(inputUrl);
+
+        // If there are tags, handle them (convert to ObjectIds or create new Tag documents)
+        const tagIds = [];
+        if (tags) {
+            for (const tagName of tags) {
+                const tag = await TagModel.findOneAndUpdate(
+                    { name: tagName },
+                    { name: tagName },
+                    { upsert: true, new: true }
+                );
+                tagIds.push(tag._id);
+            }
+        }
+        const url = uploadResult.url;
+        console.log("URL: " + url);
+
+        // Extract the hash from the URL
+        const match = url.match(/\/([^\/?]*)\?_a=/);
+
+        if (match) {
+            const hash = match[1]; // Extracted hash (e.g., mtp0yc50jblj47sgabfn)
+            console.log("Extracted Part (hash): " + hash);
+
+        // Save the image details in the database
+        const newImage = await ImageModel.create({
+            link: hash, // Assuming `url` contains the uploaded image's URL
+            uploaderId: req.userId, // User ID from middleware
+            tags: tagIds
+        });
+
+        // Respond with success and the saved image document
+        res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
     }
 });
+
+app.post(
+    '/api/v1/image/upload',
+    upload.single('image'),
+    userMiddleware, // Ensure the user ID is available
+    (req: Request, res: Response) => {
+        (async () => {
+            try {
+                const filePath = req.file?.path; // Access the uploaded file's path
+                if (!filePath) {
+                    return res.status(400).json({ error: 'No file uploaded' });
+                }
+
+                // Validate optional tags (if any)
+                const ImageInputSchema = z.object({
+                    tags: z.array(z.string()).optional() // Optional tags
+                });
+
+                const { tags } = ImageInputSchema.parse(req.body);
+
+                // Upload the image to the file hosting service
+                const uploadResult = await fileUploader(filePath);
+
+                // Handle tags (convert to ObjectIds or create new Tag documents)
+                const tagIds = [];
+                if (tags) {
+                    for (const tagName of tags) {
+                        const tag = await TagModel.findOneAndUpdate(
+                            { name: tagName },
+                            { name: tagName },
+                            { upsert: true, new: true }
+                        );
+                        tagIds.push(tag._id);
+                    }
+                }
+
+                // Save the image details in the database
+                const newImage = await ImageModel.create({
+                    link: uploadResult.url, // Assuming `url` contains the uploaded image's URL
+                    uploaderId: req.userId, // User ID from middleware
+                    tags: tagIds
+                });
+
+                // Respond with success and the saved image document
+                res.status(200).json({ message: 'Image uploaded and saved successfully!', image: newImage });
+            } catch (error) {
+                console.error('Image upload failed:', error);
+                res.status(500).json({
+                    error: 'Failed to upload and save image!',
+                });
+            }
+        })();
+    }
+);
+
 
 const port = process.env.PORT || 3000;
 

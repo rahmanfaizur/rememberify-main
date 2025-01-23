@@ -8,10 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.urlHandler = urlHandler;
 exports.imageUploader = imageUploader;
+exports.fileUploader = fileUploader;
 const cloudinary_1 = require("cloudinary");
+const promises_1 = __importDefault(require("fs/promises"));
 cloudinary_1.v2.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -53,5 +58,36 @@ function imageUploader(inputUrl) {
             ]
         });
         return { url }; // Return the URL as a JSON object
+    });
+}
+// New function to handle file uploads
+function fileUploader(filePath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const result = yield cloudinary_1.v2.uploader.upload(filePath, {
+                transformation: [
+                    {
+                        quality: "auto",
+                        fetch_format: "auto",
+                    },
+                    {
+                        width: 1200,
+                        height: 1200,
+                        crop: "fill",
+                        gravity: "auto",
+                    },
+                ],
+            });
+            // Delete the temporary file after uploading
+            yield promises_1.default.unlink(filePath);
+            return {
+                url: result.secure_url,
+                public_id: result.public_id,
+            };
+        }
+        catch (error) {
+            console.error("File upload failed:", error);
+            throw new Error("Failed to upload image to Cloudinary");
+        }
     });
 }
