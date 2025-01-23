@@ -23,12 +23,15 @@ const utils_1 = require("./utils");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const zod_1 = require("zod");
 const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const cloudinary_1 = require("./cloudinary");
 dotenv_1.default.config();
 const JWT_PASS = process.env.JWT_PASS;
 if (!JWT_PASS) {
     throw new Error('Missing JWT_SECRET in .env file');
 }
 const app = (0, express_1.default)();
+app.use(body_parser_1.default.json());
 app.use(express_1.default.json());
 // Allow all origins
 app.use((0, cors_1.default)());
@@ -284,6 +287,34 @@ app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(
     catch (error) {
         // Pass the error to the next middleware
         console.log("Lol!");
+    }
+}));
+app.post('/api/v1/image/getLink', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { fetchUrl } = req.body;
+        // console.log(fetchUrl);
+        const result = yield (0, cloudinary_1.urlHandler)(fetchUrl);
+        // console.log(result);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to fetch Url!'
+        });
+    }
+}));
+app.post('/api/v1/image/postLink', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { inputUrl } = req.body;
+        const result = yield (0, cloudinary_1.imageUploader)(inputUrl);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to upload Image!'
+        });
     }
 }));
 const port = process.env.PORT || 3000;

@@ -18,6 +18,8 @@ import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { Request, Response } from "express";
 import cors from "cors";
+import bodyParser from 'body-parser';
+import { urlHandler, imageUploader} from "./cloudinary";
 
 dotenv.config();
 
@@ -28,6 +30,7 @@ if (!JWT_PASS) {
   }
 
 const app = express();
+app.use(bodyParser.json());
 
 app.use(express.json());
 // Allow all origins
@@ -331,6 +334,35 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
     }
 });
 
+app.post('/api/v1/image/getLink', async (req, res) => {
+    try {
+        const { fetchUrl } = req.body;
+        // console.log(fetchUrl);
+        const result = await urlHandler(fetchUrl);
+        // console.log(result);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to fetch Url!'
+        });
+    }
+});
+
+app.post('/api/v1/image/postLink', async (req, res) => {
+    try {
+        const { inputUrl } = req.body;
+        const result = await imageUploader(inputUrl);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Failed to upload Image!'
+        });
+    }
+});
 
 const port = process.env.PORT || 3000;
 
