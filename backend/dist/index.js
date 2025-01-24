@@ -306,38 +306,51 @@ app.get('/api/v1/image/getLink', (req, res) => __awaiter(void 0, void 0, void 0,
         });
     }
 }));
+//@ts-ignore
 app.post('/api/v1/image/postLink', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const ImageInputSchema = zod_1.z.object({
-        inputUrl: zod_1.z.string().url("Invalid URL format"),
-        tags: zod_1.z.array(zod_1.z.string()).optional() // Optional tags
-    });
-    // Parse the request body
-    const { inputUrl, tags } = ImageInputSchema.parse(req.body);
-    // Upload the image to Cloudinary or any image hosting service
-    const uploadResult = yield (0, cloudinary_1.imageUploader)(inputUrl);
-    // If there are tags, handle them (convert to ObjectIds or create new Tag documents)
-    const tagIds = [];
-    if (tags) {
-        for (const tagName of tags) {
-            const tag = yield db_1.TagModel.findOneAndUpdate({ name: tagName }, { name: tagName }, { upsert: true, new: true });
-            tagIds.push(tag._id);
+    try {
+        const ImageInputSchema = zod_1.z.object({
+            inputUrl: zod_1.z.string().url("Invalid URL format"),
+            tags: zod_1.z.array(zod_1.z.string()).optional() // Optional tags
+        });
+        // Parse the request body
+        const { inputUrl, tags } = ImageInputSchema.parse(req.body);
+        // Upload the image to Cloudinary or any image hosting service
+        const uploadResult = yield (0, cloudinary_1.imageUploader)(inputUrl);
+        const url = uploadResult.url;
+        console.log("URL: " + url);
+        // Extract the hash from the URL
+        const match = url.match(/\/([^\/?]*)\?_a=/);
+        if (!match) {
+            return res.status(400).json({ error: "Failed to extract hash from URL." });
         }
-    }
-    const url = uploadResult.url;
-    console.log("URL: " + url);
-    // Extract the hash from the URL
-    const match = url.match(/\/([^\/?]*)\?_a=/);
-    if (match) {
         const hash = match[1]; // Extracted hash (e.g., mtp0yc50jblj47sgabfn)
         console.log("Extracted Part (hash): " + hash);
+        // If there are tags, handle them (convert to ObjectIds or create new Tag documents)
+        const tagIds = [];
+        if (tags) {
+            for (const tagName of tags) {
+                const tag = yield db_1.TagModel.findOneAndUpdate({ name: tagName }, { name: tagName }, { upsert: true, new: true });
+                tagIds.push(tag._id);
+            }
+        }
         // Save the image details in the database
         const newImage = yield db_1.ImageModel.create({
-            link: hash, // Assuming `url` contains the uploaded image's URL
+            link: hash, // Assuming `hash` contains the uploaded image's hash
             uploaderId: req.userId, // User ID from middleware
             tags: tagIds
         });
         // Respond with success and the saved image document
         res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
+    }
+    catch (err) {
+        console.error("Error in /api/v1/image/postLink:", err);
+        // Check if the error is a Zod validation error
+        if (err instanceof zod_1.z.ZodError) {
+            return res.status(400).json({ error: "Validation error", details: err.errors });
+        }
+        // Handle unexpected errors
+        res.status(500).json({ error: "An unexpected error occurred. Please try again." });
     }
 }));
 app.post('/api/v1/image/upload', upload.single('image'), middleware_1.userMiddleware, // Ensure the user ID is available

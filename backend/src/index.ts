@@ -22,7 +22,7 @@ import bodyParser from 'body-parser';
 import { urlHandler, imageUploader, fileUploader} from "./cloudinary";
 import multer from 'multer';
 
-const upload = multer({ dest: 'uploads/' }); // Temporary directory to store uploaded files
+// const upload = multer({ dest: 'uploads/' }); // Temporary directory to store uploaded files
 
 dotenv.config();
 
@@ -353,105 +353,120 @@ app.get('/api/v1/image/getLink', async (req, res) => {
     }
 });
 
-app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
-        const ImageInputSchema = z.object({
-            inputUrl: z.string().url("Invalid URL format"),
-            tags: z.array(z.string()).optional() // Optional tags
-        });
+// //@ts-ignore
+// app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
+//     try {
+//         const ImageInputSchema = z.object({
+//             inputUrl: z.string().url("Invalid URL format"),
+//             tags: z.array(z.string()).optional() // Optional tags
+//         });
 
-        // Parse the request body
-        const { inputUrl, tags } = ImageInputSchema.parse(req.body);
+//         // Parse the request body
+//         const { inputUrl, tags } = ImageInputSchema.parse(req.body);
 
-        // Upload the image to Cloudinary or any image hosting service
-        const uploadResult = await imageUploader(inputUrl);
+//         // Upload the image to Cloudinary or any image hosting service
+//         const uploadResult = await imageUploader(inputUrl);
+//         const url = uploadResult.url;
+//         console.log("URL: " + url);
 
-        // If there are tags, handle them (convert to ObjectIds or create new Tag documents)
-        const tagIds = [];
-        if (tags) {
-            for (const tagName of tags) {
-                const tag = await TagModel.findOneAndUpdate(
-                    { name: tagName },
-                    { name: tagName },
-                    { upsert: true, new: true }
-                );
-                tagIds.push(tag._id);
-            }
-        }
-        const url = uploadResult.url;
-        console.log("URL: " + url);
+//         // Extract the hash from the URL
+//         const match = url.match(/\/([^\/?]*)\?_a=/);
+//         if (!match) {
+//             return res.status(400).json({ error: "Failed to extract hash from URL." });
+//         }
+//         const hash = match[1]; // Extracted hash (e.g., mtp0yc50jblj47sgabfn)
+//         console.log("Extracted Part (hash): " + hash);
 
-        // Extract the hash from the URL
-        const match = url.match(/\/([^\/?]*)\?_a=/);
+//         // If there are tags, handle them (convert to ObjectIds or create new Tag documents)
+//         const tagIds = [];
+//         if (tags) {
+//             for (const tagName of tags) {
+//                 const tag = await TagModel.findOneAndUpdate(
+//                     { name: tagName },
+//                     { name: tagName },
+//                     { upsert: true, new: true }
+//                 );
+//                 tagIds.push(tag._id);
+//             }
+//         }
 
-        if (match) {
-            const hash = match[1]; // Extracted hash (e.g., mtp0yc50jblj47sgabfn)
-            console.log("Extracted Part (hash): " + hash);
+//         // Save the image details in the database
+//         const newImage = await ImageModel.create({
+//             link: hash, // Assuming `hash` contains the uploaded image's hash
+//             uploaderId: req.userId, // User ID from middleware
+//             tags: tagIds
+//         });
 
-        // Save the image details in the database
-        const newImage = await ImageModel.create({
-            link: hash, // Assuming `url` contains the uploaded image's URL
-            uploaderId: req.userId, // User ID from middleware
-            tags: tagIds
-        });
+//         // Respond with success and the saved image document
+//         res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
 
-        // Respond with success and the saved image document
-        res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
-    }
-});
+//     } catch (err) {
+//         console.error("Error in /api/v1/image/postLink:", err);
 
-app.post(
-    '/api/v1/image/upload',
-    upload.single('image'),
-    userMiddleware, // Ensure the user ID is available
-    (req: Request, res: Response) => {
-        (async () => {
-            try {
-                const filePath = req.file?.path; // Access the uploaded file's path
-                if (!filePath) {
-                    return res.status(400).json({ error: 'No file uploaded' });
-                }
+//         // Check if the error is a Zod validation error
+//         if (err instanceof z.ZodError) {
+//             return res.status(400).json({ error: "Validation error", details: err.errors });
+//         }
 
-                // Validate optional tags (if any)
-                const ImageInputSchema = z.object({
-                    tags: z.array(z.string()).optional() // Optional tags
-                });
+//         // Handle unexpected errors
+//         res.status(500).json({ error: "An unexpected error occurred. Please try again." });
+//     }
+// });
 
-                const { tags } = ImageInputSchema.parse(req.body);
 
-                // Upload the image to the file hosting service
-                const uploadResult = await fileUploader(filePath);
+// app.post(
+//     '/api/v1/image/upload',
+//     upload.single('image'),
+//     userMiddleware, // Ensure the user ID is available
+//     (req: Request, res: Response) => {
+//         (async () => {
+//             try {
+//                 const filePath = req.file?.path; // Access the uploaded file's path
+//                 if (!filePath) {
+//                     return res.status(400).json({ error: 'No file uploaded' });
+//                 }
 
-                // Handle tags (convert to ObjectIds or create new Tag documents)
-                const tagIds = [];
-                if (tags) {
-                    for (const tagName of tags) {
-                        const tag = await TagModel.findOneAndUpdate(
-                            { name: tagName },
-                            { name: tagName },
-                            { upsert: true, new: true }
-                        );
-                        tagIds.push(tag._id);
-                    }
-                }
+//                 // Validate optional tags (if any)
+//                 const ImageInputSchema = z.object({
+//                     tags: z.array(z.string()).optional() // Optional tags
+//                 });
 
-                // Save the image details in the database
-                const newImage = await ImageModel.create({
-                    link: uploadResult.url, // Assuming `url` contains the uploaded image's URL
-                    uploaderId: req.userId, // User ID from middleware
-                    tags: tagIds
-                });
+//                 const { tags } = ImageInputSchema.parse(req.body);
 
-                // Respond with success and the saved image document
-                res.status(200).json({ message: 'Image uploaded and saved successfully!', image: newImage });
-            } catch (error) {
-                console.error('Image upload failed:', error);
-                res.status(500).json({
-                    error: 'Failed to upload and save image!',
-                });
-            }
-        })();
-    }
-);
+//                 // Upload the image to the file hosting service
+//                 const uploadResult = await fileUploader(filePath);
+
+//                 // Handle tags (convert to ObjectIds or create new Tag documents)
+//                 const tagIds = [];
+//                 if (tags) {
+//                     for (const tagName of tags) {
+//                         const tag = await TagModel.findOneAndUpdate(
+//                             { name: tagName },
+//                             { name: tagName },
+//                             { upsert: true, new: true }
+//                         );
+//                         tagIds.push(tag._id);
+//                     }
+//                 }
+
+//                 // Save the image details in the database
+//                 const newImage = await ImageModel.create({
+//                     link: uploadResult.url, // Assuming `url` contains the uploaded image's URL
+//                     uploaderId: req.userId, // User ID from middleware
+//                     tags: tagIds
+//                 });
+
+//                 // Respond with success and the saved image document
+//                 res.status(200).json({ message: 'Image uploaded and saved successfully!', image: newImage });
+//             } catch (error) {
+//                 console.error('Image upload failed:', error);
+//                 res.status(500).json({
+//                     error: 'Failed to upload and save image!',
+//                 });
+//             }
+//         })();
+//     }
+// );
 
 
 const port = process.env.PORT || 3000;
