@@ -16,7 +16,6 @@ exports.urlHandler = urlHandler;
 exports.imageUploader = imageUploader;
 exports.fileUploader = fileUploader;
 const cloudinary_1 = require("cloudinary");
-const promises_1 = __importDefault(require("fs/promises"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 cloudinary_1.v2.config({
@@ -63,25 +62,32 @@ function imageUploader(inputUrl) {
     });
 }
 // New function to handle file uploads
-function fileUploader(filePath) {
+function fileUploader(fileBuffer, fileName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const result = yield cloudinary_1.v2.uploader.upload(filePath, {
-                transformation: [
-                    {
-                        quality: "auto",
-                        fetch_format: "auto",
-                    },
-                    {
-                        width: 1200,
-                        height: 1200,
-                        crop: "fill",
-                        gravity: "auto",
-                    },
-                ],
+            const result = yield new Promise((resolve, reject) => {
+                const uploadStream = cloudinary_1.v2.uploader.upload_stream({
+                    resource_type: "image",
+                    transformation: [
+                        {
+                            quality: "auto",
+                            fetch_format: "auto",
+                        },
+                        {
+                            width: 1200,
+                            height: 1200,
+                            crop: "fill",
+                            gravity: "auto",
+                        },
+                    ],
+                    public_id: fileName.split('.')[0], // Use the file name (without extension) for the public ID
+                }, (error, result) => {
+                    if (error)
+                        return reject(error);
+                    resolve(result);
+                });
+                uploadStream.end(fileBuffer); // Pass the file buffer to the stream
             });
-            // Delete the temporary file after uploading
-            yield promises_1.default.unlink(filePath);
             return {
                 url: result.secure_url,
                 public_id: result.public_id,

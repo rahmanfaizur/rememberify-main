@@ -48,25 +48,33 @@ export async function imageUploader(inputUrl: any) {
 }
 
 // New function to handle file uploads
-export async function fileUploader(filePath: string) {
+export async function fileUploader(fileBuffer: Buffer, fileName: string) {
     try {
-        const result = await cloudinary.uploader.upload(filePath, {
-            transformation: [
+        const result = await new Promise<any>((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
                 {
-                    quality: "auto",
-                    fetch_format: "auto",
+                    resource_type: "image",
+                    transformation: [
+                        {
+                            quality: "auto",
+                            fetch_format: "auto",
+                        },
+                        {
+                            width: 1200,
+                            height: 1200,
+                            crop: "fill",
+                            gravity: "auto",
+                        },
+                    ],
+                    public_id: fileName.split('.')[0], // Use the file name (without extension) for the public ID
                 },
-                {
-                    width: 1200,
-                    height: 1200,
-                    crop: "fill",
-                    gravity: "auto",
-                },
-            ],
+                (error, result) => {
+                    if (error) return reject(error);
+                    resolve(result);
+                }
+            );
+            uploadStream.end(fileBuffer); // Pass the file buffer to the stream
         });
-
-        // Delete the temporary file after uploading
-        await fs.unlink(filePath);
 
         return {
             url: result.secure_url,
