@@ -293,11 +293,11 @@ app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(
 }));
 app.get('/api/v1/image/getLink', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { fetchUrl } = req.body;
-        // console.log(fetchUrl);
-        const result = yield (0, cloudinary_1.urlHandler)(fetchUrl);
-        // console.log(result);
-        res.status(200).json(result);
+        const { fetchUrl } = req.query; // Access fetchUrl from query params (not body)
+        console.log(fetchUrl); // Log fetchUrl for debugging
+        const result = yield (0, cloudinary_1.urlHandler)(fetchUrl); // Call your handler function
+        console.log(result); // Log result for debugging
+        res.status(200).json(result); // Send back the result
     }
     catch (error) {
         console.error(error);

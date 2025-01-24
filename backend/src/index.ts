@@ -339,11 +339,11 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
 
 app.get('/api/v1/image/getLink', async (req, res) => {
     try {
-        const { fetchUrl } = req.body;
-        // console.log(fetchUrl);
-        const result = await urlHandler(fetchUrl);
-        // console.log(result);
-        res.status(200).json(result);
+        const { fetchUrl } = req.query; // Access fetchUrl from query params (not body)
+        console.log(fetchUrl); // Log fetchUrl for debugging
+        const result = await urlHandler(fetchUrl); // Call your handler function
+        console.log(result); // Log result for debugging
+        res.status(200).json(result); // Send back the result
     }
     catch (error) {
         console.error(error);
