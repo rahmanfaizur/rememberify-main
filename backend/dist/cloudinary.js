@@ -17,6 +17,8 @@ exports.imageUploader = imageUploader;
 exports.fileUploader = fileUploader;
 const cloudinary_1 = require("cloudinary");
 const promises_1 = __importDefault(require("fs/promises"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 cloudinary_1.v2.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
