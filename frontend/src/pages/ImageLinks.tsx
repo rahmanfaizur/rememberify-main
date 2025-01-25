@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { Camera } from "lucide-react";
 
 // Define the structure of the image data
 interface Image {
