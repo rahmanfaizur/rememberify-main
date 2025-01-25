@@ -336,16 +336,16 @@ app.get("/api/v1/refresh", userMiddleware, async (req: Request, res: Response) =
     }
 });
 
-app.get('/api/v1/image/getLink', async (req, res) => {
+app.get('/api/v1/image/getLink', userMiddleware, async (req, res) => {
     try {
         const { fetchUrl } = req.query; // Access fetchUrl from query params (not body)
-        console.log(fetchUrl); // Log fetchUrl for debugging
+        // console.log(fetchUrl); // Log fetchUrl for debugging
         const result = await urlHandler(fetchUrl); // Call your handler function
-        console.log(result); // Log result for debugging
+        // console.log(result); // Log result for debugging
         res.status(200).json(result); // Send back the result
     }
     catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({
             error: 'Failed to fetch Url!'
         });
@@ -366,7 +366,7 @@ app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
         // Upload the image to Cloudinary or any image hosting service
         const uploadResult = await imageUploader(inputUrl);
         const url = uploadResult.url;
-        console.log("URL: " + url);
+        // console.log("URL: " + url);
 
         // Extract the hash from the URL
         const match = url.match(/\/([^\/?]*)\?_a=/);
@@ -400,7 +400,7 @@ app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
         res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
 
     } catch (err) {
-        console.error("Error in /api/v1/image/postLink:", err);
+        // console.error("Error in /api/v1/image/postLink:", err);
 
         // Check if the error is a Zod validation error
         if (err instanceof z.ZodError) {
@@ -465,7 +465,7 @@ app.post(
           image: newImage,
         });
       } catch (error) {
-        console.error('Image upload failed:', error);
+        // console.error('Image upload failed:', error);
         res.status(500).json({
           error: 'Failed to upload and save image!',
         });

@@ -291,7 +291,7 @@ app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(
         console.log("Lol!");
     }
 }));
-app.get('/api/v1/image/getLink', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/v1/image/getLink', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { fetchUrl } = req.query; // Access fetchUrl from query params (not body)
         console.log(fetchUrl); // Log fetchUrl for debugging
