@@ -7,32 +7,32 @@ const Test = () => {
     const [error, setError] = useState('');
     const [inputUrl, setInputUrl] = useState('');
     const [tags, setTags] = useState('');
+    const [title, setTitle] = useState(''); // New state for title
     const [uploadImage, setUploadImage] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // Loader state
+    const [isLoading, setIsLoading] = useState(false);
 
     // Get the token from localStorage
     const token = localStorage.getItem('token');
 
-    // Handle GET request
     const handleSubmit = async (e : any) => {
         e.preventDefault();
         setIsLoading(true);
-    
+
         try {
-            const token = localStorage.getItem('token'); // Retrieve token from localStorage
-    
+            const token = localStorage.getItem('token');
+
             const response = await axios.get(
                 `http://localhost:3000/api/v1/image/getLink`,
                 {
-                    params: { fetchUrl }, // Send fetchUrl as query parameter
+                    params: { fetchUrl },
                     headers: {
-                        Authorization: `${token}`, // Add Bearer token in the Authorization header
-                        'Content-Type': 'application/json', // Optional, but ensures proper formatting
+                        Authorization: `${token}`,
+                        'Content-Type': 'application/json',
                     },
                 }
             );
-    
-            setImageLink(response.data.url); // Set the retrieved image link
+
+            setImageLink(response.data.url);
             setError('');
         } catch (err) {
             console.error('Error fetching image link:', err);
@@ -42,37 +42,34 @@ const Test = () => {
             setIsLoading(false);
         }
     };
-    
-    // Handle POST request to upload an image link
-    const handlePostLink = async (e) => {
+
+    const handlePostLink = async (e : any) => {
         e.preventDefault();
         setIsLoading(true);
-    
-        // Helper function to transform Google Drive links
+
         const transformGoogleDriveLink = (url : any) => {
             const driveFileIdRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
             const match = url.match(driveFileIdRegex);
             if (match && match[1]) {
-                // Convert to direct download link
                 return `https://drive.google.com/uc?export=view&id=${match[1]}`;
             }
-            return url; // Return the original URL if it's not a Google Drive link
+            return url;
         };
-    
-        // Transform the input URL if needed
+
         const transformedUrl = transformGoogleDriveLink(inputUrl);
-    
+
         try {
             const response = await axios.post(
                 'http://localhost:3000/api/v1/image/postLink',
                 {
                     inputUrl: transformedUrl,
-                    tags: tags.split(',').map(tag => tag.trim()),
+                    tags: tags.split(',').map((tag) => tag.trim()),
+                    title, // Include title
                 },
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `${token}`, // Include the token from localStorage
+                        Authorization: `${token}`,
                     },
                 }
             );
@@ -85,7 +82,6 @@ const Test = () => {
             setIsLoading(false);
         }
     };
-    
 
     const handleFileUpload = async (e : any) => {
         e.preventDefault();
@@ -95,14 +91,18 @@ const Test = () => {
             return;
         }
     
+        if (!title || title.trim() === '') {  // Make sure title is non-empty
+            setError('Please enter a valid title for the image.');
+            return;
+        }
+    
         setIsLoading(true);
     
-        // Create FormData object
         const formData = new FormData();
-        formData.append('image', uploadImage); // Attach image file
+        formData.append('image', uploadImage);
+        formData.append('title', title); // Include title
         if (tags) {
-            // Convert tags to a JSON string and append it
-            formData.append('tags', JSON.stringify(tags.split(',').map(tag => tag.trim())));
+            formData.append('tags', JSON.stringify(tags.split(',').map((tag) => tag.trim())));
         }
     
         try {
@@ -111,13 +111,12 @@ const Test = () => {
                 formData,
                 {
                     headers: {
-                        Authorization: `${token}`, // Use Bearer token for authorization
-                        'Content-Type': 'multipart/form-data', // Required for file uploads
+                        Authorization: `${token}`,
+                        'Content-Type': 'multipart/form-data',
                     },
                 }
             );
     
-            // Handle successful response
             console.log('Uploaded Image URL:', response.data.image.link);
             setError('');
         } catch (error) {
@@ -131,13 +130,10 @@ const Test = () => {
         }
     };
     
-    
-    
 
     return (
         <div>
-            {isLoading && <p>Loading...</p>} {/* Loader */}
-            
+            {isLoading && <p>Loading...</p>}
             <h2>Fetch Image Link (GET)</h2>
             <form onSubmit={handleSubmit}>
                 <input
@@ -148,7 +144,14 @@ const Test = () => {
                 />
                 <button type="submit">Fetch Image Link</button>
             </form>
-            {imageLink && <p>Image Link: <a href={imageLink} target="_blank" rel="noopener noreferrer">{imageLink}</a></p>}
+            {imageLink && (
+                <p>
+                    Image Link:{' '}
+                    <a href={imageLink} target="_blank" rel="noopener noreferrer">
+                        {imageLink}
+                    </a>
+                </p>
+            )}
             {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
             <hr />
@@ -160,6 +163,12 @@ const Test = () => {
                     value={inputUrl}
                     onChange={(e) => setInputUrl(e.target.value)}
                     placeholder="Enter image URL"
+                />
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Enter title"
                 />
                 <input
                     type="text"
@@ -179,6 +188,12 @@ const Test = () => {
                     //@ts-ignore
                     onChange={(e) => setUploadImage(e.target.files[0])}
                     required
+                />
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Enter title"
                 />
                 <input
                     type="text"

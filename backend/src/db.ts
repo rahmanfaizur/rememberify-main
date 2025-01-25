@@ -34,6 +34,7 @@ export const ContentModel = model("Content", ContentSchema);
 
 // Assuming you have an ImageSchema defined like this
 const ImageSchema = new Schema({
+    title: String,
     link: String, // URL of the uploaded image
     uploaderId: { type: mongoose.Types.ObjectId, ref: 'User', required: true }, // User who uploaded the image
     tags: [{ type: mongoose.Types.ObjectId, ref: 'Tag' }] // Optional tags

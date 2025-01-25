@@ -374,24 +374,16 @@ app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
     try {
         const ImageInputSchema = z.object({
             inputUrl: z.string().url("Invalid URL format"),
+            title: z.string().nonempty("Title is required"), // Added title validation
             tags: z.array(z.string()).optional() // Optional tags
         });
 
         // Parse the request body
-        const { inputUrl, tags } = ImageInputSchema.parse(req.body);
+        const { inputUrl, title, tags } = ImageInputSchema.parse(req.body);
 
         // Upload the image to Cloudinary or any image hosting service
         const uploadResult = await imageUploader(inputUrl);
         const url = uploadResult.url;
-        // console.log("URL: " + url);
-
-        // Extract the hash from the URL
-        const match = url.match(/\/([^\/?]*)\?_a=/);
-        if (!match) {
-            return res.status(400).json({ error: "Failed to extract hash from URL." });
-        }
-        const hash = match[1]; // Extracted hash (e.g., mtp0yc50jblj47sgabfn)
-        console.log("Extracted Part (hash): " + hash);
 
         // If there are tags, handle them (convert to ObjectIds or create new Tag documents)
         const tagIds = [];
@@ -408,17 +400,19 @@ app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
 
         // Save the image details in the database
         const newImage = await ImageModel.create({
-            link: hash, // Assuming `hash` contains the uploaded image's hash
+            title,       // Save the title
+            link: url,   // Save the link
             uploaderId: req.userId, // User ID from middleware
             tags: tagIds
         });
 
         // Respond with success and the saved image document
-        res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
+        res.status(200).json({
+            message: "Image uploaded and saved successfully!",
+            image: newImage
+        });
 
     } catch (err) {
-        // console.error("Error in /api/v1/image/postLink:", err);
-
         // Check if the error is a Zod validation error
         if (err instanceof z.ZodError) {
             return res.status(400).json({ error: "Validation error", details: err.errors });
@@ -428,6 +422,7 @@ app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {
         res.status(500).json({ error: "An unexpected error occurred. Please try again." });
     }
 });
+
 
 
 app.post(
@@ -443,19 +438,20 @@ app.post(
           return res.status(400).json({ error: 'No file uploaded' });
         }
   
-        // Validate optional tags (if any)
+        // Validate optional title and tags (if any)
         const ImageInputSchema = z.object({
+          title: z.string().nonempty(), // Title is required
           tags: z.array(z.string()).optional(), // Optional tags
         });
   
-        const { tags } = ImageInputSchema.parse(req.body);
+        const { title, tags } = ImageInputSchema.parse(req.body);
   
         // Upload the image to the file hosting service
         const uploadResult = await fileUploader(
-            fileBuffer,
-            fileOriginalName || 'defaultFileName'
-          );
-            
+          fileBuffer,
+          fileOriginalName || 'defaultFileName'
+        );
+  
         // Handle tags (convert to ObjectIds or create new Tag documents)
         const tagIds = [];
         if (tags) {
@@ -472,6 +468,7 @@ app.post(
         // Save the image details in the database
         const newImage = await ImageModel.create({
           link: uploadResult.url, // Assuming `url` contains the uploaded image's URL
+          title, // Save the title
           uploaderId: req.userId, // User ID from middleware
           tags: tagIds,
         });
@@ -482,14 +479,13 @@ app.post(
           image: newImage,
         });
       } catch (error) {
-        // console.error('Image upload failed:', error);
         res.status(500).json({
           error: 'Failed to upload and save image!',
         });
       }
     }
   );
-
+  
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {

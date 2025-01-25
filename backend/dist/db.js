@@ -41,6 +41,7 @@ const ContentSchema = new mongoose_2.Schema({
 exports.ContentModel = (0, mongoose_2.model)("Content", ContentSchema);
 // Assuming you have an ImageSchema defined like this
 const ImageSchema = new mongoose_2.Schema({
+    title: String,
     link: String, // URL of the uploaded image
     uploaderId: { type: mongoose_1.default.Types.ObjectId, ref: 'User', required: true }, // User who uploaded the image
     tags: [{ type: mongoose_1.default.Types.ObjectId, ref: 'Tag' }] // Optional tags
