@@ -309,11 +309,14 @@ app.get('/api/v1/image/getLink', middleware_1.userMiddleware, (req, res) => __aw
 app.get("/api/v1/images", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.userId; // Extract user ID from decoded token
-        // Fetch images for the authenticated user
-        const images = yield db_1.ImageModel.find({ uploaderId: userId }).select("link");
-        // Return the links
+        // Fetch images and titles for the authenticated user
+        const images = yield db_1.ImageModel.find({ uploaderId: userId }).select("link title");
+        // Return the links and titles
         res.json({
-            images: images.map((img) => img.link),
+            images: images.map((img) => ({
+                link: img.link,
+                title: img.title,
+            })),
         });
     }
     catch (error) {

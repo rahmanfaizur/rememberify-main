@@ -16,10 +16,10 @@ import { AllIcon } from "../icons/AllIcon";
 import { fetchData } from "../utils/fetchData"; // Import the fetchData function
 import { toast, ToastContainer } from "react-toastify";
 import { CircularProgress } from "@mui/material"; // Material-UI loader
-import { Facebook, Instagram } from "lucide-react";
+import { Camera, Facebook, Instagram } from "lucide-react";
 import { PinterestIcon } from "../icons/PinterestIcon";
 // import { Input } from "../components/ui/Input";
-
+import { ImageContentModal } from "../components/ui/ImageContentModal";  // Import the modal
 
 // Define the Content interface
 interface Tag {
@@ -46,6 +46,8 @@ export function DashBoard() {
 
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(""); // Debounced query state
 
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
   // Debounce logic
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -60,6 +62,13 @@ export function DashBoard() {
 
   const openShareModal = () => setIsShareModalOpen(true);
   const closeShareModal = () => setIsShareModalOpen(false);
+
+  const openImageContentModal = () => setIsImageModalOpen(true);
+  const closeImageContentModal = () => setIsImageModalOpen(false);
+
+  function goToLinks() {
+    navigate('/images');
+  }
 
   // const searchRef = useRef<HTMLInputElement>(null);
 
@@ -124,6 +133,10 @@ export function DashBoard() {
         <button onClick={() => setActiveType("Facebook")}>
           <SidebarItem icon={<Facebook></Facebook>} text="Facebook" active={activeType === "facebook"}></SidebarItem>
         </button>
+        <button onClick={() => goToLinks()}>
+          <SidebarItem icon={<Camera />} text="Image" />
+        </button>
+
       </Sidebar>
   
       <div className={`flex-grow transition-all ${sidebarExpanded ? "ml-72" : "ml-20"}`}>
@@ -139,6 +152,12 @@ export function DashBoard() {
           {/* Share Brain Modal */}
           <ShareBrainBox isModalOpen={isShareModalOpen} closeModal={closeShareModal} />
   
+          <ImageContentModal
+            open={isImageModalOpen} // Controls visibility
+            onClose={closeImageContentModal} // Closes the modal
+            refreshCards={refreshCards} // Refresh the content
+          />
+
           {/* Search Box
           <div className="bg-white text-black p-4 rounded-md shadow-md flex items-center gap-2">
             <Input
@@ -204,20 +223,35 @@ export function DashBoard() {
       onClick={openAddContentModal}
     />
     </div>
-  </div>
 
-  {/* Logout Button (for smaller screens) */}
-  <div className="flex md:hidden justify-end">
+      <div className="flex justify-end items-center">
     <Button
       padding="one"
-      text="Logout"
-      variant="reddish"
+      startIcon={<PlusIcon size="lg" />}
+      variant="primary"
+      text="Add Images"
       size="var"
-      startIcon={<LogoutIcon size="lg" />}
-      onClick={LogoutItem}
+      onClick={openImageContentModal}
     />
+    <span className="ml-2 text-sm text-green-500 font-semibold bg-green-100 rounded-full px-2 py-1">
+      New
+    </span>
   </div>
-</div>
+
+    </div>
+
+    {/* Logout Button (for smaller screens) */}
+    <div className="flex md:hidden justify-end">
+      <Button
+        padding="one"
+        text="Logout"
+        variant="reddish"
+        size="var"
+        startIcon={<LogoutIcon size="lg" />}
+        onClick={LogoutItem}
+      />
+    </div>
+    </div>
   
           {/* Responsive Grid Layout for Cards */}
           {isLoading ? (

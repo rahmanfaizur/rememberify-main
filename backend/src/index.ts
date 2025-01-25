@@ -356,18 +356,22 @@ app.get("/api/v1/images", userMiddleware, async (req, res) => {
     try {
         const userId = req.userId; // Extract user ID from decoded token
 
-        // Fetch images for the authenticated user
-        const images = await ImageModel.find({ uploaderId: userId }).select("link");
+        // Fetch images and titles for the authenticated user
+        const images = await ImageModel.find({ uploaderId: userId }).select("link title");
 
-        // Return the links
+        // Return the links and titles
         res.json({
-            images: images.map((img) => img.link),
+            images: images.map((img) => ({
+                link: img.link,
+                title: img.title,
+            })),
         });
     } catch (error) {
         console.error("Error fetching images:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
 
 //@ts-ignore
 app.post('/api/v1/image/postLink', userMiddleware, async (req, res) => {

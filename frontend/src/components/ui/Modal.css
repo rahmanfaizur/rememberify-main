@@ -91,3 +91,19 @@ body.active-modal {
         font-size: 16px; /* Smaller button font size */
     }
 }
+
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  .error-text {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  
