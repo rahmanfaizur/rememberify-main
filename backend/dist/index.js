@@ -294,16 +294,31 @@ app.get("/api/v1/refresh", middleware_1.userMiddleware, (req, res) => __awaiter(
 app.get('/api/v1/image/getLink', middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { fetchUrl } = req.query; // Access fetchUrl from query params (not body)
-        console.log(fetchUrl); // Log fetchUrl for debugging
+        // console.log(fetchUrl); // Log fetchUrl for debugging
         const result = yield (0, cloudinary_1.urlHandler)(fetchUrl); // Call your handler function
-        console.log(result); // Log result for debugging
+        // console.log(result); // Log result for debugging
         res.status(200).json(result); // Send back the result
     }
     catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({
             error: 'Failed to fetch Url!'
         });
+    }
+}));
+app.get("/api/v1/images", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.userId; // Extract user ID from decoded token
+        // Fetch images for the authenticated user
+        const images = yield db_1.ImageModel.find({ uploaderId: userId }).select("link");
+        // Return the links
+        res.json({
+            images: images.map((img) => img.link),
+        });
+    }
+    catch (error) {
+        console.error("Error fetching images:", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }));
 //@ts-ignore
@@ -318,7 +333,7 @@ app.post('/api/v1/image/postLink', middleware_1.userMiddleware, (req, res) => __
         // Upload the image to Cloudinary or any image hosting service
         const uploadResult = yield (0, cloudinary_1.imageUploader)(inputUrl);
         const url = uploadResult.url;
-        console.log("URL: " + url);
+        // console.log("URL: " + url);
         // Extract the hash from the URL
         const match = url.match(/\/([^\/?]*)\?_a=/);
         if (!match) {
@@ -344,7 +359,7 @@ app.post('/api/v1/image/postLink', middleware_1.userMiddleware, (req, res) => __
         res.status(200).json({ message: "Image uploaded and saved successfully!", image: newImage });
     }
     catch (err) {
-        console.error("Error in /api/v1/image/postLink:", err);
+        // console.error("Error in /api/v1/image/postLink:", err);
         // Check if the error is a Zod validation error
         if (err instanceof zod_1.z.ZodError) {
             return res.status(400).json({ error: "Validation error", details: err.errors });
@@ -392,7 +407,7 @@ middleware_1.userMiddleware, // Ensure the user ID is available
         });
     }
     catch (error) {
-        console.error('Image upload failed:', error);
+        // console.error('Image upload failed:', error);
         res.status(500).json({
             error: 'Failed to upload and save image!',
         });
