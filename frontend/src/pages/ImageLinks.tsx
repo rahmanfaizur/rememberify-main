@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { Camera } from "lucide-react";
 
 // Define the structure of the image data
 interface Image {
@@ -39,7 +40,7 @@ const ImageLinks = () => {
   return (
     <div className="min-h-screen bg-black text-white p-8">
       <h1 className="text-4xl font-extrabold text-center text-gradient mb-8">
-        Magical Image Gallery ✨
+        Your Image Gallery
       </h1>
 
       {loading ? (
