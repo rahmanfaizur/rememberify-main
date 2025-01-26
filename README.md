@@ -25,8 +25,8 @@
 
 ### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/rememberify.git
-cd rememberify
+git clone https://github.com/rahmanfaizur/rememberify-main.git
+cd rememberify-main
 ```
 
 ### 2. **Set Up the Environment Variables**
@@ -71,6 +71,15 @@ npm install
 ```bash
 cd ../backend
 npm install
+```
+
+Add the following scripts to the `package.json` file in the backend:
+```json
+"scripts": {
+  "build": "tsc -b",
+  "start": "node dist/index.js",
+  "dev": "npm run build && npm run start"
+}
 ```
 
 ---
