@@ -1,9 +1,102 @@
-# Rememberify  
+# **Rememberify**
 
-**Rememberify** is a second-brain app to quickly jot down important data, links, and ideas for future reference.  
+**Rememberify** is your second brain! This app helps you quickly jot down important data, links, ideas, and now even photos, making it super easy to organize and retrieve your thoughts whenever you need them.
 
-## Features  
-- Save links effortlessly.
-- Organize data for easy retrieval.  
+---
+
+## **Features**
+- Save links and ideas effortlessly.
+- Upload and store photos securely.
+- Organize data for quick and intuitive access.
 - Simple and user-friendly design.
-- Share your brain with others.
+- Share your "second brain" with others seamlessly.
+
+---
+
+## **Tech Stack**
+- **Frontend:** React, TypeScript, Vite
+- **Backend:** Node.js, TypeScript, Express
+- **Database:** MongoDB
+- **Cloud Storage:** Cloudinary
+
+---
+
+## **Setup Instructions**
+
+### 1. **Clone the Repository**
+```bash
+git clone https://github.com/your-username/rememberify.git
+cd rememberify
+```
+
+### 2. **Set Up the Environment Variables**
+
+#### **Frontend:**
+Navigate to the `frontend` directory and create a `.env` file:
+```bash
+cd frontend
+touch .env
+```
+Add the following variable:
+```env
+VITE_BACKEND_URL=<your-backend-url>
+```
+
+#### **Backend:**
+Navigate to the `backend` directory and create a `.env` file:
+```bash
+cd ../backend
+touch .env
+```
+Add the following variables:
+```env
+JWT_PASS=<your-jwt-secret>
+MONGO_URL=<your-mongodb-url>
+CLOUD_NAME=<your-cloudinary-cloud-name>
+API_KEY=<your-cloudinary-api-key>
+API_SECRET=<your-cloudinary-api-secret>
+```
+
+---
+
+### 3. **Install Dependencies**
+
+#### Frontend:
+```bash
+cd frontend
+npm install
+```
+
+#### Backend:
+```bash
+cd ../backend
+npm install
+```
+
+---
+
+### 4. **Run the App**
+
+#### Frontend:
+```bash
+cd frontend
+npm run dev
+```
+Access the frontend at [http://localhost:5173](http://localhost:5173).
+
+#### Backend:
+```bash
+cd ../backend
+npm run dev
+```
+The backend runs on [http://localhost:5000](http://localhost:5000).
+
+---
+
+## **Contributing**
+Contributions are always welcome!
+
+---
+
+## **License**
+[MIT License](LICENSE)
