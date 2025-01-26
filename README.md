@@ -98,7 +98,7 @@ Access the frontend at [http://localhost:5173](http://localhost:5173).
 cd ../backend
 npm run dev
 ```
-The backend runs on [http://localhost:5000](http://localhost:5000).
+The backend runs on [http://localhost:3000](http://localhost:3000).
 
 ---
 
