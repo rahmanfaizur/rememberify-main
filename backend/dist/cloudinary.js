@@ -33,9 +33,9 @@ function urlHandler(fetchUrl) {
                 {
                     quality: 'auto' // This decreases quality while not compromising the image quality!
                 },
-                {
-                    width: 1200
-                }
+                // {
+                //     width: 1200
+                // }
             ]
         });
         return { url }; // Return the URL as a JSON object
@@ -50,12 +50,12 @@ function imageUploader(inputUrl) {
                     quality: "auto",
                     fetch_format: "auto"
                 },
-                {
-                    width: 1200,
-                    height: 1200,
-                    crop: "fill",
-                    gravity: "auto"
-                }
+                // {
+                //     width: 1200,
+                //     height: 1200,
+                //     crop: "fill",
+                //     gravity: "auto"
+                // }
             ]
         });
         return { url }; // Return the URL as a JSON object
@@ -73,12 +73,12 @@ function fileUploader(fileBuffer, fileName) {
                             quality: "auto",
                             fetch_format: "auto",
                         },
-                        {
-                            width: 1200,
-                            height: 1200,
-                            crop: "fill",
-                            gravity: "auto",
-                        },
+                        // {
+                        //     width: 1200,
+                        //     height: 1200,
+                        //     crop: "fill",
+                        //     gravity: "auto",
+                        // },
                     ],
                     public_id: fileName.split('.')[0], // Use the file name (without extension) for the public ID
                 }, (error, result) => {
