@@ -16,6 +16,7 @@ exports.urlHandler = urlHandler;
 exports.imageUploader = imageUploader;
 exports.fileUploader = fileUploader;
 const cloudinary_1 = require("cloudinary");
+// import fs from "fs/promises"
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 cloudinary_1.v2.config({

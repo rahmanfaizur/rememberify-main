@@ -53,7 +53,7 @@ export function DashBoard() {
       const timer = setTimeout(() => {
         setDebouncedSearchQuery(searchQuery); // Update debounced value after 300ms
       }, 300);
-    
+
       return () => clearTimeout(timer); // Clear timer on cleanup
     }, [searchQuery]);
 
@@ -107,7 +107,7 @@ export function DashBoard() {
       setIsLoading(false); // Set loader to false after updating contents
     }, navigate);
   }, [activeType]);
-  
+
   return (
     <div className="flex bg-black">
       {/* Sidebar Component */}
@@ -134,24 +134,24 @@ export function DashBoard() {
           <SidebarItem icon={<Facebook></Facebook>} text="Facebook" active={activeType === "facebook"}></SidebarItem>
         </button>
         <button onClick={() => goToLinks()}>
-          <SidebarItem icon={<Camera />} text="Image" />
+          <SidebarItem icon={<Camera />} text="Images" />
         </button>
 
       </Sidebar>
-  
+
       <div className={`flex-grow transition-all ${sidebarExpanded ? "ml-72" : "ml-20"}`}>
         {/* Navbar */}
         <div className="hidden md:block pl-20">
           <Navbar showLogout={true} />
         </div>
-  
+
         <div className="p-4 min-h-screen bg-black border-y-2">
           {/* Create Content Modal */}
           <CreateContentModal open={isModalOpen} onClose={closeAddContentModal} refreshCards={refreshCards} />
-  
+
           {/* Share Brain Modal */}
           <ShareBrainBox isModalOpen={isShareModalOpen} closeModal={closeShareModal} />
-  
+
           <ImageContentModal
             open={isImageModalOpen} // Controls visibility
             onClose={closeImageContentModal} // Closes the modal
@@ -252,7 +252,7 @@ export function DashBoard() {
       />
     </div>
     </div>
-  
+
           {/* Responsive Grid Layout for Cards */}
           {isLoading ? (
       <div className="flex justify-center items-center h-full">
@@ -289,4 +289,4 @@ export function DashBoard() {
       </div>
     </div>
   );
-}  
+}

@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from "fs/promises"
+// import fs from "fs/promises"
 import dotenv from 'dotenv';
 
 dotenv.config();
