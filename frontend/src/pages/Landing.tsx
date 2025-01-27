@@ -11,7 +11,7 @@ export function Landing() {
         setLoading(true); // Start loader animation
         setTimeout(() => {
             navigate("/signup"); // Navigate to signup page after a short delay
-        }, 1500); // Delay for the loader animation
+        }, 500); // Delay for the loader animation
     }
 
     return (

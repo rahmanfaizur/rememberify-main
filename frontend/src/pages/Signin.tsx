@@ -19,6 +19,7 @@ export function Signin() {
     function newUser() {
         navigate('/signup');
     }
+    
 
     // Displays a success toast for login
     function toastLogin() {
@@ -66,8 +67,8 @@ export function Signin() {
             // Redirect to dashboard every 3 seconds using setInterval
             const intervalId = setInterval(() => {
                 navigate("/dashboard");
-                console.log("Navigating to dashboard...");
-            }, 2000);
+                // console.log("Navigating to dashboard...");
+            }, 1000);
 
             // Stop the interval when the component unmounts or as needed
             setTimeout(() => clearInterval(intervalId), 3000); // Clear after one navigation
