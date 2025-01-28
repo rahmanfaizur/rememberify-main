@@ -46,48 +46,54 @@ export default function Sidebar({ children, onToggle }: SidebarProps) {
   }, [isSmScreen]);
 
   return (
-    <aside className={`fixed z-50 h-screen ${expanded ? "w-72" : "w-20"} transition-all`}>
-      <nav className="h-full flex flex-col text-white bg-gray-900 border-r shadow-sm">
+    <aside className={`fixed z-50 h-screen ${expanded ? "w-72" : "w-20"} transition-all duration-300`}>
+      <nav className="h-full flex flex-col bg-gray-950 border-r border-gray-800/60 shadow-xl backdrop-blur-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <div className="flex">
-            <div
-              className={`flex items-center overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}
-            >
-              <h1
-                className={`pt-5 pl-3 font-black transition-all ${expanded ? "opacity-100" : "opacity-0"}`}
-              >
-                {/* Rememberify */}
-                <img src={RememberifyLogo} alt="" />
-              </h1>
+            <div className={`overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`}>
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2 rounded-lg">
+                <img 
+                  src={RememberifyLogo} 
+                  alt="Rememberify Logo"
+                  className="transition-transform duration-300 hover:scale-105" 
+                />
+              </div>
             </div>
           </div>
           <button
             onClick={toggleSidebar}
-            className="p-1.5 mr-3 rounded-lg text-white  hover:bg-black sm:block hidden"
+            className="p-1.5 mr-3 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 group"
           >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
+            {expanded ? (
+              <ChevronFirst className="text-indigo-400 group-hover:text-purple-300 w-6 h-6 transition-colors" />
+            ) : (
+              <ChevronLast className="text-indigo-400 group-hover:text-purple-300 w-6 h-6 transition-colors" />
+            )}
           </button>
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+          <ul className="flex-1 px-3 space-y-1">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3">
-          <img
-            src={`https://ui-avatars.com/api/?name=${localStorage.getItem("usernameFirstLetter")}`}
-            alt="User Avatar"
-            className="w-10 h-10 rounded-md"
-          />
+        <div className="border-t border-gray-800/60 flex p-3 bg-gray-900/30">
+          <div className="relative">
+            <img
+              src={`https://ui-avatars.com/api/?name=${localStorage.getItem("usernameFirstLetter")}`}
+              alt="User Avatar"
+              className="w-10 h-10 rounded-lg ring-2 ring-indigo-500/50 transition-all duration-300 hover:ring-purple-500/70"
+            />
+            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full ring-2 ring-gray-950" />
+          </div>
           <div
-            className={`flex justify-between items-center overflow-hidden transition-all ${
+            className={`flex items-center overflow-hidden transition-all ${
               expanded ? "w-52 ml-3" : "w-0"
             }`}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">{localStorage.getItem("username")}</h4>
-              </div>
-            {/* <MoreVertical size={20} /> */}
+              <h4 className="font-medium text-gray-200">{localStorage.getItem("username")}</h4>
+              <span className="text-xs text-gray-400">Premium Member</span>
+            </div>
           </div>
         </div>
       </nav>

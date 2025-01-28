@@ -54,7 +54,7 @@ const ImageLinks = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <h1 className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent animate-text-shine">
-          Visual Universe
+          Your Image Library
         </h1>
 
         {loading ? (
