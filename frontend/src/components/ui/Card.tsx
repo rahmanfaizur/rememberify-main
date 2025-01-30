@@ -12,6 +12,8 @@ import './Modal.css';
 import { CrossIcon } from "../../icons/CrossIcon";
 import { TwitterTweetEmbed} from 'react-twitter-embed';
 import { FacebookEmbed, InstagramEmbed, PinterestEmbed } from 'react-social-media-embed';
+import { FacebookIcon, InstagramIcon } from "lucide-react";
+import { PinterestIcon } from "../../icons/PinterestIcon";
 
 interface CardProps {
   title: string;
@@ -73,6 +75,9 @@ const embedNo = extractStatusNumber(link);
             {type === "twitter" && <TwitterIcon size="md" />}
             {type === "youtube" && <YoutubeIcon size="md" />}
             {type === "spotify" && <SpotifyIcon size="lg" />}
+            {type === "instagram" && <InstagramIcon size="lg" />}
+            {type === "pinterest" && <PinterestIcon size="lg" />}
+            {type === "facebook" && <FacebookIcon size="lg" />}
             {type === "anyLink" && <LinkIcon size="md" />}
           </div>
           {title}
