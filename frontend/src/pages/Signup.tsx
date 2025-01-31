@@ -76,8 +76,15 @@ export function Signup() {
         } catch (error: any) {
             if (error.response) {
                 setErrorMessage(error.response.data.message || "An error occurred.");
-                console.error("Error Response:", error.response.data);
+                // console.error("Error Response:", error.response.data);
+                // console.log("Error Response:", error.response.data.message);
                 toast.error(error.response.data.message);
+                if (error.response.data.message === "Username already exists" ) {
+                    toast.success("Please sign in with your credentials")
+                    setTimeout(() => {
+                        alreadyUser();
+                    }, 2500);
+                }
             }
         }
     }
