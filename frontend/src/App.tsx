@@ -2,12 +2,11 @@ import { DashBoard } from "./pages/Dashboard";
 import { Signin } from "./pages/Signin";
 import { Signup } from "./pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Test from "./pages/Test";
 import ShareParams from "./pages/ShareParams";
 import { ErrorPage } from "./pages/ErrorPage";
 import { Landing } from "./pages/Landing";
-// import Test from "./pages/Test";
 import ImageLinks from "./pages/ImageLinks";
+import Test2 from "./pages/Test2";
 
 function App() {
   return (
@@ -20,6 +19,7 @@ function App() {
         <Route path="/dashboard" element={<DashBoard/>}></Route>
         {/* <Route path="/test" element={<Test/>}></Route> */}
         <Route path="/images" element={<ImageLinks/>}></Route>
+        <Route path="/test2" element={<Test2/>}></Route>
         <Route path="/share/:shareLink" element={<ShareParams/>}></Route>
         <Route path="*" element={<ErrorPage/>}></Route>
       </Routes>

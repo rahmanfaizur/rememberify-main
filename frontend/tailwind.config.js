@@ -12,6 +12,10 @@ export default {
         'md-custom': '905px', // Custom breakpoint for 712px
       },
       colors: {
+        'my-custom': {
+          400: "#39007d",
+          100: "#f7aecc"
+        },
         gray: {
           50: "rgba(255, 255, 255, 0.5)",
           100: '#ffffff',
