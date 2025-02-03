@@ -62,9 +62,9 @@ export function Signup() {
         }
     }
 
-    const handleGoogleSignup = async () => {
-        window.location.href = `${BACKEND_URL}/auth/google`;
-    };
+    // const handleGoogleSignup = async () => {
+    //     window.location.href = `${BACKEND_URL}/auth/google`;
+    // };
 
     return (
         <div className="">
