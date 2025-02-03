@@ -103,14 +103,15 @@ export function Signup() {
                     </div>
                     <div className="flex justify-center pb-2">Or</div>
                     <div className="flex justify-center pb-4">
-                        <Button
+                        {/* <Button
                             padding="one"
                             variant="secondary"
                             text="Signup with Google (soon)"
                             size="md"
                             fullWidth={true}
                             onClick={handleGoogleSignup}
-                        />
+                        /> */}
+                        Signup with Google (soon)
                     </div>
                     <div className="flex justify-center">Already a user?</div>
                     <div className="flex justify-center">
