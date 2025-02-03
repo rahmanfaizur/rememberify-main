@@ -84,7 +84,7 @@ export function DashBoard() {
       );
       // console.log(searchQuery);
   const LogoutItem = () => {
-    localStorage.removeItem("token");
+    localStorage.clear(); 
     navigate("/signup");
   };
 

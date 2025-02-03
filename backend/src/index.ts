@@ -12,7 +12,7 @@ import express from "express";  //this one does give types to express
 import jwt from "jsonwebtoken";
 import { ContentModel, ImageModel, LinkModel, TagModel, UserModel } from "./db";
 import dotenv from 'dotenv';
-import { userMiddleware } from "./middleware";
+import { isLoggedInGoogle, userMiddleware } from "./middleware";
 import { random } from "./utils";
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
@@ -21,6 +21,10 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import { urlHandler, imageUploader, fileUploader} from "./cloudinary";
 import multer from 'multer';
+import session from "express-session";
+import passport from "passport";
+import authRoutes from "./routes/authRoutes";
+import "./config/passportConfig";
 
 const upload = multer({ storage: multer.memoryStorage() });
 dotenv.config();
@@ -45,6 +49,21 @@ app.use(cors());
 // app.use(cors({
 //     origin: "http://localhost:3000"
 // }))
+
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET || "your_secret_key", // Change this to a strong secret
+      resave: false, // Prevent unnecessary session saving
+      saveUninitialized: false, // Don't save uninitialized sessions
+      cookie: { secure: false }, // Set to `true` if using HTTPS
+    })
+  );
+
+//passport logics!
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(authRoutes);
+
 
 app.post("/api/v1/signup", async (req: Request, res: Response) => {
     //try adding zod validation here! and hashing password! Duplicate Entries!

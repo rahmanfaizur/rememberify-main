@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LinkModel = exports.TagModel = exports.ImageModel = exports.ContentModel = exports.UserModel = void 0;
+exports.googleUserModel = exports.LinkModel = exports.TagModel = exports.ImageModel = exports.ContentModel = exports.UserModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const mongoose_2 = require("mongoose");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -61,3 +61,11 @@ const LinkSchema = new mongoose_2.Schema({
     }
 });
 exports.LinkModel = (0, mongoose_2.model)("Links", LinkSchema);
+const googleUserSchema = new mongoose_1.default.Schema({
+    googleId: { type: String, unique: true, required: true },
+    username: { type: String, required: true, unique: true }, // Ensure the username is unique
+    email: { type: String, unique: true, required: true },
+    profilePicture: { type: String }
+}, { timestamps: true });
+// Prevent model overwrite issue
+exports.googleUserModel = mongoose_1.default.models.User || mongoose_1.default.model("User", googleUserSchema);

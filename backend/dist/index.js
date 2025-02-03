@@ -26,6 +26,10 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cloudinary_1 = require("./cloudinary");
 const multer_1 = __importDefault(require("multer"));
+const express_session_1 = __importDefault(require("express-session"));
+const passport_1 = __importDefault(require("passport"));
+const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+require("./config/passportConfig");
 const upload = (0, multer_1.default)({ storage: multer_1.default.memoryStorage() });
 dotenv_1.default.config();
 const JWT_PASS = process.env.JWT_PASS;
@@ -44,6 +48,16 @@ app.use((0, cors_1.default)());
 // app.use(cors({
 //     origin: "http://localhost:3000"
 // }))
+app.use((0, express_session_1.default)({
+    secret: process.env.SESSION_SECRET || "your_secret_key", // Change this to a strong secret
+    resave: false, // Prevent unnecessary session saving
+    saveUninitialized: false, // Don't save uninitialized sessions
+    cookie: { secure: false }, // Set to `true` if using HTTPS
+}));
+//passport logics!
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
+app.use(authRoutes_1.default);
 app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //try adding zod validation here! and hashing password! Duplicate Entries!
     //zod schema

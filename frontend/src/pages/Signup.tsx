@@ -9,78 +9,51 @@ import PasswordInput from "../components/ui/PasswordInput";
 import { ToastContainer, toast } from 'react-toastify';
 
 export function Signup() {
-    // Refs to access the DOM elements of username and password input fields
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    //states that store the error messages!
     const [errorMessage, setErrorMessage] = useState("");
-    // useNavigate hook for navigation between pages 
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     function alreadyUser() {
         navigate("/signin");
     }
 
     function toastSignup() {
-        // console.log('111111111111111111')
         toast.success("You Have Signed Up!");
     }
 
-    // const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (event.key === "Enter") {
-    //       event.preventDefault(); // Prevent default behavior
-    //       Signup();
-    //     }
-    //   };
-
-    const [loading, setLoading] = useState(false);
-
     const handleClick = () => {
-        setLoading(true); // Set loading to true
+        setLoading(true);
         setTimeout(() => {
-            setLoading(false); // Reset loading after 2 seconds
-            // alert("Button Clicked!"); // Simulate some action
-        }, 1500); // Simulate a delay (e.g., API call)
-    }; 
+            setLoading(false);
+        }, 1500);
+    };
 
     async function Signup() {
         try {
             handleClick();
-            //extracting values from input fields and trimming the whitespace!
-            const username = usernameRef.current?.value?.trim(); // Trim whitespace
+            const username = usernameRef.current?.value?.trim();
             const password = passwordRef.current?.value;
 
-            // Validate username
             if (!username || username.length < 1) {
                 setErrorMessage("Username cannot be empty or too short.");
-                return; // Stop execution if validation fails
+                return;
             }
-
-            // console.log(errorMessage)
-            // Clear previous error message
             setErrorMessage("");
 
-            // API Call to backend for user Signup!
             await axios.post(`${BACKEND_URL}/api/v1/signup`, { username, password });
-            
-            // console.log("signed up!");
-            // alert("You Have Signed Up!");
             toastSignup();
             const intervalId = setInterval(() => {
                 navigate("/signin");
-                // console.log("Navigating to Signin page...");
             }, 2000);
-
-            // Stop the interval when the component unmounts or as needed
             setTimeout(() => clearInterval(intervalId), 2000);
         } catch (error: any) {
             if (error.response) {
                 setErrorMessage(error.response.data.message || "An error occurred.");
-                // console.error("Error Response:", error.response.data);
-                // console.log("Error Response:", error.response.data.message);
                 toast.error(error.response.data.message);
                 if (error.response.data.message === "Username already exists" ) {
-                    toast.success("Please sign in with your credentials")
+                    toast.success("Please sign in with your credentials");
                     setTimeout(() => {
                         alreadyUser();
                     }, 2500);
@@ -89,10 +62,14 @@ export function Signup() {
         }
     }
 
+    const handleGoogleSignup = async () => {
+        window.location.href = `${BACKEND_URL}/auth/google`;
+    };
+
     return (
         <div className="">
             <div className="border-b-2">
-            <Navbar />
+                <Navbar />
             </div>
             <div className="flex justify-center items-center h-screen w-screen bg-black text-white ">
                 <div className="bg-black rounded-xl min-w-48 p-8 border-white border-2">
@@ -123,6 +100,17 @@ export function Signup() {
                             triggerOnEnter={true}
                         />
                         <ToastContainer></ToastContainer>
+                    </div>
+                    <div className="flex justify-center pb-2">Or</div>
+                    <div className="flex justify-center pb-4">
+                        <Button
+                            padding="one"
+                            variant="secondary"
+                            text="Signup with Google (soon)"
+                            size="md"
+                            fullWidth={true}
+                            onClick={handleGoogleSignup}
+                        />
                     </div>
                     <div className="flex justify-center">Already a user?</div>
                     <div className="flex justify-center">

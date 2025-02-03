@@ -60,3 +60,14 @@ const LinkSchema = new Schema({
 })
 
 export const LinkModel = model("Links", LinkSchema);
+
+
+const googleUserSchema = new mongoose.Schema({
+    googleId: { type: String, unique: true, required: true }, 
+    username: { type: String, required: true, unique: true }, // Ensure the username is unique
+    email: { type: String, unique: true, required: true },
+    profilePicture: { type: String }
+  }, { timestamps: true });
+  
+// Prevent model overwrite issue
+export const googleUserModel = mongoose.models.User || mongoose.model("User", googleUserSchema);
