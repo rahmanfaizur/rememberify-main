@@ -1,0 +1,26 @@
+/* GetStuffDone.css */
+/* Custom font setup - you might need to import the actual font files */
+@import url('https://fonts.cdnfonts.com/css/yahoo-sans');
+
+.font-yahoo-sans {
+  font-family: 'Yahoo Sans', sans-serif;
+}
+
+.custom-text-shadow {
+  text-shadow: 
+  -1px 0 #1ac567, 0 1px #1ac567, 1px 0 #1ac567, 0 -1px #1ac567, 1px 0px 1px #39007d, 0px 1px 1px #39007d, 2px 1px 1px #39007d, 1px 2px 1px #39007d, 3px 2px 1px #39007d, 2px 3px 1px #39007d, 4px 3px 1px #39007d, 3px 4px 1px #39007d, 5px 4px 1px #39007d, 4px 5px 1px #39007d, 6px 5px 1px #39007d, 5px 6px 1px #39007d, 7px 6px 1px #39007d, 6px 7px 1px #39007d, 8px 7px 1px #39007d, 7px 8px 1px #39007d, 9px 8px 1px #39007d, 8px 9px 1px #39007d, 10px 9px 1px #39007d, 9px 10px 1px #39007d, 11px 10px 1px #39007d, 10px 11px 1px #39007d, 12px 11px 1px #39007d, 11px 12px 1px #39007d, 13px 12px 1px #39007d, 12px 13px 1px #39007d, 14px 13px 1px #39007d, 13px 14px 1px #39007d, 15px 14px 1px #39007d, 14px 15px 1px #39007d, 16px 15px 1px #39007d, 15px 16px 1px #39007d, 17px 16px 1px #39007d, 16px 17px 1px #39007d, 18px 17px 1px #39007d, 17px 18px 1px #39007d, 19px 18px 1px #39007d, 18px 19px 1px #39007d, 20px 19px 1px #39007d, 19px 20px 1px #39007d, 21px 20px 1px #39007d, 20px 21px 1px #39007d, 22px 21px 1px #39007d, 21px 22px 1px #39007d, 23px 22px 1px #39007d, 22px 23px 1px #39007d, 24px 23px 1px #39007d, 23px 24px 1px #39007d, 25px 24px 1px #39007d, 24px 25px 1px #39007d, 26px 25px 1px #39007d, 25px 26px 1px #39007d, 27px 26px 1px #39007d, 26px 27px 1px #39007d, 28px 27px 1px #39007d, 27px 28px 1px #39007d;
+}
+
+.getStuffDone h1 {
+  @apply text-[#bee6c6] uppercase tracking-[1px] custom-text-shadow;
+}
+
+/* Base styles */
+html, body {
+  @apply font-yahoo-sans font-normal;
+}
+
+html {
+  @apply text-base leading-normal;
+  font-family: Roboto, "San Francisco", -apple-system, "Helvetica Neue", SegoeUI, Helvetica, Arial, sans-serif;
+}
