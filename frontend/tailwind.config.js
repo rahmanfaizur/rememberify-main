@@ -14,7 +14,9 @@ export default {
       colors: {
         'my-custom': {
           400: "#39007d",
-          100: "#f7aecc"
+          100: "#f7aecc",
+          300: "#7b62f9",
+          
         },
         gray: {
           50: "rgba(255, 255, 255, 0.5)",

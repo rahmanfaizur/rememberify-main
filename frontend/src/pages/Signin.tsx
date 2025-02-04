@@ -4,9 +4,9 @@ import { Input } from "../components/ui/Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../components/ui/Navbar";
 import PasswordInput from "../components/ui/PasswordInput";
 import { toast, ToastContainer } from "react-toastify";
+import NavbarMain from "../components/ui/NavbarMain";
 
 export function Signin() {
     const usernameRef = useRef<any>();
@@ -94,8 +94,8 @@ export function Signin() {
 
     return (
         <div>
-            <div className="border-b-2">
-            <Navbar />
+            <div className="border-b-2 pb-20">
+            <NavbarMain />
             </div>
             <div className="h-screen w-screen bg-black text-white flex justify-center items-center">
                 <div className="bg-black rounded-xl border-2 min-w-48 p-8">

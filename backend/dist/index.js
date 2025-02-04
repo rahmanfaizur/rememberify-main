@@ -48,6 +48,7 @@ app.use((0, cors_1.default)());
 // app.use(cors({
 //     origin: "http://localhost:3000"
 // }))
+//Test
 app.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET || "your_secret_key", // Change this to a strong secret
     resave: false, // Prevent unnecessary session saving
