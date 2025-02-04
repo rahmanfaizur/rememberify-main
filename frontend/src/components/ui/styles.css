@@ -12,8 +12,10 @@
 }
 
 .getStuffDone h1 {
-  @apply text-[#bee6c6] uppercase tracking-[1px] custom-text-shadow;
+  @apply text-[#bee6c6] uppercase tracking-[2px] custom-text-shadow font-extrabold;
 }
+
+
 
 /* Base styles */
 html, body {
