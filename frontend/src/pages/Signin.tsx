@@ -98,7 +98,7 @@ export function Signin() {
             <NavbarMain />
             </div>
             <div className="h-screen w-screen bg-black text-white flex justify-center items-center">
-                <div className="bg-black rounded-xl border-2 min-w-48 p-8">
+                <div className="bg-my-custom-800 rounded-xl border-2 min-w-48 p-8">
                     <div className="flex flex-col items-center pb-3">
                         <h1 className="font-bold text-2xl">Welcome to Rememberify!</h1>
                         <div>Login to access your second brain!</div>
