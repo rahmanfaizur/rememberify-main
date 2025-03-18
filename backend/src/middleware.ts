@@ -6,7 +6,7 @@ dotenv.config();
 const JWT_PASS = process.env.JWT_PASS;
 
 export const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const header = req.headers["authorization"];
+    const header = req.headers["authorization"] ?? "";
     const decoded = jwt.verify(header as string, JWT_PASS as string);
     if (decoded) {
         //@ts-ignore

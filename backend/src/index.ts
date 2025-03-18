@@ -65,6 +65,11 @@ app.use(passport.session());
 app.use(authRoutes);
 
 
+app.get('/healthcheck', (_, res) => {
+    res.status(200).json({
+        message: "Server is up and running!"
+    })
+} )
 app.post("/api/v1/signup", async (req: Request, res: Response) => {
     //try adding zod validation here! and hashing password! Duplicate Entries!
     //zod schema

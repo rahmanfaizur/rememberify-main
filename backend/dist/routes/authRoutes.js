@@ -9,8 +9,8 @@ const middleware_1 = require("../middleware");
 const router = (0, express_1.Router)();
 router.get("/auth/google", passport_1.default.authenticate("google", { scope: ["email", "profile"] }));
 router.get("/auth/google/callback", passport_1.default.authenticate("google", {
-    successRedirect: "http://localhost:5173/dashboard", // Redirect to frontend dashboard after successful login
-    failureRedirect: "/auth/failure", // Failure redirect if something goes wrong
+    successRedirect: "http://localhost:5173/dashboard",
+    failureRedirect: "/auth/failure",
 }));
 router.get("/protected", middleware_1.isLoggedInGoogle, (req, res) => {
     res.json({ message: "Logged in!" });
