@@ -20,7 +20,6 @@ import { Camera, Facebook, Instagram } from "lucide-react";
 import { PinterestIcon } from "../icons/PinterestIcon";
 // import { Input } from "../components/ui/Input";
 import { ImageContentModal } from "../components/ui/ImageContentModal";  // Import the modal
-import { InstagramIcon } from "../icons/InstagramIcon";
 
 // Define the Content interface
 interface Tag {

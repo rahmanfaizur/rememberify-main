@@ -18,6 +18,13 @@ export default {
           300: "#7b62f9",
           800: "#08042c"
         },
+        'new-pallete': {
+          'text': '#040316',
+          'background': '#fbfbfe',
+          'primary': '#27afce',
+          'secondary': '#dbfcff',
+          'accent': '#3defff'           
+        },
         gray: {
           50: "rgba(255, 255, 255, 0.5)",
           100: '#ffffff',
