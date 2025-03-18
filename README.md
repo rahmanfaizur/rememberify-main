@@ -103,7 +103,7 @@ The backend runs on [http://localhost:3000](http://localhost:3000).
 ---
 
 ## **Contributing**
-Contributions are always welcome!
+Contributions are always welcomed!
 
 ---
 
