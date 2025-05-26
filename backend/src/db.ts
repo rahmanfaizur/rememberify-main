@@ -64,10 +64,21 @@ export const LinkModel = model("Links", LinkSchema);
 
 const googleUserSchema = new mongoose.Schema({
     googleId: { type: String, unique: true, required: true }, 
-    username: { type: String, required: true, unique: true }, // Ensure the username is unique
-    email: { type: String, unique: true, required: true },
-    profilePicture: { type: String }
-  }, { timestamps: true });
-  
+    username: { type: String, required: true }, // Removed unique constraint from username
+    email: { type: String, required: true }, // Removed unique constraint from email
+    profilePicture: { type: String },
+    lastLogin: { type: Date, default: Date.now },
+    isGoogleUser: { type: Boolean, default: true },
+    content: [{
+        type: { type: String, required: true },
+        link: { type: String, required: true },
+        title: { type: String, required: true },
+        tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }]
+    }]
+}, { timestamps: true });
+
+// Create a compound index for email and googleId to ensure uniqueness
+googleUserSchema.index({ email: 1, googleId: 1 }, { unique: true });
+
 // Prevent model overwrite issue
-export const googleUserModel = mongoose.models.User || mongoose.model("User", googleUserSchema);
+export const googleUserModel = mongoose.models.GoogleUser || mongoose.model("GoogleUser", googleUserSchema);

@@ -1,56 +1,74 @@
 import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { googleUserModel } from "../db";
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+import { Request } from "express";
 
+interface GoogleProfile {
+    id: string;
+    displayName: string;
+    emails?: Array<{ value: string }>;
+    photos?: Array<{ value: string }>;
+}
+
+// Get the base URL from environment variable or default to localhost
+const BASE_URL = process.env.BACKEND_URL || "http://localhost:3000";
+const CALLBACK_URL = `${BASE_URL}/api/v1/auth/google/callback`;
+
+// Log the callback URL for debugging
+console.log('Google OAuth Callback URL:', CALLBACK_URL);
+
+// Configure Google OAuth Strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: "http://localhost:5173/dashboard",
+    callbackURL: CALLBACK_URL,
+    scope: ['profile', 'email', 'openid'],
     passReqToCallback: true
-  },
-  //@ts-ignore
-  async (_request, _accessToken, _refreshToken, profile, done) => {
+}, async (
+    req: Request,
+    _accessToken: string,
+    _refreshToken: string,
+    profile: GoogleProfile,
+    done: (error: any, user?: any) => void
+) => {
     try {
-      // Check if the user already exists using Google ID
-      let user = await googleUserModel.findOne({ googleId: profile.id });
+        console.log('Google OAuth Profile:', profile);
+        
+        // Check if user already exists with this Google ID
+        let user = await googleUserModel.findOne({ googleId: profile.id });
 
-      if (!user) {
-        // If the user does not exist, create a new user
-        user = new googleUserModel({
-          googleId: profile.id,
-          username: profile.displayName, // Assigning display name as username initially
-          email: profile.emails?.[0]?.value,
-          profilePicture: profile.photos?.[0]?.value,
-        });
-
-        // Attempt to save the new user, handling duplicate username error
-        try {
-          await user.save();
-        } catch (err) {
-          //@ts-ignore
-          if (err.code === 11000) { // Check for unique constraint violation
-            // If the username is already taken, append a unique suffix
-            user.username = `${profile.displayName}-${Math.floor(Math.random() * 1000)}`;
+        if (!user) {
+            // If user doesn't exist, create a new one
+            user = await googleUserModel.create({
+                googleId: profile.id,
+                username: profile.displayName || `user_${profile.id.slice(0, 8)}`,
+                email: profile.emails?.[0]?.value || '',
+                profilePicture: profile.photos?.[0]?.value,
+                lastLogin: new Date(),
+                isGoogleUser: true
+            });
+        } else {
+            // Update existing user's information
+            user.lastLogin = new Date();
+            user.profilePicture = profile.photos?.[0]?.value || user.profilePicture;
+            user.username = profile.displayName || user.username;
             await user.save();
-          } else {
-            throw err; // Other errors
-          }
         }
-      }
 
-      // Return user ID after creation or existing user found
-      return done(null, user.id);
-    } catch (err) {
-      return done(err, null);
+        return done(null, user);
+    } catch (error) {
+        console.error('Google OAuth Error:', error);
+        return done(error as Error);
     }
-  }
-));
+}));
 
+// Serialize user for the session
 passport.serializeUser((user: any, done) => {
-  done(null, user);
+  done(null, user._id);
 });
 
-passport.deserializeUser(async (id, done) => {
+// Deserialize user from the session
+passport.deserializeUser(async (id: string, done) => {
   try {
     const user = await googleUserModel.findById(id);
     done(null, user);

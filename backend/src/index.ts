@@ -8,6 +8,16 @@ declare global {
         }
     }
 }
+
+// Add these type declarations at the top of the file
+declare module 'express-session' {
+    interface SessionData {
+        passport?: {
+            user: string;
+        };
+    }
+}
+
 import express from "express";  //this one does give types to express 
 import jwt from "jsonwebtoken";
 import { ContentModel, ImageModel, LinkModel, TagModel, UserModel } from "./db";
@@ -25,6 +35,7 @@ import session from "express-session";
 import passport from "passport";
 import authRoutes from "./routes/authRoutes";
 import "./config/passportConfig";
+import contentRoutes from "./routes/contentRoutes";
 
 const upload = multer({ storage: multer.memoryStorage() });
 dotenv.config();
@@ -62,8 +73,10 @@ app.use(
 //passport logics!
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(authRoutes);
 
+// Mount routes - make sure auth routes are mounted before other routes
+app.use("/api/v1", authRoutes);  // Mount auth routes at /api/v1
+app.use(contentRoutes);  // Mount content routes
 
 app.get('/healthcheck', (_, res) => {
     res.status(200).json({
@@ -282,6 +295,51 @@ app.post(
             // Otherwise, create a new link
             await LinkModel.create({
                 userId: req.userId,
+                hash,
+            });
+            res.json({ message: `/share/${hash}` });
+            return;
+            
+        } catch (error) {
+            console.error("Error in sharing link:", error);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    }
+);
+
+// Google auth share brain route
+app.post(
+    "/api/v1/brain/share/google",
+    userMiddleware, // Use the same middleware as JWT since we're using JWT for both
+    async (req: CustomRequest, res: Response): Promise<void> => {
+        try {
+            const share = req.body.share; // Share flag from the request body
+            const hash = random(10); // Generate a random 10-character hash
+            const userId = req.userId; // Get userId from the middleware
+
+            // Check if a link already exists for this user
+            const existingLink = await LinkModel.findOne({
+                userId: userId,
+            });
+
+            // If the share flag is false, remove any existing link
+            if (!share) {
+                if (existingLink) {
+                    await LinkModel.deleteOne({ userId: userId });
+                }
+                res.json({ message: "Removed Link!" });
+                return;
+            }
+
+            // If an existing link exists and share is true, update the response
+            if (existingLink) {
+                res.json({ message: `/share/${existingLink.hash}` });
+                return;
+            }
+
+            // Otherwise, create a new link
+            await LinkModel.create({
+                userId: userId,
                 hash,
             });
             res.json({ message: `/share/${hash}` });
